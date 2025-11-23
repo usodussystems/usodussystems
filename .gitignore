@@ -1,0 +1,8 @@
+node_modules
+# *lock*
+build
+.DS_Store
+terraform/.terraform
+terraform/.terraform.lock.hcl
+terraform/terraform.tfstate
+*auto.tfvars

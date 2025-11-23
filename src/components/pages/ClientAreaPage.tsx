@@ -53,7 +53,7 @@ export const ClientAreaPage: React.FC<ClientAreaPageProps> = ({ onNavigate }) =>
         <div className="bg-white rounded-2xl shadow-2xl p-8 md:p-12">
           {/* Logo */}
           <div className="flex justify-center mb-8">
-            <Logo size="md" />
+            <Logo variant="navbar" size="sm" withSlogan />
           </div>
 
           {/* Title */}

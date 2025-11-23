@@ -27,11 +27,11 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, currentSection }) =>
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <button 
+          <button
             onClick={() => onNavigate('home')}
             className="flex items-center focus:outline-none focus:ring-2 focus:ring-primary rounded-lg p-1"
           >
-            <Logo variant="reflex-blue" withSlogan />
+            <Logo variant="navbar" size="md" />
           </button>
 
           {/* Desktop Navigation */}
@@ -40,9 +40,8 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, currentSection }) =>
               <button
                 key={item.id}
                 onClick={() => onNavigate(item.id)}
-                className={`transition-colors hover:text-primary ${
-                  currentSection === item.id ? 'text-primary' : 'text-foreground/80'
-                }`}
+                className={`transition-colors hover:text-primary ${currentSection === item.id ? 'text-primary' : 'text-foreground/80'
+                  }`}
               >
                 {item.label}
               </button>
@@ -52,7 +51,7 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, currentSection }) =>
           {/* Right Section */}
           <div className="flex items-center gap-2">
             <LanguageSwitcher />
-            <Button 
+            <Button
               onClick={() => onNavigate('client-area')}
               className="hidden sm:inline-flex bg-primary hover:bg-primary/90"
             >
@@ -81,16 +80,15 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, currentSection }) =>
                   onNavigate(item.id);
                   setMobileMenuOpen(false);
                 }}
-                className={`block w-full text-left px-4 py-2 rounded-md transition-colors ${
-                  currentSection === item.id
-                    ? 'bg-primary text-primary-foreground'
-                    : 'hover:bg-accent'
-                }`}
+                className={`block w-full text-left px-4 py-2 rounded-md transition-colors ${currentSection === item.id
+                  ? 'bg-primary text-primary-foreground'
+                  : 'hover:bg-accent'
+                  }`}
               >
                 {item.label}
               </button>
             ))}
-            <Button 
+            <Button
               onClick={() => {
                 onNavigate('client-area');
                 setMobileMenuOpen(false);
