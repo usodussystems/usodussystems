@@ -66,13 +66,13 @@ export const Footer: React.FC = () => {
                 <Mail className="w-4 h-4" />
                 <span>contact@usodus.com</span>
               </li>
-              <li className="flex items-center gap-2">
+              {/* <li className="flex items-center gap-2">
                 <Phone className="w-4 h-4" />
                 <span>+1 (555) 123-4567</span>
-              </li>
+              </li> */}
               <li className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 mt-1 flex-shrink-0" />
-                <span>123 Innovation Street, Tech City, TC 12345</span>
+                <span>Belo Horizonte - MG, Brasil</span>
               </li>
             </ul>
           </div>

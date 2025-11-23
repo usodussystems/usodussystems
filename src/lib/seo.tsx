@@ -103,14 +103,12 @@ export const generateOrganizationSchema = () => {
     "logo": "https://www.usodus.com/logo.png",
     "contactPoint": {
       "@type": "ContactPoint",
-      "telephone": "+1-555-123-4567",
       "contactType": "customer service",
       "email": "contact@usodus.com",
       "availableLanguage": ["en", "es", "pt"]
     },
     "sameAs": [
-      "https://www.linkedin.com/company/usodus",
-      "https://twitter.com/usodus"
+      "https://www.linkedin.com/company/usodussystems",
     ]
   };
 };
