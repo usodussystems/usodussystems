@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <style>.cls-1{fill:#002d91;}</style>
+  </defs>
+  <!-- Simplified version of the main logo optimized for small sizes -->
+  <circle class="cls-1" cx="16" cy="16" r="14"/>
+  <path class="cls-1" fill="#fff" d="M8,10 L13,16 L8,22 M18,10 L18,22"/>
+</svg>

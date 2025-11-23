@@ -1,0 +1,177 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Tamma+2:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer theme {
+  :root {
+    /* Basic Colors - For Brand Mark and Key Identity Elements */
+    --color-reflex-blue: #002D91;
+    --color-process-blue: #0084C6;
+    --color-brand-grey: #A1A1A1;
+    
+    /* Auxiliary Colors - For Supporting Elements */
+    --color-purple: #574299;
+    --color-yellow: #EAC435;
+    --color-orange: #E05F1E;
+    --color-teal: #028090;
+    --color-magenta: #A50053;
+    
+    /* Semantic Color Tokens */
+    --color-primary: var(--color-reflex-blue);
+    --color-primary-light: var(--color-process-blue);
+    --color-accent-1: var(--color-purple);
+    --color-accent-2: var(--color-yellow);
+    --color-accent-3: var(--color-orange);
+    --color-accent-4: var(--color-teal);
+    --color-accent-5: var(--color-magenta);
+    
+    /* Neutral Colors */
+    --color-background: #FFFFFF;
+    --color-foreground: #1A1A1A;
+    --color-muted: #F5F5F5;
+    --color-border: #E5E5E5;
+  }
+  
+  .dark {
+    --color-background: #0A0A0A;
+    --color-foreground: #FFFFFF;
+    --color-muted: #1A1A1A;
+    --color-border: #2A2A2A;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 400;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Baloo Tamma 2', cursive;
+    font-weight: 700;
+  }
+  
+  h1 {
+    font-size: 3.5rem;
+    line-height: 1.1;
+    font-weight: 800;
+  }
+  
+  h2 {
+    font-size: 2.5rem;
+    line-height: 1.2;
+    font-weight: 700;
+  }
+  
+  h3 {
+    font-size: 2rem;
+    line-height: 1.3;
+    font-weight: 700;
+  }
+  
+  h4 {
+    font-size: 1.5rem;
+    line-height: 1.4;
+    font-weight: 600;
+  }
+  
+  h5 {
+    font-size: 1.25rem;
+    line-height: 1.4;
+    font-weight: 600;
+  }
+  
+  h6 {
+    font-size: 1rem;
+    line-height: 1.5;
+    font-weight: 600;
+  }
+  
+  p {
+    line-height: 1.7;
+  }
+}
+
+@layer utilities {
+  /* Typography utilities */
+  .heading-font {
+    font-family: 'Baloo Tamma 2', cursive;
+  }
+  
+  .body-font {
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  /* Brand color utilities */
+  .text-reflex-blue {
+    color: var(--color-reflex-blue);
+  }
+  
+  .text-process-blue {
+    color: var(--color-process-blue);
+  }
+  
+  .text-brand-grey {
+    color: var(--color-brand-grey);
+  }
+  
+  .bg-reflex-blue {
+    background-color: var(--color-reflex-blue);
+  }
+  
+  .bg-process-blue {
+    background-color: var(--color-process-blue);
+  }
+  
+  .bg-brand-grey {
+    background-color: var(--color-brand-grey);
+  }
+  
+  /* Auxiliary color utilities */
+  .text-purple {
+    color: var(--color-purple);
+  }
+  
+  .text-yellow {
+    color: var(--color-yellow);
+  }
+  
+  .text-orange {
+    color: var(--color-orange);
+  }
+  
+  .text-teal {
+    color: var(--color-teal);
+  }
+  
+  .text-magenta {
+    color: var(--color-magenta);
+  }
+  
+  .bg-purple {
+    background-color: var(--color-purple);
+  }
+  
+  .bg-yellow {
+    background-color: var(--color-yellow);
+  }
+  
+  .bg-orange {
+    background-color: var(--color-orange);
+  }
+  
+  .bg-teal {
+    background-color: var(--color-teal);
+  }
+  
+  .bg-magenta {
+    background-color: var(--color-magenta);
+  }
+}
