@@ -1,6 +1,5 @@
 import React from 'react';
 import { Calendar, ArrowRight } from 'lucide-react';
-import { Button } from '../atoms/Button';
 
 interface NewsCardProps {
   title: string;
