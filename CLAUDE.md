@@ -93,7 +93,8 @@ shadcn/Radix kit lives under `components/ui/*` but is mostly unused by the live 
 
 ## Infrastructure & deploy
 
-Two divergent deploy paths exist; confirm which is canonical before changing either.
+**AWS S3 + CloudFront (Terraform) is the canonical deploy path.** The GitHub Pages
+workflow has been removed.
 
 - **`terraform/`** provisions AWS S3 + CloudFront (module `blueprints/web_hosted`):
   OAC (no public bucket), security-headers policy, SPA 403→200 `/index.html` fallback,
@@ -107,11 +108,12 @@ Two divergent deploy paths exist; confirm which is canonical before changing eit
 
 - **CI/CD workflows** (all under `.github/workflows`):
   - `ci.yml` — PR/`main` quality gate: `npm ci` → `typecheck` → `test:run` → `build`.
-  - `deploy.yml` — builds & publishes to **GitHub Pages** on push to `main` +
-    `workflow_dispatch`. Note: Vite `base: '/'` assumes a custom-domain / user-root
-    Pages site; under a project-Pages subpath, `/assets` + `/logo-*.png` would 404.
-  - `terraform.yml` — manual (`workflow_dispatch`) plan/apply using **AWS OIDC**
-    (`role-to-assume`), with `TF_VAR_*` and `backend.hcl` injected from GitHub secrets.
+  - `terraform.yml` — the deploy. On push to `main` (and via `workflow_dispatch`) it
+    builds the site, then `terraform apply` uploads `build/` to S3 and invalidates
+    CloudFront. Auth is **AWS OIDC** (`role-to-assume`); `TF_VAR_*` and `backend.hcl`
+    are injected from GitHub secrets. `apply` is gated by the `terraform` GitHub
+    Environment (add required reviewers there for manual approval). Vite `base: '/'`
+    is correct here because CloudFront serves the site at the subdomain root.
 
 ## Conventions
 

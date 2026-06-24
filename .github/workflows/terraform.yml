@@ -1,9 +1,14 @@
-name: Terraform Apply
+name: Deploy (AWS via Terraform)
 
-# Manual, environment-gated apply. AWS auth uses GitHub OIDC (no long-lived
-# keys). Sensitive values (Cloudflare token, ACM ARN, state bucket, role ARN)
-# come from GitHub secrets and are injected as TF_VAR_* env vars — never
-# committed to the repo.
+# Canonical deploy path. On push to `main` this builds the site and runs
+# `terraform apply` (which uploads the artifact to S3 and invalidates
+# CloudFront); apply is gated by the `terraform` GitHub Environment, so add
+# required reviewers there if you want a manual approval before infra changes.
+# `workflow_dispatch` allows an on-demand plan or apply.
+#
+# AWS auth uses GitHub OIDC (no long-lived keys). Sensitive values (Cloudflare
+# token, ACM ARN, state bucket, role ARN) come from GitHub secrets and are
+# injected as TF_VAR_* env vars — never committed to the repo.
 #
 # Required repository secrets:
 #   AWS_ROLE_TO_ASSUME    - IAM role GitHub OIDC assumes (trusts this repo).
@@ -19,6 +24,8 @@ name: Terraform Apply
 #   (TF_SUBDOMAINS must be an HCL/JSON list, e.g. ["app","www"])
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
     inputs:
       action:
@@ -100,6 +107,7 @@ jobs:
       - name: Terraform Plan
         run: terraform plan -input=false -no-color
 
+      # Apply on push to main (canonical deploy) or an explicit dispatch apply.
       - name: Terraform Apply
-        if: ${{ inputs.action == 'apply' }}
+        if: ${{ github.event_name == 'push' || inputs.action == 'apply' }}
         run: terraform apply -input=false -auto-approve -no-color

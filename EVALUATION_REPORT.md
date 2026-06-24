@@ -197,6 +197,11 @@ test (Vitest + Testing Library), then run them in CI before deploy.
   absolute asset/logo paths (`/assets/...`, `/logo-navbar.png`) would 404. It only
   works on a custom domain / user-root Pages. Set `base` accordingly if using project Pages.
 
+> **✅ Resolved** — **AWS S3 + CloudFront is now canonical**. The GitHub Pages
+> `deploy.yml` was removed; `terraform.yml` is the deploy (build → `terraform apply`
+> → S3 upload → CloudFront invalidation) on push to `main`. Vite `base: '/'` is
+> correct for CloudFront (served at the subdomain root), so no `base` change is needed.
+
 ### 4.8 🟡 Terraform deploy: object upload is commented out
 
 In both `terraform/main.tf` and `modules/blueprints/web_hosted/main.tf`, the
