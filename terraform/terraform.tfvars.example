@@ -15,6 +15,6 @@ technical_owner = "<technical-owner@example.com>"
 owner           = "<owner@example.com>"
 
 # Cloudflare credentials are sensitive — do NOT put them here.
-# In CI they are injected as environment variables from GitHub secrets:
-#   TF_VAR_cloudflare_api_token, TF_VAR_cloudflare_email
-# For local runs, export them in your shell instead of committing them.
+# In CI the API token is injected as an environment variable from a GitHub secret:
+#   TF_VAR_cloudflare_api_token
+# For local runs, export it in your shell instead of committing it.

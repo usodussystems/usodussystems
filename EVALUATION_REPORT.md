@@ -165,11 +165,12 @@ For a repo that may be public, these are information-disclosure items.
 
 > **✅ Remediated (current branch)** — owner/cost-center are now required variables
 > (`cost_center`, `technical_owner`, `owner`) with no defaults; the leaked `domain_name`
-> and `acm_certificate_arn` defaults were removed; the Cloudflare email is now a
-> sensitive `cloudflare_email` variable injected from a GitHub secret
-> (`TF_VAR_cloudflare_email`) by the `terraform.yml` apply workflow; and the state
-> bucket moved to the partial backend config. Real values are supplied via gitignored
-> `terraform.tfvars` / `backend.hcl` (templates committed as `*.example`).
+> and `acm_certificate_arn` defaults were removed; the Cloudflare provider now
+> authenticates with a sensitive `cloudflare_api_token` variable injected from a
+> GitHub secret (`TF_VAR_cloudflare_api_token`) by the `terraform.yml` apply workflow
+> (which uses AWS OIDC, no long-lived keys); and the state bucket moved to the partial
+> backend config. Real values are supplied via gitignored `terraform.tfvars` /
+> `backend.hcl` (templates committed as `*.example`).
 >
 > ⚠️ **Still required:** these values remain in **git history**. If the repo is or will
 > be public, rotate the exposed identifiers and scrub history (e.g. `git filter-repo`).
