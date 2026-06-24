@@ -13,3 +13,8 @@ acm_certificate_arn = "arn:aws:acm:us-east-1:<ACCOUNT_ID>:certificate/<CERT_ID>"
 cost_center     = "<COST_CENTER>"
 technical_owner = "<technical-owner@example.com>"
 owner           = "<owner@example.com>"
+
+# Cloudflare credentials are sensitive — do NOT put them here.
+# In CI they are injected as environment variables from GitHub secrets:
+#   TF_VAR_cloudflare_api_token, TF_VAR_cloudflare_email
+# For local runs, export them in your shell instead of committing them.

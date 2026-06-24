@@ -10,7 +10,14 @@ variable "environment" {
 
 variable "cloudflare_api_token" {
   type        = string
-  description = "Cloudflare API token"
+  description = "Cloudflare API token. Supplied via TF_VAR_cloudflare_api_token from a CI secret."
+  sensitive   = true
+}
+
+variable "cloudflare_email" {
+  type        = string
+  description = "Cloudflare account email. Supplied via TF_VAR_cloudflare_email from a CI secret."
+  sensitive   = true
 }
 
 variable "region" {
