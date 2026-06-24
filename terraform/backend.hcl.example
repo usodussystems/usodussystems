@@ -1,0 +1,11 @@
+# Copy to backend.hcl and fill in real values, then:
+#   terraform init -backend-config=backend.hcl
+# backend.hcl is gitignored — do not commit it.
+
+bucket = "<TFSTATE_BUCKET>"
+key    = "usodus/us-east-1/dev/main-webapp.tfstate"
+region = "us-east-1"
+
+assume_role = {
+  role_arn = "arn:aws:iam::<ACCOUNT_ID>:role/<DEPLOY_ROLE>"
+}

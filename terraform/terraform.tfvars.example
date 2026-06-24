@@ -1,0 +1,15 @@
+# Copy to terraform.tfvars (or *.auto.tfvars) and fill in real values.
+# Real tfvars files are gitignored — do not commit them.
+
+environment         = "dev"
+region              = "us-east-1"
+role_arn            = "arn:aws:iam::<ACCOUNT_ID>:role/<DEPLOY_ROLE>"
+domain_name         = "example.com"
+subdomains          = ["app"]
+artifact_folder     = "build"
+acm_certificate_arn = "arn:aws:acm:us-east-1:<ACCOUNT_ID>:certificate/<CERT_ID>"
+
+# Resource tags
+cost_center     = "<COST_CENTER>"
+technical_owner = "<technical-owner@example.com>"
+owner           = "<owner@example.com>"

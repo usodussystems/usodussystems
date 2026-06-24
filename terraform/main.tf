@@ -27,9 +27,9 @@ locals {
 
   tags = {
     "Environment"    = var.environment
-    "CostCenter"     = "15250-22"
-    "TechnicalOwner" = "rocha.felipe@bcg.com"
-    "Owner"          = "demeur.laurent@bcg.com"
+    "CostCenter"     = var.cost_center
+    "TechnicalOwner" = var.technical_owner
+    "Owner"          = var.owner
   }
 }
 

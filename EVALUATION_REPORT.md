@@ -112,7 +112,7 @@ this class of error can never hide again.
 
 ```hcl
 backend "s3" {
-  bucket  = "usodus-dev-tfstate-promoted-macaw"
+  bucket  = "<tfstate-bucket>"
   key     = "usodus/us-east-1/dev/main-webapp.tfstate"
   region  = "us-east-1"
   assume_role = {
@@ -124,6 +124,9 @@ backend "s3" {
 Terraform **does not allow** `var.*` (or any interpolation) inside `backend` blocks.
 `terraform init` will reject this. The role ARN must be passed via `-backend-config`,
 a `*.hcl` backend file, env vars, or a hardcoded value.
+
+> **✅ Remediated** — the backend is now a partial config (`backend "s3" {}`) supplied
+> at init time via `backend.hcl` (see `terraform/backend.hcl.example`).
 
 ### 4.3 🟡 Tailwind CSS is pre-compiled and committed (fragile)
 
@@ -153,17 +156,22 @@ demo and remove the security claim.
 
 ### 4.5 🟡 Leaked internal identifiers committed to the repo
 
-`terraform/main.tf` and `terraform/variables.tf` contain real-looking internal data:
-- Emails: `rocha.felipe@bcg.com`, `demeur.laurent@bcg.com` (and
-  `felipefonsecarocha@gmail.com` in a commented Cloudflare provider).
-- `CostCenter = "15250-22"`, default `domain_name = "q.bcg.com"`.
-- Hardcoded AWS **account ID** in the default ACM cert ARN
-  (`...:071395533490:certificate/...`).
-- State bucket name (`usodus-dev-tfstate-promoted-macaw`).
+`terraform/main.tf` and `terraform/variables.tf` originally contained real-looking
+internal data: two corporate owner emails (and a personal email in a commented
+Cloudflare provider), a cost-center code, a default internal `domain_name`, a hardcoded
+AWS **account ID** in the default ACM cert ARN, and the Terraform **state bucket name**.
 
-For a repo that may be public, these are information-disclosure items. **Recommendation:**
-move owner/cost-center/account-specific values into `*.tfvars` (already gitignored)
-or CI secrets, and scrub history if the repo is or will be public.
+For a repo that may be public, these are information-disclosure items.
+
+> **✅ Remediated (current branch)** — owner/cost-center are now required variables
+> (`cost_center`, `technical_owner`, `owner`) with no defaults; the leaked `domain_name`
+> and `acm_certificate_arn` defaults were removed; the commented personal email was
+> deleted; and the state bucket moved to the partial backend config. Real values are
+> supplied via gitignored `terraform.tfvars` / `backend.hcl` (templates committed as
+> `*.example`).
+>
+> ⚠️ **Still required:** these values remain in **git history**. If the repo is or will
+> be public, rotate the exposed identifiers and scrub history (e.g. `git filter-repo`).
 
 ### 4.6 🟡 No tests, lint, or type-check anywhere
 
@@ -219,8 +227,8 @@ is unused.
 ## 5. Prioritized Recommendations
 
 **High (correctness / security)**
-1. Fix the Terraform `backend "s3"` block — remove `var.role_arn`, use `-backend-config`.
-2. Remove or de-risk leaked PII/account IDs from Terraform; move to tfvars/secrets.
+1. ✅ Fix the Terraform `backend "s3"` block — remove `var.role_arn`, use `-backend-config`. *(done)*
+2. ✅ Remove or de-risk leaked PII/account IDs from Terraform; move to tfvars/secrets. *(done in working tree; history scrub + identifier rotation still pending)*
 3. Delete the dead, non-compiling i18n/component stack (§4.1) and add `tsc --noEmit` to CI.
 4. Remove the misleading "SSL encryption" claim / plaintext credential logging in Client Area.
 
