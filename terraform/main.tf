@@ -27,9 +27,9 @@ locals {
 
   tags = {
     "Environment"    = var.environment
-    "CostCenter"     = "REDACTED-CC"
-    "TechnicalOwner" = "redacted@example.com"
-    "Owner"          = "redacted@example.com"
+    "CostCenter"     = var.cost_center
+    "TechnicalOwner" = var.technical_owner
+    "Owner"          = var.owner
   }
 }
 

@@ -31,11 +31,25 @@ variable "role_arn" {
 variable "domain_name" {
   description = "The domain name for the WAF resources."
   type        = string
-  default     = "example.com"
   validation {
     condition     = can(regex("^[a-zA-Z0-9.-]+$", var.domain_name))
     error_message = "Domain name must be a valid domain format."
   }
+}
+
+variable "cost_center" {
+  description = "Cost center tag applied to all resources."
+  type        = string
+}
+
+variable "technical_owner" {
+  description = "Technical owner contact applied as a resource tag."
+  type        = string
+}
+
+variable "owner" {
+  description = "Business owner contact applied as a resource tag."
+  type        = string
 }
 
 variable "subdomains" {
@@ -61,6 +75,5 @@ variable "allowed_ips" {
 variable "acm_certificate_arn" {
   type        = string
   description = "The ARN of the ACM certificate to use for the CloudFront distribution."
-  default     = "arn:aws:acm:us-east-1:000000000000:certificate/REDACTED-CERT-ID"
 }
 
