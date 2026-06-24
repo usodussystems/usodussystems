@@ -10,7 +10,41 @@ locals {
   subdomain   = var.subdomain
   bucket_name = format("%s%s", local.subdomain, var.site_domain)
 
-  files = { for k, v in fileset(var.path_to_deploy_files, "*") : k => format("%s%s", var.path_to_deploy_files, v) }
+  # Recursive walk of the built artifact so nested files (e.g. assets/*.js,
+  # assets/*.css) are uploaded too. Keyed by the relative path, which becomes
+  # the S3 object key.
+  files = {
+    for f in fileset(var.path_to_deploy_files, "**") :
+    f => format("%s/%s", trimsuffix(var.path_to_deploy_files, "/"), f)
+  }
+
+  # Map file extensions to MIME types. S3 defaults uploaded objects to
+  # binary/octet-stream, which makes browsers download (not render) HTML/CSS/JS;
+  # setting content_type explicitly is required for a static site to work.
+  mime_types = {
+    "html"        = "text/html"
+    "css"         = "text/css"
+    "js"          = "application/javascript"
+    "mjs"         = "application/javascript"
+    "json"        = "application/json"
+    "map"         = "application/json"
+    "svg"         = "image/svg+xml"
+    "png"         = "image/png"
+    "jpg"         = "image/jpeg"
+    "jpeg"        = "image/jpeg"
+    "gif"         = "image/gif"
+    "ico"         = "image/x-icon"
+    "webp"        = "image/webp"
+    "avif"        = "image/avif"
+    "woff"        = "font/woff"
+    "woff2"       = "font/woff2"
+    "ttf"         = "font/ttf"
+    "eot"         = "application/vnd.ms-fontobject"
+    "txt"         = "text/plain"
+    "xml"         = "application/xml"
+    "webmanifest" = "application/manifest+json"
+    "wasm"        = "application/wasm"
+  }
 
   tags = var.tags
 }
@@ -94,13 +128,26 @@ resource "aws_s3_bucket_cors_configuration" "this" {
 
 }
 
-# resource "aws_s3_bucket_object" "this" {
-#   for_each = local.files
-#   bucket   = aws_s3_bucket.site.id
-#   key      = each.key
-#   source   = each.value
-#   etag     = filemd5(each.value)
-# }
+resource "aws_s3_object" "this" {
+  for_each = local.files
+
+  bucket = aws_s3_bucket.site.id
+  key    = each.key
+  source = each.value
+
+  # content_type drives how browsers handle the response; fall back to a generic
+  # binary type for unknown extensions.
+  content_type = lookup(
+    local.mime_types,
+    lower(try(element(split(".", each.key), length(split(".", each.key)) - 1), "")),
+    "application/octet-stream"
+  )
+
+  # Re-upload only when the file content changes; source_hash also lets
+  # `terraform plan` detect drift against the bucket. (Preferred over `etag`,
+  # which breaks if SSE-KMS is ever enabled on the bucket.)
+  source_hash = filemd5(each.value)
+}
 
 data "aws_iam_policy_document" "S3_read_files" {
   statement {

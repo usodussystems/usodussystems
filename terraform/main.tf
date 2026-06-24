@@ -1,7 +1,3 @@
-
-
-
-
 locals {
   env = {
     prd = "prd"
@@ -68,19 +64,28 @@ module "s3host" {
 #   site_domain = var.domain_name
 # }
 
+# Site files are uploaded by aws_s3_object inside the web_hosted module, so this
+# resource only invalidates the CloudFront cache after every apply. It relies on
+# the ambient AWS credentials of the caller (the OIDC-assumed CI role, or the
+# local operator) — the same identity Terraform already uses — rather than a
+# manual `sts assume-role`/`jq` dance, which was brittle and wrote a temp
+# credentials file to disk.
 resource "null_resource" "deploy" {
   for_each = module.s3host
+
+  # module-level depends_on forces this to run only after EVERY resource in the
+  # web_hosted module — including the aws_s3_object uploads — has settled, so we
+  # never invalidate the cache before the new files are in the bucket.
+  depends_on = [module.s3host]
+
   triggers = {
-    "timer" = timestamp()
+    # Re-run on every apply so freshly uploaded objects are served immediately.
+    timer = timestamp()
   }
+
   provisioner "local-exec" {
-    command = <<EOF
-    aws sts assume-role --role-arn ${var.role_arn} --role-session-name temp-session > temp_session.json
-    export AWS_ACCESS_KEY_ID=$(cat temp_session.json | jq -r .Credentials.AccessKeyId)
-    export AWS_SECRET_ACCESS_KEY=$(cat temp_session.json | jq -r .Credentials.SecretAccessKey)
-    export AWS_SESSION_TOKEN=$(cat temp_session.json | jq -r .Credentials.SessionToken) 
-    ${each.value.command_invalidation}
-    EOF
+    interpreter = ["/bin/bash", "-c"]
+    command     = each.value.command_invalidation
   }
 }
 
