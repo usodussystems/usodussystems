@@ -14,12 +14,6 @@ variable "cloudflare_api_token" {
   sensitive   = true
 }
 
-variable "cloudflare_email" {
-  type        = string
-  description = "Cloudflare account email. Supplied via TF_VAR_cloudflare_email from a CI secret."
-  sensitive   = true
-}
-
 variable "region" {
   description = "The AWS region in which to create the WAF resources."
   type        = string
