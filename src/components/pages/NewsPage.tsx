@@ -3,7 +3,6 @@ import { NewsCard } from '../molecules/NewsCard';
 import { useLanguage } from '../../lib/LanguageContext';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '../atoms/Button';
-import { ImageWithFallback } from '../figma/ImageWithFallback';
 
 interface NewsPageProps {
   onNavigate: (page: 'home' | 'news' | 'client-area') => void;
@@ -124,7 +123,9 @@ export const NewsPage: React.FC<NewsPageProps> = ({ onNavigate }) => {
                 date={item.date}
                 image={item.image}
                 category={item.category}
-                onReadMore={() => console.log('Read more:', item.id)}
+                onReadMore={() => {
+                  // Mock: full article routing is not implemented in this demo.
+                }}
               />
             ))}
           </div>

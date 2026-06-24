@@ -1,7 +1,7 @@
 import React from 'react';
 import { Logo } from '../atoms/Logo';
 import { useLanguage } from '../../lib/LanguageContext';
-import { Mail, MapPin, Phone } from 'lucide-react';
+import { Mail, MapPin } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   const { t } = useLanguage();
