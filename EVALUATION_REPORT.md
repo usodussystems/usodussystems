@@ -22,15 +22,15 @@ two competing architectures**, has **no tests / lint / type-check gate**, ships
 Terraform backend** definition. None of these block the current build, but several
 are real correctness/maintenance/security risks.
 
-| Area | Rating | Notes |
-|------|--------|-------|
-| Builds & runs | 🟢 Good | `npm ci && npm run build` works out of the box |
-| Frontend architecture | 🟡 Fair | Two parallel, conflicting i18n/component systems; one is broken-but-dead |
-| Code quality | 🟡 Fair | Leftover `console.log`, dead vars, no lint/typecheck |
-| i18n / a11y / SEO | 🟡 Fair | Good i18n coverage; SPA SEO is client-only; some a11y gaps |
+| Area                       | Rating       | Notes                                                                           |
+| -------------------------- | ------------ | ------------------------------------------------------------------------------- |
+| Builds & runs              | 🟢 Good       | `npm ci && npm run build` works out of the box                                  |
+| Frontend architecture      | 🟡 Fair       | Two parallel, conflicting i18n/component systems; one is broken-but-dead        |
+| Code quality               | 🟡 Fair       | Leftover `console.log`, dead vars, no lint/typecheck                            |
+| i18n / a11y / SEO          | 🟡 Fair       | Good i18n coverage; SPA SEO is client-only; some a11y gaps                      |
 | Infrastructure (Terraform) | 🔴 Needs work | Invalid backend var ref; leaked emails/account ID; commented-out core resources |
-| CI/CD | 🟡 Fair | Deploys to Pages on a backwards trigger; diverges from the Terraform/AWS path |
-| Security | 🟡 Fair | Mock auth + misleading "SSL" copy; internal PII committed |
+| CI/CD                      | 🟡 Fair       | Deploys to Pages on a backwards trigger; diverges from the Terraform/AWS path   |
+| Security                   | 🟡 Fair       | Mock auth + misleading "SSL" copy; internal PII committed                       |
 
 ---
 
