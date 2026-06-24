@@ -1,0 +1,104 @@
+name: Terraform Apply
+
+# Manual, environment-gated apply. Sensitive values (Cloudflare email/token,
+# AWS creds, ACM ARN, state bucket, role ARN) come from GitHub secrets and are
+# injected as TF_VAR_* environment variables — never committed to the repo.
+#
+# Required repository secrets:
+#   AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY  - base creds allowed to assume TF_ROLE_ARN
+#   TF_STATE_BUCKET                           - S3 bucket holding the tfstate
+#   TF_ROLE_ARN                               - IAM role Terraform assumes
+#   ACM_CERTIFICATE_ARN                       - ACM cert ARN for CloudFront
+#   CLOUDFLARE_API_TOKEN                      - Cloudflare API token
+#   CLOUDFLARE_EMAIL                          - Cloudflare account email
+#   TF_TECHNICAL_OWNER, TF_OWNER             - owner contact tags
+#
+# Required repository variables (non-sensitive):
+#   AWS_REGION, TF_ENVIRONMENT, TF_DOMAIN_NAME, TF_SUBDOMAINS, TF_COST_CENTER
+#   (TF_SUBDOMAINS must be an HCL/JSON list, e.g. ["app","www"])
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: "Terraform action to run"
+        type: choice
+        options: [plan, apply]
+        default: plan
+
+permissions:
+  contents: read
+
+env:
+  AWS_REGION: ${{ vars.AWS_REGION || 'us-east-1' }}
+  # Non-sensitive Terraform inputs
+  TF_VAR_region: ${{ vars.AWS_REGION || 'us-east-1' }}
+  TF_VAR_environment: ${{ vars.TF_ENVIRONMENT || 'dev' }}
+  TF_VAR_domain_name: ${{ vars.TF_DOMAIN_NAME }}
+  TF_VAR_subdomains: ${{ vars.TF_SUBDOMAINS }}
+  TF_VAR_artifact_folder: build
+  TF_VAR_cost_center: ${{ vars.TF_COST_CENTER }}
+  # Sensitive Terraform inputs (from secrets)
+  TF_VAR_role_arn: ${{ secrets.TF_ROLE_ARN }}
+  TF_VAR_acm_certificate_arn: ${{ secrets.ACM_CERTIFICATE_ARN }}
+  TF_VAR_technical_owner: ${{ secrets.TF_TECHNICAL_OWNER }}
+  TF_VAR_owner: ${{ secrets.TF_OWNER }}
+  TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  TF_VAR_cloudflare_email: ${{ secrets.CLOUDFLARE_EMAIL }}
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    environment: terraform
+    defaults:
+      run:
+        working-directory: terraform
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Terraform reads ../build (var.artifact_folder) via fileset, so the
+      # frontend must be built before plan/apply.
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: "npm"
+
+      - name: Build frontend
+        working-directory: .
+        run: |
+          npm ci
+          npm run build
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        run: |
+          cat > backend.hcl <<EOF
+          bucket = "${{ secrets.TF_STATE_BUCKET }}"
+          key    = "usodus/us-east-1/${{ vars.TF_ENVIRONMENT || 'dev' }}/main-webapp.tfstate"
+          region = "${{ env.AWS_REGION }}"
+          assume_role = {
+            role_arn = "${{ secrets.TF_ROLE_ARN }}"
+          }
+          EOF
+          terraform init -backend-config=backend.hcl
+
+      - name: Terraform Format Check
+        run: terraform fmt -check -recursive
+
+      - name: Terraform Plan
+        run: terraform plan -input=false -no-color
+
+      - name: Terraform Apply
+        if: ${{ inputs.action == 'apply' }}
+        run: terraform apply -input=false -auto-approve -no-color
