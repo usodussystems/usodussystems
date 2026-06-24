@@ -11,27 +11,32 @@ Marketing/corporate single-page site for **Usodus Systems**, originally exported
 ## Commands
 
 ```bash
-npm ci          # install (lockfile present)
-npm run dev      # Vite dev server on http://localhost:3000 (auto-opens)
-npm run build    # production build -> ./build  (target: esnext)
+npm ci            # install (lockfile present)
+npm run dev        # Vite dev server on http://localhost:3000 (auto-opens)
+npm run build      # production build -> ./build  (target: esnext)
+npm run typecheck  # tsc --noEmit (the build does NOT type-check)
+npm run test       # vitest (watch);  npm run test:run for a single CI pass
 ```
-
-There is **no `lint`, `test`, `preview`, or `typecheck` script**, no ESLint/Prettier
-config, and no test framework — despite what `src/README.md` claims (that README is
-aspirational and partly inaccurate; trust this file and the actual `package.json`).
 
 The build runs `vite build` only. **Vite/esbuild strips types without checking them**,
-so type errors do not fail the build. To catch them, run type-checking manually:
+so type errors do not fail the build — that's why `typecheck` is a separate script and
+a CI gate (`.github/workflows/ci.yml` runs `typecheck` → `test:run` → `build`).
 
-```bash
-npx tsc --noEmit
-```
+Testing is **Vitest + Testing Library** (jsdom); config in `vitest.config.ts`, setup in
+`src/test/setup.ts`, specs are `*.test.ts(x)` beside the code. There is still **no ESLint/
+Prettier** config. `src/README.md` is aspirational and partly inaccurate (it advertises a
+`lint`/`preview` script that don't exist) — trust this file and `package.json`.
+
+The typecheck (root `tsconfig.json`) **excludes `src/components/ui`** — that vendored
+shadcn/Radix kit uses versioned import specifiers (e.g. `lucide-react@0.487.0`) that only
+resolve through the `vite.config.ts` aliases, not `tsc`. It's unreferenced by live code,
+so it's kept out of the gate rather than rewritten.
 
 ## Architecture (the big picture)
 
 **Entry chain:** `index.html` → `src/main.tsx` → `src/App.tsx`. `src/main.tsx` imports
-`./index.css` (see Styling gotcha below). The root `index.html` `<title>` is a
-placeholder; `useSEO` overwrites it client-side at runtime.
+`./index.css` (see Styling gotcha below). The root `index.html` `<title>` is a static
+default ("Usodus Systems"); `useSEO` overwrites it per-page client-side at runtime.
 
 **Routing is state-based, not URL-based.** `App.tsx` holds `currentPage` in
 `useState<'home' | 'news' | 'client-area'>` and swaps page components via a `switch`.
@@ -59,16 +64,14 @@ shadcn/Radix kit lives under `components/ui/*` but is mostly unused by the live 
 
 ## Critical gotchas
 
-- **⚠️ Two competing, conflicting frontend stacks exist; one is dead and broken.**
-  The LIVE stack uses `useLanguage()` (object `t`) from `lib/LanguageContext.tsx` with
-  `organisms/Header`, `organisms/Footer`, `molecules/LanguageSelector`. A second,
-  ABANDONED stack imports `useTranslation`/`I18nContext` from `lib/i18n.ts` —
-  **neither export exists** — and treats `t` as a function (`t('nav.home')`). The dead
-  files are `components/providers/I18nProvider.tsx`,
-  `components/atoms/LanguageSwitcher.tsx`, `components/molecules/Header.tsx`,
-  `components/molecules/Footer.tsx`. They compile-fail but are unreachable from
-  `App.tsx`, so the build passes. **Do not wire these in.** Use the `useLanguage`
-  pattern for any new UI.
+- **One i18n system — use `useLanguage()`.** The live system is `useLanguage()`
+  (object `t`, accessed by property like `t.nav.home`) from `lib/LanguageContext.tsx`,
+  with `organisms/Header`, `organisms/Footer`, `molecules/LanguageSelector`. An older,
+  abandoned stack that imported a non-existent `useTranslation`/`I18nContext` from
+  `lib/i18n.ts` (and treated `t` as a function, `t('nav.home')`) has been **deleted**
+  (`providers/I18nProvider`, `atoms/LanguageSwitcher`, `molecules/Header`,
+  `molecules/Footer`, `organisms/NewsSection`). Don't reintroduce the `useTranslation`
+  pattern — use `useLanguage` for any new UI.
 
 - **⚠️ Tailwind CSS is pre-compiled and committed.** `src/main.tsx` loads
   `src/index.css`, a frozen, generated Tailwind v4 stylesheet (~1700 lines). There is
@@ -78,14 +81,15 @@ shadcn/Radix kit lives under `components/ui/*` but is mostly unused by the live 
   despite the README pointing to it. To change styling, edit/regenerate
   `src/index.css`, or reintroduce a real Tailwind build.
 
-- **All forms are mocks.** Contact, Client Area login, and News "Read More" only
-  `console.log`/`alert`. The Client Area shows a hardcoded "SSL encryption" notice with
-  no real auth.
+- **All forms are mocks** (no backend). Contact submit and Client Area login just
+  flip local state / no-op; the Client Area is labelled a demo (it no longer claims
+  SSL/encryption). There is no real auth — don't represent it as secure.
 
 - **Duplicate Figma-export config.** Both `/` and `/src` contain `package.json`,
   `vite.config.ts`, `tsconfig*.json`, and `index.html`. The **root** ones are
-  authoritative for builds. The root `vite.config.ts` also carries ~40 versioned import
-  aliases (e.g. `'sonner@2.0.3' -> 'sonner'`) and `'@' -> ./src`.
+  authoritative for builds (root `tsconfig.json` also drives `typecheck`). The root
+  `vite.config.ts` carries ~40 versioned import aliases (e.g. `'sonner@2.0.3' ->
+  'sonner'`) and `'@' -> ./src`.
 
 ## Infrastructure & deploy
 
@@ -93,16 +97,21 @@ Two divergent deploy paths exist; confirm which is canonical before changing eit
 
 - **`terraform/`** provisions AWS S3 + CloudFront (module `blueprints/web_hosted`):
   OAC (no public bucket), security-headers policy, SPA 403→200 `/index.html` fallback,
-  multi-tenant via `subdomains`. Known issues: the `backend "s3"` block in
-  `providers.tf` references `var.role_arn`, which Terraform forbids (init will fail);
-  the actual S3 object-upload resources are **commented out**, so the IaC does not
-  upload site files; and owner emails / a hardcoded AWS account id are committed. Apply
-  with env-specific `*.tfvars` (gitignored: `*auto.tfvars`).
+  multi-tenant via `subdomains`. The `web_hosted` module now uploads the built site via
+  `aws_s3_object` (recursive `fileset`, MIME types, `source_hash`); `null_resource.deploy`
+  only invalidates CloudFront afterward. **Secrets/identifiers are NOT in source:** the
+  `backend "s3"` block is partial (`backend "s3" {}` + `terraform init -backend-config=
+  backend.hcl`), and owner/cost-center/domain/ACM-ARN/Cloudflare-token are variables
+  supplied via gitignored `terraform.tfvars` / `backend.hcl` (templates: `*.example`).
+  Cloudflare provider uses **API-token auth only**.
 
-- **`.github/workflows/deploy.yml`** builds and publishes to **GitHub Pages**, but
-  triggers on push to the **`gh-pages`** branch (inverted from the usual flow) and uses
-  Vite `base: '/'` — asset paths (`/assets`, `/logo-navbar.png`) would 404 under a
-  project-Pages subpath, so it assumes a custom domain / user-root Pages.
+- **CI/CD workflows** (all under `.github/workflows`):
+  - `ci.yml` — PR/`main` quality gate: `npm ci` → `typecheck` → `test:run` → `build`.
+  - `deploy.yml` — builds & publishes to **GitHub Pages** on push to `main` +
+    `workflow_dispatch`. Note: Vite `base: '/'` assumes a custom-domain / user-root
+    Pages site; under a project-Pages subpath, `/assets` + `/logo-*.png` would 404.
+  - `terraform.yml` — manual (`workflow_dispatch`) plan/apply using **AWS OIDC**
+    (`role-to-assume`), with `TF_VAR_*` and `backend.hcl` injected from GitHub secrets.
 
 ## Conventions
 

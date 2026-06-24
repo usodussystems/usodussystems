@@ -231,19 +231,21 @@ is unused.
 **High (correctness / security)**
 1. ✅ Fix the Terraform `backend "s3"` block — remove `var.role_arn`, use `-backend-config`. *(done)*
 2. ✅ Remove or de-risk leaked PII/account IDs from Terraform; move to tfvars/secrets. *(done in working tree; history scrub + identifier rotation still pending)*
-3. Delete the dead, non-compiling i18n/component stack (§4.1) and add `tsc --noEmit` to CI.
-4. Remove the misleading "SSL encryption" claim / plaintext credential logging in Client Area.
+3. ✅ Delete the dead, non-compiling i18n/component stack (§4.1); add `typecheck` + tests to CI. *(done — `ci.yml` runs typecheck → test:run → build)*
+4. ✅ Remove the misleading "SSL encryption" claim / plaintext credential logging in Client Area. *(done)*
 
 **Medium (maintainability)**
-5. Decide on ONE deployment path (GitHub Pages *or* S3/CloudFront) and align CI with it;
-   fix the inverted `gh-pages` trigger and set Vite `base` if using project Pages.
+5. ✅/◻ Fix the inverted `gh-pages` trigger (now push to `main` + dispatch). *(done)* Still
+   open: decide whether GitHub Pages **or** S3/CloudFront is canonical, and set Vite `base`
+   if using project Pages.
 6. Restore a real Tailwind build, or document `index.css` as generated.
-7. Add ESLint + Prettier + a smoke test; wire into CI.
-8. Wire up actual S3 artifact upload in Terraform (the `files-sync` module is unused).
+7. ✅/◻ Add a smoke test + typecheck and wire into CI. *(done — Vitest + Testing Library.)*
+   ESLint/Prettier still not configured.
+8. ✅ Wire up actual S3 artifact upload in Terraform. *(done — `aws_s3_object` in `web_hosted`;
+   the standalone `files-sync` module is now redundant and can be removed later.)*
 
 **Low (polish)**
-9. Remove `console.log`/unused vars (Logo, mock handlers); set the real root `<title>`
-   and link the favicon.
+9. ✅ Remove `console.log`/unused vars; set the real root `<title>` and link the favicon. *(done)*
 10. Consider URL-based routing (React Router) for deep links / SEO / shareable pages.
 11. Clean up duplicate root-vs-`src` config files and the versioned Vite aliases.
 
@@ -251,11 +253,17 @@ is unused.
 
 ## 6. Verification Performed
 
-- `npm ci` → success (deps install cleanly).
-- `npm run build` → **success**: 1618 modules, `build/assets/index-*.js` 192.34 kB
-  (gzip 58.91 kB), `index-*.css` 27.49 kB (gzip 5.52 kB).
+Initial review:
+- `npm ci` → success; `npm run build` → success (1618 modules).
 - Static review of all `src/`, `terraform/`, and `.github/` files; cross-referenced
   imports/exports to confirm the dead-code and broken-export findings.
 
-*Note: Terraform was reviewed statically (no `terraform init/validate` was run, as it
-requires AWS credentials and network/backend access).*
+After the remediation pass (QA/frontend/DevOps):
+- `npm run typecheck` → **0 errors** (root `tsconfig.json`; vendored `components/ui`
+  excluded — see CLAUDE.md).
+- `npm run test:run` → **10 passed** (3 files: i18n, seo, App render).
+- `npm run build` → **success** (1618 modules, ~58.9 kB JS gzip).
+
+*Note: Terraform was reviewed statically (no `terraform init/validate` was run — the CLI
+is not installed here and it needs AWS credentials/backend access). The `terraform.yml`
+workflow runs `fmt -check` + `plan` on first dispatch.*
