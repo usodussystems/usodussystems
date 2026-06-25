@@ -18,10 +18,6 @@ terraform {
       source  = "hashicorp/null"
       version = "~> 3.2"
     }
-    cloudflare = {
-      source  = "cloudflare/cloudflare"
-      version = "~> 5.0"
-    }
   }
   # Partial backend configuration. Backend blocks cannot reference variables,
   # so the bucket, key, region and assume_role are supplied at init time via:
@@ -38,3 +34,6 @@ provider "aws" {
 provider "cloudflare" {
   api_token = var.cloudflare_api_token
 }
+# provider "cloudflare" {
+#   api_token = var.cloudflare_api_token
+# }
