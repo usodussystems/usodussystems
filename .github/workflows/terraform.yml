@@ -1,31 +1,12 @@
-name: Deploy (AWS via Terraform)
+name: Terraform
 
-# Canonical deploy path. On push to `main` this builds the site and runs
-# `terraform apply` (which uploads the artifact to S3 and invalidates
-# CloudFront); apply is gated by the `terraform` GitHub Environment, so add
-# required reviewers there if you want a manual approval before infra changes.
-# `workflow_dispatch` allows an on-demand plan or apply.
-#
-# AWS auth uses GitHub OIDC (no long-lived keys). Sensitive values (Cloudflare
-# token, ACM ARN, state bucket, role ARN) come from GitHub secrets and are
-# injected as TF_VAR_* env vars — never committed to the repo.
-#
-# Required repository secrets:
-#   AWS_ROLE_TO_ASSUME    - IAM role GitHub OIDC assumes (trusts this repo).
-#                           May be the same role Terraform assumes (TF_ROLE_ARN).
-#   TF_STATE_BUCKET       - S3 bucket holding the tfstate
-#   TF_ROLE_ARN           - IAM role Terraform assumes (provider + backend)
-#   ACM_CERTIFICATE_ARN   - ACM cert ARN for CloudFront
-#   CLOUDFLARE_API_TOKEN  - Cloudflare API token
-#   TF_TECHNICAL_OWNER, TF_OWNER - owner contact tags
-#
-# Required repository variables (non-sensitive):
-#   AWS_REGION, TF_ENVIRONMENT, TF_DOMAIN_NAME, TF_SUBDOMAINS, TF_COST_CENTER
-#   (TF_SUBDOMAINS must be an HCL/JSON list, e.g. ["app","www"])
 
 on:
+  pull_request:
   push:
-    branches: [main]
+    branches: 
+    - main
+    - claude/*
   workflow_dispatch:
     inputs:
       action:
@@ -36,78 +17,207 @@ on:
 
 permissions:
   contents: read
-  id-token: write   # required for AWS OIDC
+  id-token: write
+
+concurrency:
+  group: terraform-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name != 'workflow_dispatch' || inputs.action != 'apply' }}
 
 env:
-  AWS_REGION: ${{ vars.AWS_REGION || 'us-east-1' }}
-  # Non-sensitive Terraform inputs
-  TF_VAR_region: ${{ vars.AWS_REGION || 'us-east-1' }}
-  TF_VAR_environment: ${{ vars.TF_ENVIRONMENT || 'dev' }}
-  TF_VAR_domain_name: ${{ vars.TF_DOMAIN_NAME }}
-  TF_VAR_subdomains: ${{ vars.TF_SUBDOMAINS }}
-  TF_VAR_artifact_folder: build
-  TF_VAR_cost_center: ${{ vars.TF_COST_CENTER }}
-  # Sensitive Terraform inputs (from secrets)
-  TF_VAR_role_arn: ${{ secrets.TF_ROLE_ARN }}
-  TF_VAR_acm_certificate_arn: ${{ secrets.ACM_CERTIFICATE_ARN }}
-  TF_VAR_technical_owner: ${{ secrets.TF_TECHNICAL_OWNER }}
-  TF_VAR_owner: ${{ secrets.TF_OWNER }}
-  TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  AWS_REGION: us-east-1  
 
 jobs:
-  terraform:
+  plan:
     runs-on: ubuntu-latest
-    environment: terraform
+    environment: Production
+    outputs:
+      deploy_inputs_available: ${{ steps.deploy_inputs.outputs.available }}
+      plan_created: ${{ steps.tf_plan.outputs.created }}
     defaults:
       run:
         working-directory: terraform
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
-      # Terraform reads ../build (var.artifact_folder) via fileset, so the
-      # frontend must be built before plan/apply.
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v4
+
+      - name: Terraform Format Check
+        run: terraform fmt -check -recursive
+
+      - name: Terraform Init (no backend)
+        run: terraform init -backend=false -input=false
+
+      - name: Terraform Validate
+        run: terraform validate -no-color
+
+      - name: Check deploy inputs
+        id: deploy_inputs
+        working-directory: .
+        env:
+          AWS_ROLE_TO_ASSUME: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          INFRA_VARS: ${{ secrets.INFRA_VARS }}
+          BACKEND_VARS: ${{ secrets.BACKEND_VARS }}
+        run: |
+          missing=0
+          for name in \
+            AWS_ROLE_TO_ASSUME \
+            INFRA_VARS \
+            BACKEND_VARS
+          do
+            if [ -z "${!name}" ]; then
+              echo "::notice title=Terraform plan skipped::${name} is not configured."
+              missing=1
+            fi
+          done
+
+          if [ "${missing}" -eq 0 ]; then
+            echo "available=true" >> "${GITHUB_OUTPUT}"
+          else
+            echo "available=false" >> "${GITHUB_OUTPUT}"
+          fi
+
+      - name: Require deploy inputs for apply
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.action == 'apply' && steps.deploy_inputs.outputs.available != 'true' }}
+        working-directory: .
+        run: |
+          echo "::error title=Apply unavailable::Configure the required Terraform secrets and variables before running action=apply."
+          exit 1
+
       - name: Setup Node
+        if: ${{ steps.deploy_inputs.outputs.available == 'true' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
         uses: actions/setup-node@v4
         with:
           node-version: "24"
           cache: "npm"
 
       - name: Build frontend
+        if: ${{ steps.deploy_inputs.outputs.available == 'true' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
         working-directory: .
         run: |
           npm ci
           npm run build
 
+      - name: Upload frontend artifact
+        if: ${{ steps.deploy_inputs.outputs.available == 'true' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: terraform-frontend-build-${{ github.run_id }}
+          path: build
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Configure AWS credentials (OIDC)
+        if: ${{ steps.deploy_inputs.outputs.available == 'true' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          role-session-name: gha-terraform-plan-${{ github.run_id }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Terraform Init (remote backend)
+        if: ${{ steps.deploy_inputs.outputs.available == 'true' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
+        env:
+          INFRA_VARS: ${{ secrets.INFRA_VARS }}
+          BACKEND_VARS: ${{ secrets.BACKEND_VARS }}
+        run: |
+          printf '%s\n' "${BACKEND_VARS}" > backend.hcl
+          printf '%s\n' "${INFRA_VARS}" > var.auto.tfvars
+          terraform init -reconfigure -backend-config=backend.hcl -input=false
+
+      - name: Terraform Plan
+        id: tf_plan
+        if: ${{ steps.deploy_inputs.outputs.available == 'true' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
+        run: |
+          terraform plan -input=false -no-color -out=tfplan
+          echo "created=true" >> "${GITHUB_OUTPUT}"
+
+      - name: Upload Terraform plan
+        if: ${{ steps.tf_plan.outputs.created == 'true' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: terraform-plan-${{ github.run_id }}
+          path: terraform/tfplan
+          if-no-files-found: error
+          retention-days: 7
+
+  apply:
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.action == 'apply' && needs.plan.outputs.plan_created == 'true' }}
+    runs-on: ubuntu-latest
+    needs: plan
+    environment: Production
+    defaults:
+      run:
+        working-directory: terraform
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Download frontend artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: terraform-frontend-build-${{ github.run_id }}
+          path: build
+
+      - name: Download Terraform plan
+        uses: actions/download-artifact@v4
+        with:
+          name: terraform-plan-${{ github.run_id }}
+          path: terraform
+
       - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
-          role-session-name: gha-terraform-${{ github.run_id }}
+          role-session-name: gha-terraform-apply-${{ github.run_id }}
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
-      - name: Terraform Init
+      - name: Terraform Init (remote backend)
+        env:
+          INFRA_VARS: ${{ secrets.INFRA_VARS }}
+          BACKEND_VARS: ${{ secrets.BACKEND_VARS }}
         run: |
-          cat > backend.hcl <<EOF
-          bucket = "${{ secrets.TF_STATE_BUCKET }}"
-          key    = "usodus/us-east-1/${{ vars.TF_ENVIRONMENT || 'dev' }}/main-webapp.tfstate"
-          region = "${{ env.AWS_REGION }}"
-          assume_role = {
-            role_arn = "${{ secrets.TF_ROLE_ARN }}"
-          }
-          EOF
-          terraform init -backend-config=backend.hcl
+          printf '%s\n' "${BACKEND_VARS}" > backend.hcl
+          printf '%s\n' "${INFRA_VARS}" > var.auto.tfvars
+          terraform init -backend-config=backend.hcl -input=false
 
-      - name: Terraform Format Check
-        run: terraform fmt -check -recursive
+      - name: Terraform Apply Saved Plan
+        run: terraform apply -input=false -no-color tfplan
 
-      - name: Terraform Plan
-        run: terraform plan -input=false -no-color
+      - name: Post-deploy smoke check
+        working-directory: .
+        run: |
+          SMOKE_URL="$(python3 - <<'PY'
+          import json
+          import os
+          import subprocess
+          import sys
 
-      # Apply on push to main (canonical deploy) or an explicit dispatch apply.
-      - name: Terraform Apply
-        if: ${{ github.event_name == 'push' || inputs.action == 'apply' }}
-        run: terraform apply -input=false -auto-approve -no-color
+          try:
+            raw = subprocess.check_output(
+              ["terraform", "-chdir=terraform", "output", "-json", "site_urls"],
+              text=True,
+            )
+            site_urls = json.loads(raw)
+          except Exception as exc:
+            print(f"::warning title=Smoke check skipped::Could not read Terraform site_urls output: {exc}")
+            sys.exit(0)
+
+          if not isinstance(site_urls, dict) or not site_urls:
+            print("::warning title=Smoke check skipped::Terraform site_urls output is empty.")
+            sys.exit(0)
+
+          print(next(iter(site_urls.values())))
+          PY
+          )"
+
+          if [ -z "${SMOKE_URL}" ] || [ "${SMOKE_URL#::warning}" != "${SMOKE_URL}" ]; then
+            [ -n "${SMOKE_URL}" ] && echo "${SMOKE_URL}"
+            exit 0
+          fi
+
+          curl --fail --silent --show-error --location --max-time 30 "${SMOKE_URL}" > /dev/null

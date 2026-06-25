@@ -1,15 +1,22 @@
 terraform {
+  required_version = ">= 1.6.0, < 2.0.0"
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "<=6.0.0"
+      version = "~> 6.0"
     }
     random = {
-      source = "hashicorp/random"
+      source  = "hashicorp/random"
+      version = "~> 3.6"
     }
     cloudflare = {
       source  = "cloudflare/cloudflare"
       version = "~> 5.0"
+    }
+    null = {
+      source  = "hashicorp/null"
+      version = "~> 3.2"
     }
   }
   # Partial backend configuration. Backend blocks cannot reference variables,
@@ -20,10 +27,10 @@ terraform {
 }
 provider "aws" {
   region = var.region
-  assume_role {
-    role_arn = var.role_arn
-  }
+  # assume_role {
+  #   role_arn = var.role_arn
+  # }
 }
-provider "cloudflare" {
-  api_token = var.cloudflare_api_token
-}
+# provider "cloudflare" {
+#   api_token = var.cloudflare_api_token
+# }

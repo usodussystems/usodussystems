@@ -19,6 +19,12 @@ variable "attach_all_vpc_cidrs" {
   default     = false
 }
 
+variable "allow_state_managed_credentials" {
+  type        = bool
+  description = "Explicit opt-in to generate and store database credentials through Terraform state. Prefer external secret rotation for new use."
+  default     = false
+}
+
 variable "subnet_ids" {
   type        = list(string)
   description = "List of subnet id to create RDS into"
@@ -53,7 +59,7 @@ variable "db_engine_version" {
 variable "db_backup_retention_period" {
   type        = number
   description = "No of days to retain the backup"
-  default     = 0
+  default     = 7
 }
 
 variable "storage" {
@@ -62,7 +68,7 @@ variable "storage" {
     max = number
   })
   description = "Allocated storage value in GB"
-  default     = {
+  default = {
     min = 20
     max = 100
   }

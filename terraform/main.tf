@@ -49,13 +49,13 @@ module "s3host" {
   path_to_deploy_files = local.folders_path[each.value]
   environment          = var.environment
   # waf_acl_arn          = module.waf[each.value].waf_web_acl[each.value].arn
-  acm_certificate_arn  = var.acm_certificate_arn
+  acm_certificate_arn = var.acm_certificate_arn
   cf_functions = {
     handlerpath = {
       path = "${path.cwd}/cf_handler/index.js"
     }
   }
-  
+
   tags = local.tags
 }
 

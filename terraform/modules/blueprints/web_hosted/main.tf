@@ -7,8 +7,9 @@
 locals {
   is_prod = var.environment == "prd"
 
-  subdomain   = var.subdomain
-  bucket_name = format("%s%s", local.subdomain, var.site_domain)
+  site_domain = trim(var.site_domain, ".")
+  subdomain   = trim(var.subdomain, ".")
+  bucket_name = local.subdomain == "" ? local.site_domain : "${local.subdomain}.${local.site_domain}"
 
   # Recursive walk of the built artifact so nested files (e.g. assets/*.js,
   # assets/*.css) are uploaded too. Keyed by the relative path, which becomes
@@ -46,13 +47,15 @@ locals {
     "wasm"        = "application/wasm"
   }
 
+  hashed_asset_pattern = "(^|/).+[-._][a-z0-9]{8,}\\.(css|js|mjs|json|map|svg|png|jpg|jpeg|gif|ico|webp|avif|woff|woff2|ttf|eot|wasm)$"
+
   tags = var.tags
 }
 
 resource "aws_s3_bucket" "site" {
   bucket        = local.bucket_name
   tags          = local.tags
-  force_destroy = true
+  force_destroy = var.force_destroy
 }
 
 # resource "aws_s3_bucket_acl" "example_bucket_acl" {
@@ -103,25 +106,22 @@ resource "aws_s3_bucket_cors_configuration" "this" {
   bucket = aws_s3_bucket.site.id
   cors_rule {
     allowed_headers = [
-      "*"
+      "Accept",
+      "Authorization",
+      "Content-Type",
+      "Origin"
     ]
     allowed_methods = [
-      "PUT",
-      "POST",
-      "DELETE",
       "GET",
-      "HEAD"
+      "HEAD",
+      "OPTIONS"
     ]
     allowed_origins = concat([
       "https://${local.bucket_name}",
       "https://${aws_cloudfront_distribution.dist.domain_name}"
     ], var.extra_cors_domains)
     expose_headers = [
-      "ETag",
-      "Access-Control-Allow-Origin",
-      "Access-Control-Allow-Methods",
-      "Access-Control-Allow-Headers",
-      "Access-Control-Expose-Headers"
+      "ETag"
     ]
     max_age_seconds = 3000
   }
@@ -134,6 +134,9 @@ resource "aws_s3_object" "this" {
   bucket = aws_s3_bucket.site.id
   key    = each.key
   source = each.value
+  cache_control = each.key == "index.html" ? "no-cache, must-revalidate" : (
+    can(regex(local.hashed_asset_pattern, lower(each.key))) ? "public, max-age=31536000, immutable" : "public, max-age=3600"
+  )
 
   # content_type drives how browsers handle the response; fall back to a generic
   # binary type for unknown extensions.
@@ -271,8 +274,8 @@ resource "aws_cloudfront_distribution" "dist" {
   }
 
   default_cache_behavior {
-    allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
-    cached_methods   = ["GET", "HEAD"]
+    allowed_methods  = ["GET", "HEAD", "OPTIONS"]
+    cached_methods   = ["GET", "HEAD", "OPTIONS"]
     target_origin_id = aws_s3_bucket.site.id
 
     origin_request_policy_id   = data.aws_cloudfront_origin_request_policy.this.id
@@ -289,10 +292,6 @@ resource "aws_cloudfront_distribution" "dist" {
 
     compress               = true
     viewer_protocol_policy = "redirect-to-https"
-
-    min_ttl     = 0
-    default_ttl = 0
-    max_ttl     = 0
   }
 
   viewer_certificate {
@@ -334,7 +333,7 @@ resource "aws_cloudfront_response_headers_policy" "this" {
     # }
 
     strict_transport_security {
-      access_control_max_age_sec = 2592000
+      access_control_max_age_sec = 31536000
       preload                    = true
       include_subdomains         = true
       override                   = true
@@ -351,18 +350,25 @@ resource "aws_cloudfront_response_headers_policy" "this" {
     access_control_allow_credentials = false
 
     access_control_allow_headers {
-      items = ["*"]
+      items = [
+        "Accept",
+        "Authorization",
+        "Content-Type",
+        "Origin"
+      ]
     }
 
     access_control_allow_methods {
-      items = ["ALL"]
+      items = ["GET", "HEAD", "OPTIONS"]
     }
 
     access_control_allow_origins {
-      items = ["*"]
+      items = concat([
+        "https://${local.bucket_name}"
+      ], var.extra_cors_domains)
     }
     access_control_expose_headers {
-      items = ["*"]
+      items = ["ETag"]
     }
     access_control_max_age_sec = 600
 
@@ -388,6 +394,3 @@ resource "aws_cloudfront_function" "this" {
 
 #   records = [aws_cloudfront_distribution.dist.domain_name]
 # }
-
-
-
