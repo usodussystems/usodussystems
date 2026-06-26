@@ -7,6 +7,13 @@ resource "random_password" "database_password" {
   keepers = {
     trigger = "create-once"
   }
+
+  lifecycle {
+    precondition {
+      condition     = var.allow_state_managed_credentials
+      error_message = "This module stores generated database credentials in Terraform state. Set allow_state_managed_credentials=true only after accepting that risk, or refactor to externally managed Secrets Manager rotation."
+    }
+  }
 }
 
 resource "aws_kms_ciphertext" "database_password_encrypted" {
@@ -28,7 +35,7 @@ resource "aws_security_group" "db_sg" {
 
 resource "aws_vpc_security_group_ingress_rule" "all_vpc_cidrs" {
   for_each = toset(var.attach_all_vpc_cidrs ? [
-    for assoc in data.aws_vpc.vpc_id.cidr_block_associations :assoc.cidr_block
+    for assoc in data.aws_vpc.vpc_id.cidr_block_associations : assoc.cidr_block
   ] : [])
 
   description       = "Allow all ip within same VPC"
@@ -94,7 +101,7 @@ module "db" {
   backup_retention_period = var.db_backup_retention_period
   copy_tags_to_snapshot   = true
   skip_final_snapshot     = true
-  apply_immediately       = true
+  apply_immediately       = false
 
 }
 
@@ -104,7 +111,7 @@ resource "aws_secretsmanager_secret" "db_instance_credentials" {
   name                    = "${var.db_instance_identifier}-${each.key}-credentials"
   description             = "Secret associated with RDS instance: ${var.db_instance_identifier}"
   kms_key_id              = var.kms_key_arn
-  recovery_window_in_days = 0
+  recovery_window_in_days = 7
 
   tags = {
     Name = "${var.db_instance_identifier}-${each.key}-credentials"
@@ -136,10 +143,10 @@ module "rds_postgres_proxy" {
   vpc_subnet_ids         = var.subnet_ids
   vpc_security_group_ids = concat([aws_security_group.db_sg.id], var.additional_security_groups)
 
-  require_tls  = false
+  require_tls  = true
   kms_key_arns = [var.kms_key_arn]
   # Connections to the proxy dbs
-  auth         = {
+  auth = {
     for key, value in aws_secretsmanager_secret.db_instance_credentials : key => {
       iam_auth    = "DISABLED"
       description = value.description
@@ -159,7 +166,7 @@ resource "aws_secretsmanager_secret" "db_instance_proxy" {
   name                    = "${var.db_instance_identifier}-${each.key}-secret"
   description             = "Secret associated with RDS instance proxy: ${var.db_instance_identifier}"
   kms_key_id              = var.kms_key_arn
-  recovery_window_in_days = 0
+  recovery_window_in_days = 7
 
   tags = {
     Name = "${var.db_instance_identifier}-${each.key}-secret"

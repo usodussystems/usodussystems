@@ -19,6 +19,13 @@ resource "kubernetes_service_account_v1" "admin_service_account" {
     namespace = var.service_account_namespace
     labels    = var.labels
   }
+
+  lifecycle {
+    precondition {
+      condition     = var.allow_state_managed_cluster_admin_token
+      error_message = "This module creates a long-lived cluster-admin token stored in Terraform state. Set allow_state_managed_cluster_admin_token=true only after accepting that risk."
+    }
+  }
 }
 
 resource "kubernetes_cluster_role_binding_v1" "cluster_admin_role_binding" {
@@ -41,9 +48,9 @@ resource "kubernetes_cluster_role_binding_v1" "cluster_admin_role_binding" {
 
 resource "kubernetes_secret_v1" "octopus_service_account_token" {
   metadata {
-    name        = "${kubernetes_service_account_v1.admin_service_account.metadata[0].name}-secret"
-    namespace   = kubernetes_service_account_v1.admin_service_account.metadata[0].namespace
-    labels      = var.labels
+    name      = "${kubernetes_service_account_v1.admin_service_account.metadata[0].name}-secret"
+    namespace = kubernetes_service_account_v1.admin_service_account.metadata[0].namespace
+    labels    = var.labels
     annotations = {
       "kubernetes.io/service-account.name" = var.service_account_name
     }
@@ -51,6 +58,5 @@ resource "kubernetes_secret_v1" "octopus_service_account_token" {
 
   type = "kubernetes.io/service-account-token"
 }
-
 
 

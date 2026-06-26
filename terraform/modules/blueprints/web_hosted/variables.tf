@@ -12,15 +12,14 @@ variable "site_domain" {
 variable "subdomain" {
   type        = string
   description = "Subdomain where the S3 will held the content and cloudflare will point to"
-  
 }
 
 variable "environment" {
   type        = string
-  description = "should attend to one of prd, dev, hml"
+  description = "Deployment environment. Must be one of: dev, stg, prd."
   validation {
-    condition     = try(length(regex("(prd|dev|stg)", var.environment)) == 1, false)
-    error_message = "Try one valid value."
+    condition     = can(regex("^(dev|stg|prd)$", var.environment))
+    error_message = "Environment must be one of: dev, stg, prd."
   }
 }
 
@@ -60,4 +59,10 @@ variable "extra_cors_domains" {
 variable "acm_certificate_arn" {
   type        = string
   description = "The ARN of the ACM certificate to use for the CloudFront distribution."
-} 
+}
+
+variable "force_destroy" {
+  type        = bool
+  description = "Whether to allow Terraform to delete the S3 bucket even when it contains objects."
+  default     = false
+}

@@ -57,11 +57,6 @@ export const Logo: React.FC<LogoProps> = ({
       </div>
     );
   }
-  // Default variant - original design
-  const primaryColor = '#002D91';
-  const secondaryColor = '#0084C6';
-  console.log(variant);
-
   return (
     variant === 'navbar' ? logoNavbar() : variant === 'footer' ? logoFooter() : logoDefault()
   );

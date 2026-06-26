@@ -16,8 +16,7 @@ export const ContactSection: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Mock submission
-    console.log('Form submitted:', formData);
+    // Mock submission: a production build would POST formData to a backend.
     setSubmitted(true);
     setTimeout(() => {
       setSubmitted(false);

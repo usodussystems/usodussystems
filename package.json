@@ -49,12 +49,24 @@
             "vaul": "^1.1.2"
       },
       "devDependencies": {
+            "@testing-library/dom": "^10.4.0",
+            "@testing-library/jest-dom": "^6.4.0",
+            "@testing-library/react": "^16.0.0",
+            "@testing-library/user-event": "^14.5.0",
             "@types/node": "^20.10.0",
+            "@types/react": "^18.3.0",
+            "@types/react-dom": "^18.3.0",
             "@vitejs/plugin-react-swc": "^3.10.2",
-            "vite": "^6.4.1"
+            "jsdom": "^25.0.0",
+            "typescript": "^5.6.0",
+            "vite": "^6.4.1",
+            "vitest": "^4.1.9"
       },
       "scripts": {
             "dev": "vite",
-            "build": "vite build"
+            "build": "vite build",
+            "typecheck": "tsc --noEmit",
+            "test": "vitest",
+            "test:run": "vitest run"
       }
 }

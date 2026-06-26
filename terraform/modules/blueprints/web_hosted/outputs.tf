@@ -19,12 +19,22 @@ output "cloudfront_endpoint" {
 # }
 
 output "files" {
-  value = local.files
+  description = "Map of static object keys to source file paths uploaded to S3."
+  value       = local.files
 }
 
+# File upload is now handled natively by aws_s3_object.this (see main.tf), so
+# this command only invalidates the CloudFront edge cache. Do NOT re-add an
+# `aws s3 sync --delete` here — it would race with / delete Terraform-managed
+# objects.
 output "command_invalidation" {
-  value = <<-EOT
-    aws s3 sync ${var.path_to_deploy_files} s3://${aws_s3_bucket.site.id}/ --delete
+  description = "AWS CLI command used by the root module to invalidate this CloudFront distribution."
+  value       = <<-EOT
     aws cloudfront create-invalidation --distribution-id ${aws_cloudfront_distribution.dist.id} --paths '/*'
   EOT
+}
+
+output "cloudfront_distribution_id" {
+  description = "CloudFront distribution id (for cache invalidation)."
+  value       = aws_cloudfront_distribution.dist.id
 }

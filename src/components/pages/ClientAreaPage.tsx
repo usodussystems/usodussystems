@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Input } from '../atoms/Input';
 import { Button } from '../atoms/Button';
 import { Logo } from '../atoms/Logo';
 import { useLanguage } from '../../lib/LanguageContext';
@@ -18,8 +17,8 @@ export const ClientAreaPage: React.FC<ClientAreaPageProps> = ({ onNavigate }) =>
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Mock login
-    console.log('Login attempt:', credentials);
+    // Demo only: no real authentication is performed and no credentials are
+    // sent anywhere. A production build would POST to an auth endpoint over HTTPS.
     alert('This is a demo. Login functionality would be implemented with proper authentication.');
   };
 
@@ -53,7 +52,7 @@ export const ClientAreaPage: React.FC<ClientAreaPageProps> = ({ onNavigate }) =>
         <div className="bg-white rounded-2xl shadow-2xl p-8 md:p-12">
           {/* Logo */}
           <div className="flex justify-center mb-8">
-            <Logo variant="navbar" size="sm" withSlogan />
+            <Logo variant="navbar" size="sm" />
           </div>
 
           {/* Title */}
@@ -69,10 +68,15 @@ export const ClientAreaPage: React.FC<ClientAreaPageProps> = ({ onNavigate }) =>
           {/* Login Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="relative">
+              <label htmlFor="client-username" className="hidden">
+                {t.clientArea.username}
+              </label>
               <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-grey pointer-events-none" />
               <input
+                id="client-username"
                 type="text"
                 name="username"
+                aria-label={t.clientArea.username}
                 placeholder={t.clientArea.username}
                 value={credentials.username}
                 onChange={handleChange}
@@ -82,10 +86,15 @@ export const ClientAreaPage: React.FC<ClientAreaPageProps> = ({ onNavigate }) =>
             </div>
 
             <div className="relative">
+              <label htmlFor="client-password" className="hidden">
+                {t.clientArea.password}
+              </label>
               <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-grey pointer-events-none" />
               <input
+                id="client-password"
                 type="password"
                 name="password"
+                aria-label={t.clientArea.password}
                 placeholder={t.clientArea.password}
                 value={credentials.password}
                 onChange={handleChange}
@@ -114,11 +123,11 @@ export const ClientAreaPage: React.FC<ClientAreaPageProps> = ({ onNavigate }) =>
             </Button>
           </form>
 
-          {/* Security Notice */}
+          {/* Demo Notice */}
           <div className="mt-8 p-4 bg-gray-50 rounded-lg border border-gray-200">
             <p className="body-font text-xs text-gray-600 text-center">
               <Lock className="w-3 h-3 inline mr-1" />
-              Secure connection with SSL encryption
+              Demo only — this login is not connected to any authentication service and submits nothing.
             </p>
           </div>
         </div>

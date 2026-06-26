@@ -9,9 +9,14 @@ variable "subdomains" {
   default     = []
 }
 variable "environment" {
-  description = "The environment for which the WAF resources are being created."
+  description = "Deployment environment. Must be one of: dev, stg, prd."
   type        = string
   default     = "dev"
+
+  validation {
+    condition     = can(regex("^(dev|stg|prd)$", var.environment))
+    error_message = "Environment must be one of: dev, stg, prd."
+  }
 }
 variable "region" {
   description = "The AWS region in which to create the WAF resources."
@@ -42,5 +47,10 @@ variable "waf_custom_response_body" {
 variable "allowed_ips" {
   description = "A list of allowed IP addresses for the WAF IP set."
   type        = list(string)
-  default     = ["0.0.0.0/1", "128.0.0.0/1"]
+  default     = []
+
+  validation {
+    condition     = alltrue([for cidr in var.allowed_ips : can(cidrhost(cidr, 0))])
+    error_message = "Each allowed IP entry must be a valid CIDR block."
+  }
 }

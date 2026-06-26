@@ -3,6 +3,10 @@ node_modules
 build
 .DS_Store
 terraform/.terraform
-terraform/.terraform.lock.hcl
 terraform/terraform.tfstate
 *auto.tfvars
+# Real Terraform variable / backend files (keep the *.example templates)
+*.tfvars
+!*.tfvars.example
+terraform/backend.hcl
+!terraform/backend.hcl.example
