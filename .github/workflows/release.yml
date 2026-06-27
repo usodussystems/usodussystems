@@ -1,0 +1,54 @@
+name: Release
+
+# Tags releases from the project version. On push to `main` (the only release
+# branch) the official `actions/github-script` reads the version from
+# package.json and, if no matching tag exists yet, creates a `v<version>` git
+# tag and a GitHub Release with auto-generated notes. The existence check makes
+# this idempotent: pushes to `main` without a version bump are a no-op.
+#
+# Uses only GitHub-maintained actions and the built-in GITHUB_TOKEN — no
+# third-party tagging actions.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write   # create the tag ref + GitHub Release
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Tag release from package.json version
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const { version } = require(`${process.env.GITHUB_WORKSPACE}/package.json`);
+            const tag = `v${version}`;
+            const { owner, repo } = context.repo;
+
+            // Idempotent: skip if this version was already released.
+            try {
+              await github.rest.git.getRef({ owner, repo, ref: `tags/${tag}` });
+              core.notice(`Tag ${tag} already exists — nothing to release.`);
+              return;
+            } catch (err) {
+              if (err.status !== 404) throw err;
+            }
+
+            // createRelease creates both the git tag (at this commit) and the
+            // GitHub Release.
+            await github.rest.repos.createRelease({
+              owner,
+              repo,
+              tag_name: tag,
+              name: tag,
+              target_commitish: context.sha,
+              generate_release_notes: true,
+            });
+            core.notice(`Created release ${tag}.`);
