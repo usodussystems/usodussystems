@@ -1,12 +1,21 @@
 import React from 'react';
 import { ServiceCard } from '../molecules/ServiceCard';
 import { useLanguage } from '../../lib/LanguageContext';
-import { Layers, Zap, Lightbulb, Users } from 'lucide-react';
+import { Zap, Layers, Brain, Users } from 'lucide-react';
 
 export const ServicesSection: React.FC = () => {
   const { t } = useLanguage();
 
-  const services = [
+  const primaryService = {
+    icon: Brain,
+    title: t.services.agenticTransformation.title,
+    description: t.services.agenticTransformation.description,
+    accentColor: 'teal' as const,
+    badge: t.services.agenticTransformation.badge,
+    isPrimary: true,
+  };
+
+  const complementaryServices = [
     {
       icon: Layers,
       title: t.services.platformDevelopment.title,
@@ -15,14 +24,8 @@ export const ServicesSection: React.FC = () => {
     },
     {
       icon: Zap,
-      title: t.services.digitalTransformation.title,
-      description: t.services.digitalTransformation.description,
-      accentColor: 'teal' as const,
-    },
-    {
-      icon: Lightbulb,
-      title: t.services.consulting.title,
-      description: t.services.consulting.description,
+      title: t.services.agenticConsulting.title,
+      description: t.services.agenticConsulting.description,
       accentColor: 'orange' as const,
     },
     {
@@ -45,8 +48,14 @@ export const ServicesSection: React.FC = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {services.map((service, index) => (
+        {/* Primary Service - Featured */}
+        <div className="mb-12">
+          <ServiceCard {...primaryService} />
+        </div>
+
+        {/* Complementary Services */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {complementaryServices.map((service, index) => (
             <ServiceCard key={index} {...service} />
           ))}
         </div>
