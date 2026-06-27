@@ -23,15 +23,16 @@ export interface Translations {
   services: {
     title: string;
     subtitle: string;
+    agenticTransformation: {
+      title: string;
+      description: string;
+      badge: string;
+    };
     platformDevelopment: {
       title: string;
       description: string;
     };
-    digitalTransformation: {
-      title: string;
-      description: string;
-    };
-    consulting: {
+    agenticConsulting: {
       title: string;
       description: string;
     };
@@ -100,22 +101,23 @@ export const translations: Record<Language, Translations> = {
     },
     services: {
       title: 'Our Services',
-      subtitle: 'Comprehensive digital transformation solutions',
+      subtitle: 'Enterprise-grade AI solutions from rapid prototyping to full-scale transformation',
+      agenticTransformation: {
+        title: 'AI Agentic Transformation',
+        description: 'Design, deploy, and scale autonomous AI agents that execute complex workflows. From POCs to production systems handling mission-critical operations.',
+        badge: 'Core Service',
+      },
       platformDevelopment: {
         title: 'Platform Development',
-        description: 'Custom platform solutions designed to scale with your business needs.',
+        description: 'Scalable platforms integrated with AI agents. Custom solutions designed for enterprise growth.',
       },
-      digitalTransformation: {
-        title: 'Digital Transformation',
-        description: 'End-to-end transformation strategies that modernize your operations.',
-      },
-      consulting: {
-        title: 'Strategic Consulting',
-        description: 'Expert guidance to navigate your digital transformation journey.',
+      agenticConsulting: {
+        title: 'Agentic AI Strategy',
+        description: 'Architecture design, governance frameworks, and ROI optimization. Expert guidance from use-case assessment to production deployment.',
       },
       userExperience: {
-        title: 'User-Centric Design',
-        description: 'Designing experiences that put your users at the center.',
+        title: 'User-Centric Integration',
+        description: 'Design human-in-the-loop experiences. Seamless agent integration that enhances, not replaces, human capability.',
       },
     },
     solutions: {
@@ -176,22 +178,23 @@ export const translations: Record<Language, Translations> = {
     },
     services: {
       title: 'Nuestros Servicios',
-      subtitle: 'Soluciones integrales de transformación digital',
+      subtitle: 'Soluciones IA de nivel empresarial, desde prototipos rápidos hasta transformación completa',
+      agenticTransformation: {
+        title: 'Transformación IA Agentica',
+        description: 'Diseña, implementa y escala agentes IA autónomos que ejecuten flujos de trabajo complejos. Desde POCs hasta sistemas de producción que manejan operaciones críticas.',
+        badge: 'Servicio Clave',
+      },
       platformDevelopment: {
         title: 'Desarrollo de Plataformas',
-        description: 'Soluciones de plataformas personalizadas diseñadas para escalar con tu negocio.',
+        description: 'Plataformas escalables integradas con agentes IA. Soluciones personalizadas diseñadas para el crecimiento empresarial.',
       },
-      digitalTransformation: {
-        title: 'Transformación Digital',
-        description: 'Estrategias de transformación completas que modernizan tus operaciones.',
-      },
-      consulting: {
-        title: 'Consultoría Estratégica',
-        description: 'Orientación experta para navegar tu viaje de transformación digital.',
+      agenticConsulting: {
+        title: 'Estrategia IA Agentica',
+        description: 'Diseño de arquitectura, marcos de gobernanza y optimización de ROI. Orientación experta desde evaluación de casos de uso hasta despliegue en producción.',
       },
       userExperience: {
-        title: 'Diseño Centrado en el Usuario',
-        description: 'Diseñando experiencias que ponen a tus usuarios en el centro.',
+        title: 'Integración Centrada en Usuario',
+        description: 'Diseña experiencias con humanos en el bucle. Integración fluida de agentes que mejora, no reemplaza, la capacidad humana.',
       },
     },
     solutions: {
@@ -252,22 +255,23 @@ export const translations: Record<Language, Translations> = {
     },
     services: {
       title: 'Nossos Serviços',
-      subtitle: 'Soluções abrangentes de transformação digital',
+      subtitle: 'Soluções de IA de nível empresarial, desde prototipagem rápida até transformação em escala',
+      agenticTransformation: {
+        title: 'Transformação IA Agencial',
+        description: 'Projete, implemente e escale agentes IA autônomos que executem fluxos de trabalho complexos. De POCs a sistemas de produção que lidam com operações críticas.',
+        badge: 'Serviço Principal',
+      },
       platformDevelopment: {
         title: 'Desenvolvimento de Plataformas',
-        description: 'Soluções de plataformas personalizadas projetadas para escalar com seu negócio.',
+        description: 'Plataformas escaláveis integradas com agentes IA. Soluções personalizadas projetadas para crescimento empresarial.',
       },
-      digitalTransformation: {
-        title: 'Transformação Digital',
-        description: 'Estratégias de transformação completas que modernizam suas operações.',
-      },
-      consulting: {
-        title: 'Consultoria Estratégica',
-        description: 'Orientação especializada para navegar sua jornada de transformação digital.',
+      agenticConsulting: {
+        title: 'Estratégia IA Agencial',
+        description: 'Design de arquitetura, frameworks de governança e otimização de ROI. Orientação especializada da avaliação de casos de uso ao desdobramento em produção.',
       },
       userExperience: {
-        title: 'Design Centrado no Usuário',
-        description: 'Projetando experiências que colocam seus usuários no centro.',
+        title: 'Integração Centrada no Usuário',
+        description: 'Projete experiências com humanos no loop. Integração perfeita de agentes que aprimora, não substitui, a capacidade humana.',
       },
     },
     solutions: {
