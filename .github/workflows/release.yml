@@ -1,0 +1,32 @@
+name: Release
+
+# Tags releases from the project version. On push to `main` (the only release
+# branch) the official `actions/github-script` reads the version from
+# package.json and, if no matching tag exists yet, creates a `v<version>` git
+# tag and a GitHub Release with auto-generated notes. The existence check makes
+# this idempotent: pushes to `main` without a version bump are a no-op.
+#
+# Uses only GitHub-maintained actions and the built-in GITHUB_TOKEN — no
+# third-party tagging actions.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write   # create the tag ref + GitHub Release
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Tag release from package.json version
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const release = require(`${process.env.GITHUB_WORKSPACE}/.github/scripts/release.js`);
+            await release({ github, context, core });

@@ -87,7 +87,7 @@ jobs:
 
       - name: Setup Node
         if: ${{ steps.deploy_inputs.outputs.available == 'true' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: "24"
           cache: "npm"
@@ -101,7 +101,7 @@ jobs:
 
       - name: Upload frontend artifact
         if: ${{ steps.deploy_inputs.outputs.available == 'true' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: terraform-frontend-build-${{ github.run_id }}
           path: build
@@ -110,7 +110,7 @@ jobs:
 
       - name: Configure AWS credentials (OIDC)
         if: ${{ steps.deploy_inputs.outputs.available == 'true' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           role-session-name: gha-terraform-plan-${{ github.run_id }}
@@ -135,7 +135,7 @@ jobs:
 
       - name: Upload Terraform plan
         if: ${{ steps.tf_plan.outputs.created == 'true' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: terraform-plan-${{ github.run_id }}
           path: terraform/tfplan
@@ -155,26 +155,26 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Download frontend artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: terraform-frontend-build-${{ github.run_id }}
           path: build
 
       - name: Download Terraform plan
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: terraform-plan-${{ github.run_id }}
           path: terraform
 
       - name: Configure AWS credentials (OIDC)
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           role-session-name: gha-terraform-apply-${{ github.run_id }}
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
+        uses: hashicorp/setup-terraform@v4
 
       - name: Terraform Init (remote backend)
         env:
