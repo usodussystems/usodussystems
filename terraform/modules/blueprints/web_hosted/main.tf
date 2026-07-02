@@ -114,7 +114,6 @@ resource "aws_s3_bucket_cors_configuration" "this" {
     allowed_methods = [
       "GET",
       "HEAD",
-      "OPTIONS"
     ]
     allowed_origins = concat([
       "https://${local.bucket_name}",
