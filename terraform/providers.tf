@@ -31,6 +31,9 @@ provider "aws" {
   #   role_arn = var.role_arn
   # }
 }
+provider "cloudflare" {
+  api_token = var.cloudflare_api_token
+}
 # provider "cloudflare" {
 #   api_token = var.cloudflare_api_token
 # }
