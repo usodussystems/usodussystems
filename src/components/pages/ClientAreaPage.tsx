@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from '../atoms/Button';
 import { Logo } from '../atoms/Logo';
 import { useLanguage } from '../../lib/LanguageContext';
-import { ArrowLeft, Lock, User } from 'lucide-react';
+import { ArrowLeft, Lock, Mail } from 'lucide-react';
 
 interface ClientAreaPageProps {
   onNavigate: (page: 'home' | 'news' | 'client-area') => void;
@@ -10,23 +10,12 @@ interface ClientAreaPageProps {
 
 export const ClientAreaPage: React.FC<ClientAreaPageProps> = ({ onNavigate }) => {
   const { t } = useLanguage();
-  const [credentials, setCredentials] = useState({
-    username: '',
-    password: '',
-  });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Demo only: no real authentication is performed and no credentials are
-    // sent anywhere. A production build would POST to an auth endpoint over HTTPS.
-    alert('This is a demo. Login functionality would be implemented with proper authentication.');
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCredentials({
-      ...credentials,
-      [e.target.name]: e.target.value,
-    });
+  const handleContact = () => {
+    onNavigate('home');
+    window.setTimeout(() => {
+      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+    }, 0);
   };
 
   return (
@@ -61,74 +50,28 @@ export const ClientAreaPage: React.FC<ClientAreaPageProps> = ({ onNavigate }) =>
               {t.clientArea.title}
             </h1>
             <p className="body-font text-gray-600">
-              {t.clientArea.welcome}
+              {t.clientArea.unavailableTitle}
             </p>
           </div>
 
-          {/* Login Form */}
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="relative">
-              <label htmlFor="client-username" className="hidden">
-                {t.clientArea.username}
-              </label>
-              <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-grey pointer-events-none" />
-              <input
-                id="client-username"
-                type="text"
-                name="username"
-                aria-label={t.clientArea.username}
-                placeholder={t.clientArea.username}
-                value={credentials.username}
-                onChange={handleChange}
-                required
-                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:border-reflex-blue focus:outline-none transition-colors body-font"
-              />
-            </div>
-
-            <div className="relative">
-              <label htmlFor="client-password" className="hidden">
-                {t.clientArea.password}
-              </label>
-              <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-grey pointer-events-none" />
-              <input
-                id="client-password"
-                type="password"
-                name="password"
-                aria-label={t.clientArea.password}
-                placeholder={t.clientArea.password}
-                value={credentials.password}
-                onChange={handleChange}
-                required
-                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:border-reflex-blue focus:outline-none transition-colors body-font"
-              />
-            </div>
-
-            <div className="flex items-center justify-between">
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" className="w-4 h-4 text-reflex-blue border-gray-300 rounded focus:ring-reflex-blue" />
-                <span className="body-font text-sm text-gray-600">Remember me</span>
-              </label>
-              <a href="#" className="body-font text-sm text-reflex-blue hover:underline">
-                {t.clientArea.forgotPassword}
-              </a>
+          <div className="space-y-6">
+            <div className="p-5 bg-gray-50 rounded-lg border border-gray-200 text-center">
+              <Lock className="w-10 h-10 text-reflex-blue mx-auto mb-3" />
+              <p className="body-font text-gray-700">
+                {t.clientArea.unavailableBody}
+              </p>
             </div>
 
             <Button
-              type="submit"
+              type="button"
               variant="primary"
               size="lg"
               className="w-full"
+              onClick={handleContact}
             >
-              {t.clientArea.login}
+              {t.clientArea.contactSupport}
+              <Mail className="w-5 h-5 ml-2" />
             </Button>
-          </form>
-
-          {/* Demo Notice */}
-          <div className="mt-8 p-4 bg-gray-50 rounded-lg border border-gray-200">
-            <p className="body-font text-xs text-gray-600 text-center">
-              <Lock className="w-3 h-3 inline mr-1" />
-              Demo only — this login is not connected to any authentication service and submits nothing.
-            </p>
           </div>
         </div>
       </div>

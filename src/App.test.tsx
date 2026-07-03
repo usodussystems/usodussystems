@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import App from './App';
 
 // Smoke test for the LIVE stack: App wraps everything in <LanguageProvider>,
@@ -20,5 +21,17 @@ describe('<App /> (live stack render smoke test)', () => {
   it('renders the Client Area call-to-action from the header', () => {
     render(<App />);
     expect(screen.getAllByText('Client Area').length).toBeGreaterThan(0);
+  });
+
+  it('does not collect credentials on the unauthenticated Client Area page', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(screen.getAllByRole('button', { name: 'Client Area' })[0]);
+
+    expect(screen.getByText('Access is currently unavailable')).toBeInTheDocument();
+    expect(screen.queryByLabelText('Username')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('Password')).not.toBeInTheDocument();
+    expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
   });
 });

@@ -70,11 +70,9 @@ export interface Translations {
   };
   clientArea: {
     title: string;
-    welcome: string;
-    username: string;
-    password: string;
-    login: string;
-    forgotPassword: string;
+    unavailableTitle: string;
+    unavailableBody: string;
+    contactSupport: string;
   };
 }
 
@@ -149,11 +147,9 @@ export const translations: Record<Language, Translations> = {
     },
     clientArea: {
       title: 'Client Area',
-      welcome: 'Welcome Back',
-      username: 'Username',
-      password: 'Password',
-      login: 'Login',
-      forgotPassword: 'Forgot Password?',
+      unavailableTitle: 'Access is currently unavailable',
+      unavailableBody: 'Client authentication is not enabled on this site yet, so this page does not collect usernames or passwords.',
+      contactSupport: 'Contact Us',
     },
   },
   es: {
@@ -226,11 +222,9 @@ export const translations: Record<Language, Translations> = {
     },
     clientArea: {
       title: 'Área de Clientes',
-      welcome: 'Bienvenido de Nuevo',
-      username: 'Usuario',
-      password: 'Contraseña',
-      login: 'Iniciar Sesión',
-      forgotPassword: '¿Olvidaste tu Contraseña?',
+      unavailableTitle: 'El acceso no está disponible actualmente',
+      unavailableBody: 'La autenticación de clientes aún no está habilitada en este sitio, por lo que esta página no recopila usuarios ni contraseñas.',
+      contactSupport: 'Contáctanos',
     },
   },
   pt: {
@@ -303,11 +297,9 @@ export const translations: Record<Language, Translations> = {
     },
     clientArea: {
       title: 'Área do Cliente',
-      welcome: 'Bem-vindo de Volta',
-      username: 'Usuário',
-      password: 'Senha',
-      login: 'Entrar',
-      forgotPassword: 'Esqueceu a Senha?',
+      unavailableTitle: 'O acesso está indisponível no momento',
+      unavailableBody: 'A autenticação de clientes ainda não está habilitada neste site, portanto esta página não coleta usuários nem senhas.',
+      contactSupport: 'Entre em Contato',
     },
   },
 };

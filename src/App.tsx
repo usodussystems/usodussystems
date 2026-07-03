@@ -23,7 +23,7 @@ const AppContent: React.FC = () => {
       ? t.about.description 
       : currentPage === 'news'
       ? t.news.latest
-      : t.clientArea.welcome,
+      : t.clientArea.unavailableTitle,
     keywords: 'digital transformation, platform development, cloud solutions, user experience, technology consulting',
     language: language,
   });
