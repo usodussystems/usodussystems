@@ -34,4 +34,32 @@ describe('<App /> (live stack render smoke test)', () => {
     expect(screen.queryByLabelText('Password')).not.toBeInTheDocument();
     expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
   });
+
+  it('opens a dedicated news article with references', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(screen.getAllByRole('button', { name: 'News' })[0]);
+    await user.click(screen.getAllByRole('button', { name: 'Read More' })[0]);
+
+    expect(screen.getByRole('heading', { name: /AI Agents Need an Operating Model/i })).toBeInTheDocument();
+    expect(screen.getByText('Client action checklist')).toBeInTheDocument();
+    expect(screen.getByText('References')).toBeInTheDocument();
+    expect(screen.getByText(/\[1\] McKinsey & Company/)).toBeInTheDocument();
+  });
+
+  it('returns to the news index when the global News nav is clicked from an article', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(screen.getAllByRole('button', { name: 'News' })[0]);
+    await user.click(screen.getAllByRole('button', { name: 'Read More' })[0]);
+    expect(screen.getByText('Client action checklist')).toBeInTheDocument();
+
+    await user.click(screen.getAllByRole('button', { name: 'News' })[0]);
+
+    expect(screen.getByRole('heading', { name: 'Latest News' })).toBeInTheDocument();
+    expect(screen.queryByText('Client action checklist')).not.toBeInTheDocument();
+    expect(screen.getAllByRole('button', { name: 'Read More' })).toHaveLength(6);
+  });
 });

@@ -32,7 +32,7 @@ export const HeroSection: React.FC = () => {
             {/* Terminal Badge */}
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-reflex-blue bg-opacity-10 rounded-full">
               <Terminal className="w-4 h-4 text-reflex-blue" />
-              <span className="body-font text-sm text-reflex-blue">sudo su &gt; Digital Transformation</span>
+              <span className="body-font text-sm text-reflex-blue">{t.hero.badge}</span>
             </div>
 
             <div className="space-y-6">
@@ -67,15 +67,15 @@ export const HeroSection: React.FC = () => {
             <div className="grid grid-cols-3 gap-6 pt-8">
               <div>
                 <div className="heading-font text-reflex-blue">500+</div>
-                <p className="body-font text-sm text-gray-600">Projects</p>
+                <p className="body-font text-sm text-gray-600">{t.hero.stats.projects}</p>
               </div>
               <div>
                 <div className="heading-font text-reflex-blue">98%</div>
-                <p className="body-font text-sm text-gray-600">Satisfaction</p>
+                <p className="body-font text-sm text-gray-600">{t.hero.stats.satisfaction}</p>
               </div>
               <div>
                 <div className="heading-font text-reflex-blue">50+</div>
-                <p className="body-font text-sm text-gray-600">Team Members</p>
+                <p className="body-font text-sm text-gray-600">{t.hero.stats.teamMembers}</p>
               </div>
             </div>
           </div>
@@ -91,25 +91,25 @@ export const HeroSection: React.FC = () => {
                 <div className="bg-white p-6 rounded-2xl shadow-2xl ml-auto max-w-sm border-l-4 border-purple animate-float">
                   <div className="flex items-center gap-3 mb-2">
                     <div className="w-3 h-3 rounded-full bg-purple" />
-                    <span className="heading-font text-purple">Platform Development</span>
+                    <span className="heading-font text-purple">{t.hero.cards.platformDevelopment.title}</span>
                   </div>
-                  <p className="body-font text-sm text-gray-600">Custom solutions for your needs</p>
+                  <p className="body-font text-sm text-gray-600">{t.hero.cards.platformDevelopment.description}</p>
                 </div>
 
                 <div className="bg-white p-6 rounded-2xl shadow-2xl max-w-sm border-l-4 border-teal animate-float" style={{ animationDelay: '0.2s' }}>
                   <div className="flex items-center gap-3 mb-2">
                     <div className="w-3 h-3 rounded-full bg-teal" />
-                    <span className="heading-font text-teal">User-Centric Design</span>
+                    <span className="heading-font text-teal">{t.hero.cards.userCentricDesign.title}</span>
                   </div>
-                  <p className="body-font text-sm text-gray-600">Experiences that matter</p>
+                  <p className="body-font text-sm text-gray-600">{t.hero.cards.userCentricDesign.description}</p>
                 </div>
 
                 <div className="bg-white p-6 rounded-2xl shadow-2xl ml-auto max-w-sm border-l-4 border-orange animate-float" style={{ animationDelay: '0.4s' }}>
                   <div className="flex items-center gap-3 mb-2">
                     <div className="w-3 h-3 rounded-full bg-orange" />
-                    <span className="heading-font text-orange">Digital Innovation</span>
+                    <span className="heading-font text-orange">{t.hero.cards.digitalInnovation.title}</span>
                   </div>
-                  <p className="body-font text-sm text-gray-600">Transforming businesses</p>
+                  <p className="body-font text-sm text-gray-600">{t.hero.cards.digitalInnovation.description}</p>
                 </div>
               </div>
             </div>

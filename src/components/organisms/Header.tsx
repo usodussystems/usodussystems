@@ -78,7 +78,7 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="lg:hidden p-2 text-gray-700 hover:text-reflex-blue transition-colors"
-              aria-label="Toggle menu"
+              aria-label={t.nav.toggleMenu}
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>

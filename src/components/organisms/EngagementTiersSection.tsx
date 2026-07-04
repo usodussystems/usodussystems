@@ -1,32 +1,35 @@
 import React from 'react';
 import { Clock, Zap, Trophy } from 'lucide-react';
+import { useLanguage } from '../../lib/LanguageContext';
 
 export const EngagementTiersSection: React.FC = () => {
+  const { t } = useLanguage();
+
   const tiers = [
     {
       icon: Clock,
-      title: 'Quick Wins',
-      timeline: '2-4 weeks',
-      description: 'Rapid POC with pre-built agent templates. Prove value and ROI before scaling.',
-      highlights: ['Pre-built agents', 'Fast deployment', 'Measurable results'],
+      title: t.engagement.tiers.quickWins.title,
+      timeline: t.engagement.tiers.quickWins.timeline,
+      description: t.engagement.tiers.quickWins.description,
+      highlights: t.engagement.tiers.quickWins.highlights,
       color: 'orange',
       bgColor: 'bg-orange',
     },
     {
       icon: Zap,
-      title: 'Production Ready',
-      timeline: '2-3 months',
-      description: 'Full-featured agent systems with governance frameworks and human oversight.',
-      highlights: ['Custom architecture', 'Enterprise integration', 'Compliance frameworks'],
+      title: t.engagement.tiers.productionReady.title,
+      timeline: t.engagement.tiers.productionReady.timeline,
+      description: t.engagement.tiers.productionReady.description,
+      highlights: t.engagement.tiers.productionReady.highlights,
       color: 'teal',
       bgColor: 'bg-teal',
     },
     {
       icon: Trophy,
-      title: 'Enterprise Scale',
-      timeline: '3-6 months',
-      description: 'Multi-agent orchestration with continuous optimization and organizational change.',
-      highlights: ['Multi-agent systems', 'Organization design', 'Ongoing optimization'],
+      title: t.engagement.tiers.enterpriseScale.title,
+      timeline: t.engagement.tiers.enterpriseScale.timeline,
+      description: t.engagement.tiers.enterpriseScale.description,
+      highlights: t.engagement.tiers.enterpriseScale.highlights,
       color: 'purple',
       bgColor: 'bg-purple',
     },
@@ -49,10 +52,10 @@ export const EngagementTiersSection: React.FC = () => {
       <div className="container mx-auto px-4 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="heading-font text-reflex-blue mb-4">
-            Engagement Models
+            {t.engagement.title}
           </h2>
           <p className="body-font text-xl text-gray-600 max-w-2xl mx-auto">
-            From rapid prototyping to enterprise-scale transformation
+            {t.engagement.subtitle}
           </p>
         </div>
 
@@ -94,10 +97,10 @@ export const EngagementTiersSection: React.FC = () => {
         {/* Bottom CTA section */}
         <div className="mt-16 p-8 bg-gradient-to-r from-reflex-blue to-process-blue rounded-2xl text-center">
           <p className="body-font text-white text-lg mb-4">
-            Start your agentic AI transformation today
+            {t.engagement.ctaText}
           </p>
           <button className="px-8 py-3 bg-white text-reflex-blue rounded-lg font-semibold hover:bg-gray-100 transition-colors">
-            Schedule Consultation
+            {t.engagement.ctaButton}
           </button>
         </div>
       </div>

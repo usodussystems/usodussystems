@@ -1,10 +1,12 @@
 import React from 'react';
 import { Calendar, ArrowRight } from 'lucide-react';
+import { useLanguage } from '../../lib/LanguageContext';
 
 interface NewsCardProps {
   title: string;
   excerpt: string;
   date: string;
+  readTime: string;
   image: string;
   category: string;
   onReadMore?: () => void;
@@ -14,10 +16,13 @@ export const NewsCard: React.FC<NewsCardProps> = ({
   title, 
   excerpt, 
   date, 
+  readTime,
   image,
   category,
   onReadMore 
 }) => {
+  const { t } = useLanguage();
+
   return (
     <article className="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300">
       <div className="relative h-48 overflow-hidden">
@@ -34,9 +39,12 @@ export const NewsCard: React.FC<NewsCardProps> = ({
       </div>
       
       <div className="p-6">
-        <div className="flex items-center gap-2 text-sm text-brand-grey mb-3 body-font">
-          <Calendar className="w-4 h-4" />
-          <time dateTime={date}>{date}</time>
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-brand-grey mb-3 body-font">
+          <span className="inline-flex items-center gap-2">
+            <Calendar className="w-4 h-4" />
+            <time dateTime={date}>{date}</time>
+          </span>
+          <span>{readTime}</span>
         </div>
         
         <h3 className="mb-3 heading-font text-gray-900 group-hover:text-reflex-blue transition-colors">
@@ -51,7 +59,7 @@ export const NewsCard: React.FC<NewsCardProps> = ({
           onClick={onReadMore}
           className="inline-flex items-center gap-2 text-reflex-blue body-font hover:gap-3 transition-all"
         >
-          Read More
+          {t.news.readMore}
           <ArrowRight className="w-4 h-4" />
         </button>
       </div>

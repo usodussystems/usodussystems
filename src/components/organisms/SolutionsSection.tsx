@@ -6,12 +6,12 @@ export const SolutionsSection: React.FC = () => {
   const { t } = useLanguage();
 
   const solutions = [
-    { icon: Zap, title: 'Agent Architecture', subtitle: 'Design & Deployment', color: 'text-teal', bgColor: 'bg-teal' },
-    { icon: Database, title: 'Data Integration', subtitle: 'Connectors & Pipelines', color: 'text-purple', bgColor: 'bg-purple' },
-    { icon: Lock, title: 'Governance', subtitle: 'Compliance & Control', color: 'text-orange', bgColor: 'bg-orange' },
-    { icon: Users, title: 'Human-in-Loop', subtitle: 'Oversight & Approval', color: 'text-magenta', bgColor: 'bg-magenta' },
-    { icon: Cloud, title: 'Cloud Deployment', subtitle: 'Scalable Infrastructure', color: 'text-yellow', bgColor: 'bg-yellow' },
-    { icon: BarChart, title: 'Performance Monitoring', subtitle: 'Analytics & ROI', color: 'text-process-blue', bgColor: 'bg-process-blue' },
+    { icon: Zap, title: t.solutions.items.agentArchitecture.title, subtitle: t.solutions.items.agentArchitecture.subtitle, color: 'text-teal', bgColor: 'bg-teal' },
+    { icon: Database, title: t.solutions.items.dataIntegration.title, subtitle: t.solutions.items.dataIntegration.subtitle, color: 'text-purple', bgColor: 'bg-purple' },
+    { icon: Lock, title: t.solutions.items.governance.title, subtitle: t.solutions.items.governance.subtitle, color: 'text-orange', bgColor: 'bg-orange' },
+    { icon: Users, title: t.solutions.items.humanInLoop.title, subtitle: t.solutions.items.humanInLoop.subtitle, color: 'text-magenta', bgColor: 'bg-magenta' },
+    { icon: Cloud, title: t.solutions.items.cloudDeployment.title, subtitle: t.solutions.items.cloudDeployment.subtitle, color: 'text-yellow', bgColor: 'bg-yellow' },
+    { icon: BarChart, title: t.solutions.items.performanceMonitoring.title, subtitle: t.solutions.items.performanceMonitoring.subtitle, color: 'text-process-blue', bgColor: 'bg-process-blue' },
   ];
 
   return (
