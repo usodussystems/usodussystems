@@ -14,27 +14,19 @@ export interface Translations {
   hero: {
     badge: string;
     title: string;
+    titleHighlight: string;
     subtitle: string;
     cta: string;
     ctaSecondary: string;
-    stats: {
-      projects: string;
-      satisfaction: string;
-      teamMembers: string;
+    terminal: {
+      line1: string;
+      line2: string;
+      line3: string;
     };
-    cards: {
-      platformDevelopment: {
-        title: string;
-        description: string;
-      };
-      userCentricDesign: {
-        title: string;
-        description: string;
-      };
-      digitalInnovation: {
-        title: string;
-        description: string;
-      };
+    stats: {
+      s1: { value: string; label: string };
+      s2: { value: string; label: string };
+      s3: { value: string; label: string };
     };
   };
   about: {
@@ -207,34 +199,26 @@ export const translations: Record<Language, Translations> = {
       toggleMenu: 'Toggle menu',
     },
     hero: {
-      badge: 'sudo su > Digital Transformation',
-      title: 'Digital Transformation Powered by People',
-      subtitle: 'We create platforms that empower your business with super privilege access to innovation.',
+      badge: 'sudo su > AI-first transformation',
+      title: 'From complex systems',
+      titleHighlight: 'to clear outcomes.',
+      subtitle: 'We are the consulting and technology partner that brings AI-first, complex-systems thinking to small and medium companies — enterprise-grade thinking, right-sized for you.',
       cta: 'Get Started',
       ctaSecondary: 'Learn More',
-      stats: {
-        projects: 'Projects',
-        satisfaction: 'Satisfaction',
-        teamMembers: 'Team Members',
+      terminal: {
+        line1: '$ sudo su',
+        line2: '# access granted — superuser mode',
+        line3: '$ usodus --transform "complexity" --into "clarity"',
       },
-      cards: {
-        platformDevelopment: {
-          title: 'Platform Development',
-          description: 'Custom solutions for your needs',
-        },
-        userCentricDesign: {
-          title: 'User-Centric Design',
-          description: 'Experiences that matter',
-        },
-        digitalInnovation: {
-          title: 'Digital Innovation',
-          description: 'Transforming businesses',
-        },
+      stats: {
+        s1: { value: 'AI-first', label: 'From strategy to production' },
+        s2: { value: 'SMB-focused', label: 'Enterprise thinking, right-sized' },
+        s3: { value: 'End-to-end', label: 'Consulting + technology' },
       },
     },
     about: {
       title: 'About Usodus',
-      description: 'Usodus Systems is a digital transformation company focused on creating platforms. Our name comes from "sudo su" - representing super privilege access. We believe in putting users first, where ">" represents the terminal, "." represents people, and "|" represents "so what?" - a pipe process that drives meaningful change.',
+      description: 'Usodus Systems is a consulting and technology company for AI-first digital transformation. Our name comes from "sudo su" - super privilege access. We treat every business as the complex system it is: ">" is the terminal where we act, "." is the people at the center, and "|" is the pipe that turns complexity into clear, working outcomes for small and medium companies.',
       brandElements: {
         terminal: {
           title: 'Terminal',
@@ -254,7 +238,7 @@ export const translations: Record<Language, Translations> = {
     },
     services: {
       title: 'Our Services',
-      subtitle: 'Enterprise-grade AI solutions from rapid prototyping to full-scale transformation',
+      subtitle: 'Enterprise-grade AI, right-sized for small and medium companies - from rapid prototype to production',
       agenticTransformation: {
         title: 'AI Agentic Transformation',
         description: 'Design, deploy, and scale autonomous AI agents that execute complex workflows. From POCs to production systems handling mission-critical operations.',
@@ -331,7 +315,7 @@ export const translations: Record<Language, Translations> = {
     },
     contact: {
       title: 'Get in Touch',
-      subtitle: 'Let\'s discuss how we can transform your digital presence',
+      subtitle: 'Tell us where complexity hurts - we\'ll map the path to clarity',
       name: 'Name',
       email: 'Email',
       message: 'Message',
@@ -345,7 +329,7 @@ export const translations: Record<Language, Translations> = {
       },
     },
     footer: {
-      tagline: 'Empowering digital transformation through user-focused platforms',
+      tagline: 'AI-first consulting and technology - turning complex systems into clarity for small and medium companies',
       company: 'Company',
       services: 'Services',
       legal: 'Legal',
@@ -623,7 +607,7 @@ export const translations: Record<Language, Translations> = {
       contactSupport: 'Contact Us',
     },
     seo: {
-      keywords: 'digital transformation, platform development, cloud solutions, user experience, technology consulting',
+      keywords: 'AI consulting, digital transformation, agentic AI, complex systems, technology consulting, small and medium business',
     },
   },
   es: {
@@ -638,34 +622,26 @@ export const translations: Record<Language, Translations> = {
       toggleMenu: 'Alternar menú',
     },
     hero: {
-      badge: 'sudo su > Transformación Digital',
-      title: 'Transformación Digital Impulsada por Personas',
-      subtitle: 'Creamos plataformas que potencian tu negocio con acceso privilegiado a la innovación.',
+      badge: 'sudo su > Transformación AI-first',
+      title: 'De sistemas complejos',
+      titleHighlight: 'a resultados claros.',
+      subtitle: 'Somos el socio de consultoría y tecnología que lleva el pensamiento de sistemas complejos y la IA a pequeñas y medianas empresas: pensamiento de nivel enterprise, a tu medida.',
       cta: 'Comenzar',
       ctaSecondary: 'Saber Más',
-      stats: {
-        projects: 'Proyectos',
-        satisfaction: 'Satisfacción',
-        teamMembers: 'Miembros del equipo',
+      terminal: {
+        line1: '$ sudo su',
+        line2: '# acceso concedido — modo superusuario',
+        line3: '$ usodus --transform "complejidad" --into "claridad"',
       },
-      cards: {
-        platformDevelopment: {
-          title: 'Desarrollo de Plataformas',
-          description: 'Soluciones personalizadas para tus necesidades',
-        },
-        userCentricDesign: {
-          title: 'Diseño Centrado en el Usuario',
-          description: 'Experiencias que importan',
-        },
-        digitalInnovation: {
-          title: 'Innovación Digital',
-          description: 'Transformando empresas',
-        },
+      stats: {
+        s1: { value: 'AI-first', label: 'De la estrategia a producción' },
+        s2: { value: 'PyMEs', label: 'Pensamiento enterprise, a tu medida' },
+        s3: { value: 'Integral', label: 'Consultoría + tecnología' },
       },
     },
     about: {
       title: 'Sobre Usodus',
-      description: 'Usodus Systems es una empresa de transformación digital enfocada en crear plataformas. Nuestro nombre proviene de "sudo su" - representando acceso con súper privilegios. Creemos en poner a los usuarios primero, donde ">" representa la terminal, "." representa las personas, y "|" representa "¿y qué?" - un proceso pipe que impulsa el cambio significativo.',
+      description: 'Usodus Systems es una empresa de consultoría y tecnología para la transformación digital AI-first. Nuestro nombre proviene de "sudo su" - acceso con súper privilegios. Tratamos cada negocio como el sistema complejo que es: ">" es la terminal donde actuamos, "." son las personas en el centro, y "|" es el pipe que convierte la complejidad en resultados claros para pequeñas y medianas empresas.',
       brandElements: {
         terminal: {
           title: 'Terminal',
@@ -685,7 +661,7 @@ export const translations: Record<Language, Translations> = {
     },
     services: {
       title: 'Nuestros Servicios',
-      subtitle: 'Soluciones IA de nivel empresarial, desde prototipos rápidos hasta transformación completa',
+      subtitle: 'IA de nivel empresarial, a la medida de pequeñas y medianas empresas: del prototipo rápido a producción',
       agenticTransformation: {
         title: 'Transformación IA Agentica',
         description: 'Diseña, implementa y escala agentes IA autónomos que ejecuten flujos de trabajo complejos. Desde POCs hasta sistemas de producción que manejan operaciones críticas.',
@@ -762,7 +738,7 @@ export const translations: Record<Language, Translations> = {
     },
     contact: {
       title: 'Contáctanos',
-      subtitle: 'Hablemos sobre cómo transformar tu presencia digital',
+      subtitle: 'Cuéntanos dónde duele la complejidad: trazaremos el camino a la claridad',
       name: 'Nombre',
       email: 'Correo Electrónico',
       message: 'Mensaje',
@@ -776,7 +752,7 @@ export const translations: Record<Language, Translations> = {
       },
     },
     footer: {
-      tagline: 'Potenciando la transformación digital a través de plataformas centradas en el usuario',
+      tagline: 'Consultoría y tecnología AI-first: convertimos sistemas complejos en claridad para pequeñas y medianas empresas',
       company: 'Empresa',
       services: 'Servicios',
       legal: 'Legal',
@@ -1054,7 +1030,7 @@ export const translations: Record<Language, Translations> = {
       contactSupport: 'Contáctanos',
     },
     seo: {
-      keywords: 'transformación digital, desarrollo de plataformas, soluciones en la nube, experiencia de usuario, consultoría tecnológica',
+      keywords: 'consultoría de IA, transformación digital, IA agéntica, sistemas complejos, consultoría tecnológica, pequeñas y medianas empresas',
     },
   },
   pt: {
@@ -1069,34 +1045,26 @@ export const translations: Record<Language, Translations> = {
       toggleMenu: 'Alternar menu',
     },
     hero: {
-      badge: 'sudo su > Transformação Digital',
-      title: 'Transformação Digital Impulsionada por Pessoas',
-      subtitle: 'Criamos plataformas que potencializam seu negócio com acesso privilegiado à inovação.',
+      badge: 'sudo su > Transformação AI-first',
+      title: 'De sistemas complexos',
+      titleHighlight: 'a resultados claros.',
+      subtitle: 'Somos o parceiro de consultoria e tecnologia que leva o pensamento de sistemas complexos e a IA a pequenas e médias empresas: pensamento de nível enterprise, no tamanho certo.',
       cta: 'Começar',
       ctaSecondary: 'Saiba Mais',
-      stats: {
-        projects: 'Projetos',
-        satisfaction: 'Satisfação',
-        teamMembers: 'Membros da equipe',
+      terminal: {
+        line1: '$ sudo su',
+        line2: '# acesso concedido — modo superusuário',
+        line3: '$ usodus --transform "complexidade" --into "clareza"',
       },
-      cards: {
-        platformDevelopment: {
-          title: 'Desenvolvimento de Plataformas',
-          description: 'Soluções personalizadas para suas necessidades',
-        },
-        userCentricDesign: {
-          title: 'Design Centrado no Usuário',
-          description: 'Experiências que importam',
-        },
-        digitalInnovation: {
-          title: 'Inovação Digital',
-          description: 'Transformando negócios',
-        },
+      stats: {
+        s1: { value: 'AI-first', label: 'Da estratégia à produção' },
+        s2: { value: 'PMEs', label: 'Pensamento enterprise, no tamanho certo' },
+        s3: { value: 'Ponta a ponta', label: 'Consultoria + tecnologia' },
       },
     },
     about: {
       title: 'Sobre a Usodus',
-      description: 'Usodus Systems é uma empresa de transformação digital focada em criar plataformas. Nosso nome vem de "sudo su" - representando acesso com super privilégios. Acreditamos em colocar os usuários em primeiro lugar, onde ">" representa o terminal, "." representa as pessoas, e "|" representa "e daí?" - um processo pipe que impulsiona mudanças significativas.',
+      description: 'Usodus Systems é uma empresa de consultoria e tecnologia para a transformação digital AI-first. Nosso nome vem de "sudo su" - acesso com super privilégios. Tratamos cada negócio como o sistema complexo que ele é: ">" é o terminal onde agimos, "." são as pessoas no centro, e "|" é o pipe que converte complexidade em resultados claros para pequenas e médias empresas.',
       brandElements: {
         terminal: {
           title: 'Terminal',
@@ -1116,7 +1084,7 @@ export const translations: Record<Language, Translations> = {
     },
     services: {
       title: 'Nossos Serviços',
-      subtitle: 'Soluções de IA de nível empresarial, desde prototipagem rápida até transformação em escala',
+      subtitle: 'IA de nível empresarial, no tamanho certo para pequenas e médias empresas: do protótipo rápido à produção',
       agenticTransformation: {
         title: 'Transformação IA Agencial',
         description: 'Projete, implemente e escale agentes IA autônomos que executem fluxos de trabalho complexos. De POCs a sistemas de produção que lidam com operações críticas.',
@@ -1193,7 +1161,7 @@ export const translations: Record<Language, Translations> = {
     },
     contact: {
       title: 'Entre em Contato',
-      subtitle: 'Vamos discutir como transformar sua presença digital',
+      subtitle: 'Conte onde a complexidade dói: traçaremos o caminho até a clareza',
       name: 'Nome',
       email: 'E-mail',
       message: 'Mensagem',
@@ -1207,7 +1175,7 @@ export const translations: Record<Language, Translations> = {
       },
     },
     footer: {
-      tagline: 'Capacitando a transformação digital através de plataformas focadas no usuário',
+      tagline: 'Consultoria e tecnologia AI-first: transformamos sistemas complexos em clareza para pequenas e médias empresas',
       company: 'Empresa',
       services: 'Serviços',
       legal: 'Legal',
@@ -1485,7 +1453,7 @@ export const translations: Record<Language, Translations> = {
       contactSupport: 'Entre em Contato',
     },
     seo: {
-      keywords: 'transformação digital, desenvolvimento de plataformas, soluções em nuvem, experiência do usuário, consultoria em tecnologia',
+      keywords: 'consultoria de IA, transformação digital, IA agêntica, sistemas complexos, consultoria em tecnologia, pequenas e médias empresas',
     },
   },
 };

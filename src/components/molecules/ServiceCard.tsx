@@ -10,6 +10,35 @@ interface ServiceCardProps {
   isPrimary?: boolean;
 }
 
+/* Bright tints for text on navy; raw brand colors only as backgrounds/borders/glows. */
+const accentMap = {
+  purple: {
+    text: 'text-purple-bright',
+    chip: 'bg-purple/10 border-purple/25',
+    hover: 'hover:border-purple/40 hover:shadow-[0_0_40px_-10px] hover:shadow-purple/40',
+  },
+  yellow: {
+    text: 'text-yellow',
+    chip: 'bg-yellow/10 border-yellow/25',
+    hover: 'hover:border-yellow/40 hover:shadow-[0_0_40px_-10px] hover:shadow-yellow/40',
+  },
+  orange: {
+    text: 'text-orange-bright',
+    chip: 'bg-orange/10 border-orange/25',
+    hover: 'hover:border-orange/40 hover:shadow-[0_0_40px_-10px] hover:shadow-orange/40',
+  },
+  teal: {
+    text: 'text-teal-bright',
+    chip: 'bg-teal/10 border-teal/25',
+    hover: 'hover:border-teal/40 hover:shadow-[0_0_40px_-10px] hover:shadow-teal/40',
+  },
+  magenta: {
+    text: 'text-magenta-bright',
+    chip: 'bg-magenta/10 border-magenta/25',
+    hover: 'hover:border-magenta/40 hover:shadow-[0_0_40px_-10px] hover:shadow-magenta/40',
+  },
+};
+
 export const ServiceCard: React.FC<ServiceCardProps> = ({
   icon: Icon,
   title,
@@ -18,48 +47,36 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
   badge,
   isPrimary = false,
 }) => {
-  const colorMap = {
-    purple: 'text-purple',
-    yellow: 'text-yellow',
-    orange: 'text-orange',
-    teal: 'text-teal',
-    magenta: 'text-magenta'
-  };
-
-  const bgColorMap = {
-    purple: 'bg-purple',
-    yellow: 'bg-yellow',
-    orange: 'bg-orange',
-    teal: 'bg-teal',
-    magenta: 'bg-magenta'
-  };
+  const accent = accentMap[accentColor];
 
   if (isPrimary) {
     return (
-      <div className="group p-8 md:p-10 bg-gradient-to-br from-gray-50 to-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border-2 border-teal border-opacity-30 hover:border-opacity-100 md:col-span-1">
+      <div className={`group relative glass-card p-8 md:p-10 transition-all duration-300 ${accent.hover}`}>
+        {/* Gradient hairline top border */}
+        <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-teal to-process-blue rounded-t-2xl" />
         <div className="flex items-start justify-between mb-6">
-          <div className={`inline-flex p-4 rounded-xl ${bgColorMap[accentColor]} bg-opacity-15 group-hover:bg-opacity-20 transition-all`}>
-            <Icon className={`w-10 h-10 ${colorMap[accentColor]}`} />
+          <div className={`inline-flex p-4 rounded-xl border ${accent.chip} transition-all`}>
+            <Icon className={`w-10 h-10 ${accent.text}`} />
           </div>
           {badge && (
-            <span className={`text-xs font-semibold px-3 py-1 rounded-full ${bgColorMap[accentColor]} bg-opacity-10 ${colorMap[accentColor]} uppercase tracking-wider`}>
+            <span className={`font-mono text-xs font-semibold px-3 py-1 rounded-full border ${accent.chip} ${accent.text} uppercase tracking-wider`}>
               {badge}
             </span>
           )}
         </div>
-        <h3 className="mb-3 heading-font text-2xl text-gray-900">{title}</h3>
-        <p className="text-gray-700 body-font leading-relaxed">{description}</p>
+        <h3 className="mb-3 heading-font text-2xl text-white">{title}</h3>
+        <p className="text-white/70 body-font leading-relaxed">{description}</p>
       </div>
     );
   }
 
   return (
-    <div className="group p-8 bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:border-reflex-blue hover:border-opacity-30">
-      <div className={`inline-flex p-4 rounded-xl ${bgColorMap[accentColor]} bg-opacity-10 mb-6`}>
-        <Icon className={`w-8 h-8 ${colorMap[accentColor]}`} />
+    <div className={`group glass-card p-8 transition-all duration-300 h-full ${accent.hover}`}>
+      <div className={`inline-flex p-4 rounded-xl border ${accent.chip} mb-6`}>
+        <Icon className={`w-8 h-8 ${accent.text}`} />
       </div>
-      <h3 className="mb-4 heading-font text-gray-900">{title}</h3>
-      <p className="text-gray-600 body-font leading-relaxed">{description}</p>
+      <h3 className="mb-4 heading-font text-white">{title}</h3>
+      <p className="text-white/70 body-font leading-relaxed">{description}</p>
     </div>
   );
 };

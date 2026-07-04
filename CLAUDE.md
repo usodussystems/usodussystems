@@ -35,8 +35,9 @@ so it's kept out of the gate rather than rewritten.
 ## Architecture (the big picture)
 
 **Entry chain:** `index.html` → `src/main.tsx` → `src/App.tsx`. `src/main.tsx` imports
-`./index.css` (see Styling gotcha below). The root `index.html` `<title>` is a static
-default ("Usodus Systems"); `useSEO` overwrites it per-page client-side at runtime.
+`./index.css` (the Tailwind v4 source — see Styling below). The root `index.html`
+`<title>` is a static default ("Usodus Systems"); `useSEO` overwrites it per-page
+client-side at runtime.
 
 **Routing is state-based, not URL-based.** `App.tsx` holds `currentPage` in
 `useState<'home' | 'news' | 'client-area'>` and swaps page components via a `switch`.
@@ -73,13 +74,23 @@ shadcn/Radix kit lives under `components/ui/*` but is mostly unused by the live 
   `molecules/Footer`, `organisms/NewsSection`). Don't reintroduce the `useTranslation`
   pattern — use `useLanguage` for any new UI.
 
-- **⚠️ Tailwind CSS is pre-compiled and committed.** `src/main.tsx` loads
-  `src/index.css`, a frozen, generated Tailwind v4 stylesheet (~1700 lines). There is
-  **no `tailwindcss` dependency, no PostCSS, no Tailwind config** in the build. A new
-  Tailwind class in a component will have **no CSS** unless it already exists in
-  `src/index.css`. `src/styles/globals.css` is **not imported anywhere** (dead),
-  despite the README pointing to it. To change styling, edit/regenerate
-  `src/index.css`, or reintroduce a real Tailwind build.
+- **Tailwind v4 is a real build now.** `tailwindcss` + `@tailwindcss/vite` compile
+  `src/index.css` (the authored v4 source: `@import "tailwindcss"`, `@theme` brand
+  tokens, custom `@utility` classes) at build time — any Tailwind class works. Config
+  is CSS-first: there is **no tailwind.config.js/PostCSS**; edit `@theme` in
+  `src/index.css`. The old frozen pre-compiled stylesheet and the dead
+  `src/styles/globals.css` are gone. Legacy `*-opacity-*` utilities were removed in
+  v4 — use slash syntax (`bg-teal/10`, `text-white/70`). The h1–h6 type scale lives
+  in the `@layer base` block of `index.css` (v4 preflight would otherwise reset it).
+
+- **The site is dark-only** (terminal-tech design): navy tokens `--color-navy-950/900/800`,
+  glass surfaces via the `glass-card` utility, faint blueprint grid via `bg-grid`,
+  brightened accent text tints (`text-process-blue-bright`, `text-teal-bright`, …) for
+  WCAG contrast — raw brand colors are for backgrounds/borders/glows, not body text.
+  Animations: `motion/react` scroll reveals via `atoms/Reveal` (respects
+  `prefers-reduced-motion`), `atoms/NetworkCanvas` (hero/client-area constellation),
+  `molecules/TerminalWindow` (typed `sudo su` hero terminal), and `animate-float/caret/
+  glow-pulse` keyframe utilities defined in `@theme`.
 
 - **All forms are mocks** (no backend). Contact submit and Client Area login just
   flip local state / no-op; the Client Area is labelled a demo (it no longer claims
@@ -117,8 +128,9 @@ workflow has been removed.
 
 ## Conventions
 
-- Brand colors are CSS custom properties in `src/index.css` (`--color-reflex-blue`,
-  `--color-process-blue`, etc.) surfaced as utility classes (`text-reflex-blue`,
-  `bg-process-blue`, …). Fonts: Baloo Tamma 2 (headings, `.heading-font`), Poppins
-  (body, `.body-font`).
+- Brand colors are `@theme` tokens in `src/index.css` (`--color-reflex-blue`,
+  `--color-process-blue`, etc.); Tailwind v4 generates the utilities
+  (`text-reflex-blue`, `bg-process-blue/10`, `from-teal`, …) from the token names.
+  Fonts: Baloo Tamma 2 (headings, `.heading-font`), Poppins (body, `.body-font`);
+  system mono (`font-mono`) for the terminal motif.
 - `build/` is gitignored; do not commit build output.

@@ -16,10 +16,11 @@ export const Button: React.FC<ButtonProps> = ({
   const baseStyles = 'inline-flex items-center justify-center rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed body-font';
   
   const variants = {
-    primary: 'bg-reflex-blue text-white hover:opacity-90 shadow-lg hover:shadow-xl',
-    secondary: 'bg-process-blue text-white hover:opacity-90 shadow-lg hover:shadow-xl',
-    outline: 'border-2 border-reflex-blue text-reflex-blue hover:bg-reflex-blue hover:text-white',
-    ghost: 'text-reflex-blue hover:bg-reflex-blue hover:bg-opacity-10'
+    primary:
+      'bg-linear-to-r from-reflex-blue to-process-blue text-white shadow-lg shadow-process-blue/25 hover:shadow-xl hover:shadow-process-blue/40 hover:brightness-110',
+    secondary: 'bg-process-blue text-white hover:brightness-110 shadow-lg shadow-process-blue/25 hover:shadow-xl',
+    outline: 'border-2 border-white/25 text-white hover:border-process-blue hover:bg-process-blue/10',
+    ghost: 'text-white/80 hover:text-white hover:bg-white/10'
   };
   
   const sizes = {

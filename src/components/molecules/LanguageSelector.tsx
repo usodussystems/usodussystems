@@ -22,8 +22,8 @@ export const LanguageSelector: React.FC = () => {
             onClick={() => setLanguage(lang.code)}
             className={`px-2 py-1 text-sm body-font rounded transition-colors ${
               language === lang.code
-                ? 'bg-reflex-blue text-white'
-                : 'text-brand-grey hover:bg-gray-100'
+                ? 'bg-process-blue text-white'
+                : 'text-white/60 hover:text-white hover:bg-white/10'
             }`}
           >
             {lang.label}

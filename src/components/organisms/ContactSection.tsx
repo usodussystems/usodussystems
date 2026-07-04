@@ -3,6 +3,7 @@ import { Input } from '../atoms/Input';
 import { Textarea } from '../atoms/Textarea';
 import { Button } from '../atoms/Button';
 import { useLanguage } from '../../lib/LanguageContext';
+import { Reveal } from '../atoms/Reveal';
 import { Send, CheckCircle } from 'lucide-react';
 
 export const ContactSection: React.FC = () => {
@@ -32,24 +33,28 @@ export const ContactSection: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="py-20 bg-gradient-to-b from-gray-50 to-white">
-      <div className="container mx-auto px-4 lg:px-8">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="heading-font text-reflex-blue mb-4">
-              {t.contact.title}
-            </h2>
-            <p className="body-font text-xl text-gray-600">
-              {t.contact.subtitle}
-            </p>
-          </div>
+    <section id="contact" className="relative py-20 bg-navy-950 overflow-hidden">
+      <div className="absolute -bottom-32 -right-32 w-[500px] h-[500px] rounded-full bg-reflex-blue/25 blur-3xl" />
 
-          <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
+      <div className="container mx-auto px-4 lg:px-8 relative z-10">
+        <div className="max-w-4xl mx-auto">
+          <Reveal>
+            <div className="text-center mb-16">
+              <h2 className="heading-font text-white mb-4">
+                {t.contact.title}
+              </h2>
+              <p className="body-font text-xl text-white/60">
+                {t.contact.subtitle}
+              </p>
+            </div>
+          </Reveal>
+
+          <div className="glass-card p-8 md:p-12">
             {submitted ? (
               <div className="text-center py-12">
-                <CheckCircle className="w-16 h-16 text-teal mx-auto mb-4" />
-                <h3 className="heading-font text-teal mb-2">{t.contact.successTitle}</h3>
-                <p className="body-font text-gray-600">{t.contact.successBody}</p>
+                <CheckCircle className="w-16 h-16 text-teal-bright mx-auto mb-4" />
+                <h3 className="heading-font text-teal-bright mb-2">{t.contact.successTitle}</h3>
+                <p className="body-font text-white/70">{t.contact.successBody}</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
