@@ -9,24 +9,24 @@ export const AboutSection: React.FC = () => {
     {
       icon: Terminal,
       symbol: '>',
-      title: 'Terminal',
-      description: 'Represents command-line power and direct access to systems',
+      title: t.about.brandElements.terminal.title,
+      description: t.about.brandElements.terminal.description,
       color: 'text-reflex-blue',
       bgColor: 'bg-reflex-blue',
     },
     {
       icon: Users,
       symbol: '.',
-      title: 'People',
-      description: 'Our focus on user-centric solutions and human connection',
+      title: t.about.brandElements.people.title,
+      description: t.about.brandElements.people.description,
       color: 'text-purple',
       bgColor: 'bg-purple',
     },
     {
       icon: Workflow,
       symbol: '|',
-      title: 'Pipe Process',
-      description: 'The "so what?" that drives meaningful transformation',
+      title: t.about.brandElements.pipeProcess.title,
+      description: t.about.brandElements.pipeProcess.description,
       color: 'text-teal',
       bgColor: 'bg-teal',
     },
@@ -62,11 +62,9 @@ export const AboutSection: React.FC = () => {
 
           {/* Etymology Section */}
           <div className="mt-16 p-8 bg-white rounded-2xl shadow-lg border-l-4 border-reflex-blue">
-            <h3 className="heading-font text-reflex-blue mb-4">sudo su</h3>
+            <h3 className="heading-font text-reflex-blue mb-4">{t.about.etymologyTitle}</h3>
             <p className="body-font text-gray-700 leading-relaxed">
-              Our name is derived from the Unix command "sudo su" - which grants super user privileges. 
-              This represents our commitment to providing our clients with elevated access to digital 
-              transformation, empowering them with the highest level of control and innovation in their platforms.
+              {t.about.etymologyBody}
             </p>
           </div>
         </div>

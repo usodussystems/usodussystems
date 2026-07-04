@@ -12,6 +12,7 @@ type Page = 'home' | 'news' | 'client-area';
 
 const AppContent: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<Page>('home');
+  const [navigationVersion, setNavigationVersion] = useState(0);
   const { language, t } = useLanguage();
 
   // SEO for current page
@@ -24,7 +25,7 @@ const AppContent: React.FC = () => {
       : currentPage === 'news'
       ? t.news.latest
       : t.clientArea.unavailableTitle,
-    keywords: 'digital transformation, platform development, cloud solutions, user experience, technology consulting',
+    keywords: t.seo.keywords,
     language: language,
   });
 
@@ -42,6 +43,7 @@ const AppContent: React.FC = () => {
 
   const handleNavigate = (page: Page) => {
     setCurrentPage(page);
+    setNavigationVersion((version) => version + 1);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -50,7 +52,7 @@ const AppContent: React.FC = () => {
       case 'home':
         return <HomePage />;
       case 'news':
-        return <NewsPage onNavigate={handleNavigate} />;
+        return <NewsPage onNavigate={handleNavigate} navigationVersion={navigationVersion} />;
       case 'client-area':
         return <ClientAreaPage onNavigate={handleNavigate} />;
       default:

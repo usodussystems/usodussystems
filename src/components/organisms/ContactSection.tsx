@@ -48,8 +48,8 @@ export const ContactSection: React.FC = () => {
             {submitted ? (
               <div className="text-center py-12">
                 <CheckCircle className="w-16 h-16 text-teal mx-auto mb-4" />
-                <h3 className="heading-font text-teal mb-2">Message Sent!</h3>
-                <p className="body-font text-gray-600">We'll get back to you soon.</p>
+                <h3 className="heading-font text-teal mb-2">{t.contact.successTitle}</h3>
+                <p className="body-font text-gray-600">{t.contact.successBody}</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
@@ -60,7 +60,7 @@ export const ContactSection: React.FC = () => {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  placeholder="John Doe"
+                  placeholder={t.contact.placeholders.name}
                 />
 
                 <Input
@@ -70,7 +70,7 @@ export const ContactSection: React.FC = () => {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  placeholder="john@example.com"
+                  placeholder={t.contact.placeholders.email}
                 />
 
                 <Textarea
@@ -79,7 +79,7 @@ export const ContactSection: React.FC = () => {
                   value={formData.message}
                   onChange={handleChange}
                   required
-                  placeholder="Tell us about your project..."
+                  placeholder={t.contact.placeholders.message}
                   rows={6}
                 />
 
