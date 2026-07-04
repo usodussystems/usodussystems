@@ -111,7 +111,7 @@ resource "aws_s3_bucket_cors_configuration" "this" {
       "Content-Type",
       "Origin"
     ]
-    allowed_methods = ["GET", "PUT", "POST", "DELETE"] 
+    allowed_methods = ["GET", "PUT", "POST", "DELETE"]
     allowed_origins = concat([
       "https://${local.bucket_name}",
       "https://${aws_cloudfront_distribution.dist.domain_name}"
@@ -121,7 +121,6 @@ resource "aws_s3_bucket_cors_configuration" "this" {
     ]
     max_age_seconds = 3000
   }
-
 }
 
 resource "aws_s3_object" "this" {
