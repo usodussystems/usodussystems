@@ -8,13 +8,13 @@ export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-reflex-blue text-white">
+    <footer className="bg-navy-950 text-white border-t border-white/10">
       <div className="container mx-auto px-4 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           {/* Brand Column */}
           <div>
             <Logo variant="footer" size="md" className="mb-4" />
-            <p className="body-font text-sm text-white text-opacity-80">
+            <p className="body-font text-sm text-white/70">
               {t.footer.tagline}
             </p>
           </div>
@@ -24,17 +24,17 @@ export const Footer: React.FC = () => {
             <h4 className="heading-font mb-4 text-white">{t.footer.company}</h4>
             <ul className="space-y-2 body-font text-sm">
               <li>
-                <a href="#about" className="text-white text-opacity-80 hover:text-opacity-100 transition-opacity">
+                <a href="#about" className="text-white/70 hover:text-process-blue-bright transition-colors">
                   {t.nav.about}
                 </a>
               </li>
               <li>
-                <a href="#services" className="text-white text-opacity-80 hover:text-opacity-100 transition-opacity">
+                <a href="#services" className="text-white/70 hover:text-process-blue-bright transition-colors">
                   {t.nav.services}
                 </a>
               </li>
               <li>
-                <a href="#solutions" className="text-white text-opacity-80 hover:text-opacity-100 transition-opacity">
+                <a href="#solutions" className="text-white/70 hover:text-process-blue-bright transition-colors">
                   {t.nav.solutions}
                 </a>
               </li>
@@ -46,12 +46,12 @@ export const Footer: React.FC = () => {
             <h4 className="heading-font mb-4 text-white">{t.footer.legal}</h4>
             <ul className="space-y-2 body-font text-sm">
               <li>
-                <a href="#privacy" className="text-white text-opacity-80 hover:text-opacity-100 transition-opacity">
+                <a href="#privacy" className="text-white/70 hover:text-process-blue-bright transition-colors">
                   {t.footer.privacy}
                 </a>
               </li>
               <li>
-                <a href="#terms" className="text-white text-opacity-80 hover:text-opacity-100 transition-opacity">
+                <a href="#terms" className="text-white/70 hover:text-process-blue-bright transition-colors">
                   {t.footer.terms}
                 </a>
               </li>
@@ -61,7 +61,7 @@ export const Footer: React.FC = () => {
           {/* Contact Info */}
           <div>
             <h4 className="heading-font mb-4 text-white">{t.nav.contact}</h4>
-            <ul className="space-y-3 body-font text-sm text-white text-opacity-80">
+            <ul className="space-y-3 body-font text-sm text-white/70">
               <li className="flex items-center gap-2">
                 <Mail className="w-4 h-4" />
                 <span>contact@usodus.com</span>
@@ -79,9 +79,9 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-white border-opacity-20">
+        <div className="pt-8 border-t border-white/10">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="body-font text-sm text-white text-opacity-80">
+            <p className="body-font text-sm text-white/70">
               © {currentYear} Usodus Systems. {t.footer.rights}
             </p>
             <div className="flex gap-4">

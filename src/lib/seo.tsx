@@ -98,7 +98,7 @@ export const generateOrganizationSchema = () => {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "Usodus Systems",
-    "description": "Digital transformation company focused on creating platforms",
+    "description": "Consulting and technology for AI-first digital transformation - turning complex systems into clarity for small and medium companies",
     "url": "https://www.usodus.com",
     "logo": "https://www.usodus.com/logo.png",
     "contactPoint": {

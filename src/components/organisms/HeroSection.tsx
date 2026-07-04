@@ -1,52 +1,69 @@
 import React from 'react';
+import { motion, useReducedMotion } from 'motion/react';
 import { Button } from '../atoms/Button';
+import { NetworkCanvas } from '../atoms/NetworkCanvas';
+import { TerminalWindow } from '../molecules/TerminalWindow';
 import { useLanguage } from '../../lib/LanguageContext';
 import { ChevronRight, Terminal } from 'lucide-react';
 
 export const HeroSection: React.FC = () => {
   const { t } = useLanguage();
+  const reducedMotion = useReducedMotion();
 
   const scrollToContact = () => {
-    const element = document.getElementById('contact');
-    element?.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   const scrollToAbout = () => {
-    const element = document.getElementById('about');
-    element?.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  return (
-    <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-gradient-to-br from-white via-blue-50 to-purple-50">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23002D91' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-        }} />
-      </div>
+  const stats = [t.hero.stats.s1, t.hero.stats.s2, t.hero.stats.s3];
+  const terminalLines = [t.hero.terminal.line1, t.hero.terminal.line2, t.hero.terminal.line3];
 
-      <div className="container mx-auto px-4 lg:px-8 relative z-10">
+  const entrance = reducedMotion
+    ? {}
+    : {
+        initial: { opacity: 0, y: 24 },
+        animate: { opacity: 1, y: 0 },
+        transition: { duration: 0.7, ease: 'easeOut' as const },
+      };
+
+  return (
+    <section className="relative min-h-screen flex items-center overflow-hidden bg-navy-950">
+      {/* Ambient layers: blueprint grid, node network, glow blobs */}
+      <div className="absolute inset-0 bg-grid" />
+      <div className="absolute inset-0">
+        <NetworkCanvas density={60} />
+      </div>
+      <div className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full bg-reflex-blue/25 blur-3xl animate-glow-pulse" />
+      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-purple/15 blur-3xl" />
+
+      <div className="container mx-auto px-4 lg:px-8 relative z-10 py-24">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
-          <div className="space-y-8">
+          <motion.div className="space-y-8" {...entrance}>
             {/* Terminal Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-reflex-blue bg-opacity-10 rounded-full">
-              <Terminal className="w-4 h-4 text-reflex-blue" />
-              <span className="body-font text-sm text-reflex-blue">{t.hero.badge}</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-full">
+              <Terminal className="w-4 h-4 text-process-blue-bright" />
+              <span className="font-mono text-sm text-process-blue-bright">{t.hero.badge}</span>
             </div>
 
             <div className="space-y-6">
-              <h1 className="heading-font text-reflex-blue">
-                {t.hero.title}
+              <h1 className="heading-font text-white text-5xl md:text-7xl">
+                {t.hero.title}{' '}
+                <span className="bg-linear-to-r from-process-blue-bright via-teal-bright to-yellow bg-clip-text text-transparent">
+                  {t.hero.titleHighlight}
+                </span>
               </h1>
-              <p className="body-font text-xl text-gray-600 max-w-xl">
+              <p className="body-font text-xl text-white/70 max-w-xl">
                 {t.hero.subtitle}
               </p>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button 
-                variant="primary" 
+              <Button
+                variant="primary"
                 size="lg"
                 onClick={scrollToContact}
                 className="group"
@@ -54,8 +71,8 @@ export const HeroSection: React.FC = () => {
                 {t.hero.cta}
                 <ChevronRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 size="lg"
                 onClick={scrollToAbout}
               >
@@ -63,69 +80,26 @@ export const HeroSection: React.FC = () => {
               </Button>
             </div>
 
-            {/* Stats */}
-            <div className="grid grid-cols-3 gap-6 pt-8">
-              <div>
-                <div className="heading-font text-reflex-blue">500+</div>
-                <p className="body-font text-sm text-gray-600">{t.hero.stats.projects}</p>
-              </div>
-              <div>
-                <div className="heading-font text-reflex-blue">98%</div>
-                <p className="body-font text-sm text-gray-600">{t.hero.stats.satisfaction}</p>
-              </div>
-              <div>
-                <div className="heading-font text-reflex-blue">50+</div>
-                <p className="body-font text-sm text-gray-600">{t.hero.stats.teamMembers}</p>
-              </div>
+            {/* Positioning stats */}
+            <div className="grid grid-cols-3 gap-6 pt-8 border-t border-white/10">
+              {stats.map((stat) => (
+                <div key={stat.value}>
+                  <div className="heading-font text-xl text-process-blue-bright">{stat.value}</div>
+                  <p className="body-font text-sm text-white/60">{stat.label}</p>
+                </div>
+              ))}
             </div>
-          </div>
+          </motion.div>
 
-          {/* Right Visual */}
+          {/* Right Visual: floating terminal */}
           <div className="hidden lg:block relative">
-            <div className="relative">
-              {/* Main Circle */}
-              <div className="w-[500px] h-[500px] rounded-full bg-gradient-to-br from-reflex-blue to-process-blue opacity-10 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
-              
-              {/* Floating Cards */}
-              <div className="relative z-10 space-y-6">
-                <div className="bg-white p-6 rounded-2xl shadow-2xl ml-auto max-w-sm border-l-4 border-purple animate-float">
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="w-3 h-3 rounded-full bg-purple" />
-                    <span className="heading-font text-purple">{t.hero.cards.platformDevelopment.title}</span>
-                  </div>
-                  <p className="body-font text-sm text-gray-600">{t.hero.cards.platformDevelopment.description}</p>
-                </div>
-
-                <div className="bg-white p-6 rounded-2xl shadow-2xl max-w-sm border-l-4 border-teal animate-float" style={{ animationDelay: '0.2s' }}>
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="w-3 h-3 rounded-full bg-teal" />
-                    <span className="heading-font text-teal">{t.hero.cards.userCentricDesign.title}</span>
-                  </div>
-                  <p className="body-font text-sm text-gray-600">{t.hero.cards.userCentricDesign.description}</p>
-                </div>
-
-                <div className="bg-white p-6 rounded-2xl shadow-2xl ml-auto max-w-sm border-l-4 border-orange animate-float" style={{ animationDelay: '0.4s' }}>
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="w-3 h-3 rounded-full bg-orange" />
-                    <span className="heading-font text-orange">{t.hero.cards.digitalInnovation.title}</span>
-                  </div>
-                  <p className="body-font text-sm text-gray-600">{t.hero.cards.digitalInnovation.description}</p>
-                </div>
-              </div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[480px] h-[480px] rounded-full bg-process-blue/10 blur-3xl" />
+            <div className="relative z-10 animate-float">
+              <TerminalWindow lines={terminalLines} />
             </div>
           </div>
         </div>
       </div>
-
-      <style>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-20px); }
-        }
-        .animate-float {
-          animation: float 3s ease-in-out infinite;
-        }
-      `}</style>
     </section>
   );
 };

@@ -24,40 +24,40 @@ export const NewsCard: React.FC<NewsCardProps> = ({
   const { t } = useLanguage();
 
   return (
-    <article className="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300">
-      <div className="relative h-48 overflow-hidden">
-        <img 
-          src={image} 
+    <article className="group glass-card overflow-hidden hover:border-process-blue/40 hover:shadow-[0_0_40px_-10px] hover:shadow-process-blue/40 transition-all duration-300 h-full flex flex-col">
+      <div className="relative h-48 overflow-hidden shrink-0">
+        <img
+          src={image}
           alt={title}
-          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+          className="w-full h-full object-cover brightness-90 group-hover:scale-110 transition-transform duration-300"
         />
         <div className="absolute top-4 left-4">
-          <span className="px-3 py-1 bg-reflex-blue text-white text-sm body-font rounded-full">
+          <span className="px-3 py-1 bg-process-blue/15 border border-process-blue/25 backdrop-blur-md text-process-blue-bright text-sm body-font rounded-full">
             {category}
           </span>
         </div>
       </div>
-      
-      <div className="p-6">
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-brand-grey mb-3 body-font">
+
+      <div className="p-6 flex flex-col flex-grow">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-white/50 mb-3 body-font">
           <span className="inline-flex items-center gap-2">
             <Calendar className="w-4 h-4" />
             <time dateTime={date}>{date}</time>
           </span>
           <span>{readTime}</span>
         </div>
-        
-        <h3 className="mb-3 heading-font text-gray-900 group-hover:text-reflex-blue transition-colors">
+
+        <h3 className="mb-3 heading-font text-white group-hover:text-process-blue-bright transition-colors">
           {title}
         </h3>
-        
-        <p className="text-gray-600 body-font mb-4 line-clamp-3">
+
+        <p className="text-white/60 body-font mb-4 line-clamp-3 flex-grow">
           {excerpt}
         </p>
-        
-        <button 
+
+        <button
           onClick={onReadMore}
-          className="inline-flex items-center gap-2 text-reflex-blue body-font hover:gap-3 transition-all"
+          className="inline-flex items-center gap-2 text-process-blue-bright body-font hover:gap-3 transition-all self-start"
         >
           {t.news.readMore}
           <ArrowRight className="w-4 h-4" />

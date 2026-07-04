@@ -38,15 +38,15 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-white shadow-md">
+    <header className="sticky top-0 z-50 bg-navy-950/80 backdrop-blur-md border-b border-white/10">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <button 
+          {/* Logo (inverted variant — navbar PNG is drawn for white backgrounds) */}
+          <button
             onClick={() => onNavigate('home')}
-            className="focus:outline-none focus:ring-2 focus:ring-reflex-blue rounded-lg"
+            className="focus:outline-none focus:ring-2 focus:ring-process-blue rounded-lg"
           >
-            <Logo variant="navbar" size="sm" />
+            <Logo variant="footer" size="sm" />
           </button>
 
           {/* Desktop Navigation */}
@@ -55,7 +55,7 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
               <button
                 key={item.label}
                 onClick={item.action}
-                className="body-font text-gray-700 hover:text-reflex-blue transition-colors"
+                className="body-font text-white/70 hover:text-white transition-colors"
               >
                 {item.label}
               </button>
@@ -77,7 +77,7 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 text-gray-700 hover:text-reflex-blue transition-colors"
+              className="lg:hidden p-2 text-white/70 hover:text-white transition-colors"
               aria-label={t.nav.toggleMenu}
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -87,13 +87,13 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
 
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <nav className="lg:hidden py-4 border-t border-gray-100">
+          <nav className="lg:hidden py-4 border-t border-white/10">
             <div className="flex flex-col gap-4">
               {navItems.map((item) => (
                 <button
                   key={item.label}
                   onClick={item.action}
-                  className="body-font text-gray-700 hover:text-reflex-blue transition-colors text-left px-4 py-2"
+                  className="body-font text-white/80 hover:text-white transition-colors text-left px-4 py-2"
                 >
                   {item.label}
                 </button>
