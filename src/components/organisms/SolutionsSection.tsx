@@ -38,7 +38,7 @@ export const SolutionsSection: React.FC = () => {
                 <div className={`inline-flex items-center justify-center w-16 h-16 rounded-xl border ${solution.chip} mb-3 group-hover:scale-110 transition-transform`}>
                   <solution.icon className={`w-8 h-8 ${solution.color}`} />
                 </div>
-                <h4 className="heading-font text-sm font-semibold text-center text-white mb-1">{solution.title}</h4>
+                <h4 className="heading-font text-sm text-center text-white mb-1">{solution.title}</h4>
                 <p className="body-font text-xs text-white/50 text-center">{solution.subtitle}</p>
               </div>
             </Reveal>

@@ -119,6 +119,6 @@ workflow has been removed.
 
 - Brand colors are CSS custom properties in `src/index.css` (`--color-reflex-blue`,
   `--color-process-blue`, etc.) surfaced as utility classes (`text-reflex-blue`,
-  `bg-process-blue`, …). Fonts: Baloo Tamma 2 (headings, `.heading-font`), Poppins
-  (body, `.body-font`).
+  `bg-process-blue`, …). Fonts: Space Grotesk (headings, `.heading-font`, medium
+  weights 500/600), Poppins (body, `.body-font`).
 - `build/` is gitignored; do not commit build output.

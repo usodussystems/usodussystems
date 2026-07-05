@@ -84,7 +84,7 @@ export const HeroSection: React.FC = () => {
             <div className="grid grid-cols-3 gap-6 pt-8 border-t border-white/10">
               {stats.map((stat) => (
                 <div key={stat.value}>
-                  <div className="heading-font text-xl text-process-blue-bright">{stat.value}</div>
+                  <div className="heading-font font-medium text-xl text-process-blue-bright">{stat.value}</div>
                   <p className="body-font text-sm text-white/60">{stat.label}</p>
                 </div>
               ))}
