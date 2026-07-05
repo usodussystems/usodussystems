@@ -12,7 +12,7 @@ output "site_urls" {
   description = "Public HTTPS URLs for each deployed static site."
   value = {
     for subdomain, site in module.s3host :
-    subdomain => "https://${subdomain}.${var.domain_name}"
+    subdomain => "https://${join(".", compact([trim(subdomain, "."), trim(var.domain_name, ".")]))}"
   }
 }
 
