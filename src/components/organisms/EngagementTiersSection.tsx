@@ -17,6 +17,7 @@ export const EngagementTiersSection: React.FC = () => {
       chip: 'bg-orange/10 border-orange/25',
       topBorder: 'border-t-orange',
       dot: 'bg-orange',
+      glow: 'hover:shadow-orange/40',
     },
     {
       icon: Zap,
@@ -28,6 +29,7 @@ export const EngagementTiersSection: React.FC = () => {
       chip: 'bg-teal/10 border-teal/25',
       topBorder: 'border-t-teal',
       dot: 'bg-teal',
+      glow: 'hover:shadow-teal/40',
     },
     {
       icon: Trophy,
@@ -39,6 +41,7 @@ export const EngagementTiersSection: React.FC = () => {
       chip: 'bg-purple/10 border-purple/25',
       topBorder: 'border-t-purple',
       dot: 'bg-purple',
+      glow: 'hover:shadow-purple/40',
     },
   ];
 
@@ -67,7 +70,7 @@ export const EngagementTiersSection: React.FC = () => {
             const Icon = tier.icon;
             return (
               <Reveal key={tier.title} delay={index * 0.08} className="h-full">
-                <div className={`relative p-8 glass-card border-t-2 ${tier.topBorder} hover:border-white/25 transition-all duration-300 flex flex-col h-full`}>
+                <div className={`relative p-8 glass-card border-t-2 ${tier.topBorder} hover:border-white/25 hover:shadow-[0_0_40px_-10px] ${tier.glow} motion-safe:hover:-translate-y-1 transition-all duration-300 flex flex-col h-full`}>
                   <div className={`inline-flex items-center justify-center w-14 h-14 rounded-xl border ${tier.chip} mb-4`}>
                     <Icon className={`w-7 h-7 ${tier.text}`} />
                   </div>

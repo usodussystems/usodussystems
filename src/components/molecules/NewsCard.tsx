@@ -24,12 +24,12 @@ export const NewsCard: React.FC<NewsCardProps> = ({
   const { t } = useLanguage();
 
   return (
-    <article className="group glass-card overflow-hidden hover:border-process-blue/40 hover:shadow-[0_0_40px_-10px] hover:shadow-process-blue/40 transition-all duration-300 h-full flex flex-col">
+    <article className="group glass-card overflow-hidden hover:border-process-blue/40 hover:shadow-[0_0_40px_-10px] hover:shadow-process-blue/40 motion-safe:hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
       <div className="relative h-48 overflow-hidden shrink-0">
         <img
           src={image}
           alt={title}
-          className="w-full h-full object-cover brightness-90 group-hover:scale-110 transition-transform duration-300"
+          className="w-full h-full object-cover brightness-90 motion-safe:group-hover:scale-110 transition-transform duration-300"
         />
         <div className="absolute top-4 left-4">
           <span className="px-3 py-1 bg-process-blue/15 border border-process-blue/25 backdrop-blur-md text-process-blue-bright text-sm body-font rounded-full">

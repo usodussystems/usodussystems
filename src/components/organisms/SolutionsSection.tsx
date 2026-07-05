@@ -35,7 +35,7 @@ export const SolutionsSection: React.FC = () => {
           {solutions.map((solution, index) => (
             <Reveal key={solution.title} delay={index * 0.06} className="h-full">
               <div className="flex flex-col items-center p-6 glass-card hover:border-white/25 transition-all duration-300 group cursor-pointer h-full">
-                <div className={`inline-flex items-center justify-center w-16 h-16 rounded-xl border ${solution.chip} mb-3 group-hover:scale-110 transition-transform`}>
+                <div className={`inline-flex items-center justify-center w-16 h-16 rounded-xl border ${solution.chip} mb-3 motion-safe:group-hover:scale-110 transition-transform`}>
                   <solution.icon className={`w-8 h-8 ${solution.color}`} />
                 </div>
                 <h4 className="heading-font text-sm text-center text-white mb-1">{solution.title}</h4>

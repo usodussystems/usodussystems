@@ -10,6 +10,7 @@ export interface Translations {
     contact: string;
     clientArea: string;
     toggleMenu: string;
+    backToTop: string;
   };
   hero: {
     badge: string;
@@ -197,6 +198,7 @@ export const translations: Record<Language, Translations> = {
       contact: 'Contact',
       clientArea: 'Client Area',
       toggleMenu: 'Toggle menu',
+      backToTop: 'Back to top',
     },
     hero: {
       badge: 'sudo su > AI-first transformation',
@@ -620,6 +622,7 @@ export const translations: Record<Language, Translations> = {
       contact: 'Contacto',
       clientArea: 'Área de Clientes',
       toggleMenu: 'Alternar menú',
+      backToTop: 'Volver arriba',
     },
     hero: {
       badge: 'sudo su > Transformación AI-first',
@@ -1043,6 +1046,7 @@ export const translations: Record<Language, Translations> = {
       contact: 'Contato',
       clientArea: 'Área do Cliente',
       toggleMenu: 'Alternar menu',
+      backToTop: 'Voltar ao topo',
     },
     hero: {
       badge: 'sudo su > Transformação AI-first',

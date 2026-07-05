@@ -55,7 +55,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
         {/* Gradient hairline top border */}
         <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-teal to-process-blue rounded-t-2xl" />
         <div className="flex items-start justify-between mb-6">
-          <div className={`inline-flex p-4 rounded-xl border ${accent.chip} transition-all`}>
+          <div className={`inline-flex p-4 rounded-xl border ${accent.chip} transition-transform duration-300 motion-safe:group-hover:-translate-y-1`}>
             <Icon className={`w-10 h-10 ${accent.text}`} />
           </div>
           {badge && (
@@ -72,7 +72,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
 
   return (
     <div className={`group glass-card p-8 transition-all duration-300 h-full ${accent.hover}`}>
-      <div className={`inline-flex p-4 rounded-xl border ${accent.chip} mb-6`}>
+      <div className={`inline-flex p-4 rounded-xl border ${accent.chip} mb-6 transition-transform duration-300 motion-safe:group-hover:-translate-y-1`}>
         <Icon className={`w-8 h-8 ${accent.text}`} />
       </div>
       <h3 className="mb-4 heading-font text-white">{title}</h3>

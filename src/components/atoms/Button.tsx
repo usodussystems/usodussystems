@@ -13,7 +13,7 @@ export const Button: React.FC<ButtonProps> = ({
   children,
   ...props 
 }) => {
-  const baseStyles = 'inline-flex items-center justify-center rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed body-font';
+  const baseStyles = 'inline-flex items-center justify-center rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed body-font focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-process-blue focus-visible:ring-offset-2 focus-visible:ring-offset-navy-950 motion-safe:active:scale-[0.98]';
   
   const variants = {
     primary:

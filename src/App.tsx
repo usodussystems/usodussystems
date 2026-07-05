@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { LanguageProvider } from './lib/LanguageContext';
 import { Header } from './components/organisms/Header';
 import { Footer } from './components/organisms/Footer';
+import { BackToTop } from './components/atoms/BackToTop';
 import { HomePage } from './components/pages/HomePage';
 import { NewsPage } from './components/pages/NewsPage';
 import { ClientAreaPage } from './components/pages/ClientAreaPage';
@@ -71,6 +72,7 @@ const AppContent: React.FC = () => {
       </div>
       
       {currentPage !== 'client-area' && <Footer />}
+      {currentPage !== 'client-area' && <BackToTop />}
     </div>
   );
 };
