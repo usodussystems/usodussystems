@@ -124,20 +124,20 @@
 
 | Role | Family | Import |
 |------|--------|--------|
-| **Display / Brand** | Baloo Tamma 2 | `https://fonts.googleapis.com/css2?family=Baloo+Tamma+2:wght@400;500;600;700;800` |
+| **Display / Brand** | Space Grotesk | `https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700` |
 | **Body / UI** | Poppins | `https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700` |
 
-### 3.2 Baloo Tamma 2 — Display Use
+### 3.2 Space Grotesk — Display Use
 > Use for: headings, brand moments, stat values, navigation wordmark, display-scale titles, short institutional messages.
 
 | Style | Weight | Size | Line Height | Color |
 |-------|--------|------|-------------|-------|
-| Display / H1 | 800 ExtraBold | 40px | 1.15 | `#002D91` Navy |
-| Heading / H2 | 700 Bold | 28px | 1.2 | `#002D91` Navy |
-| Subheading / H3 | 600 SemiBold | 20px | 1.3 | `#002D91` Navy |
-| H4 | 600 SemiBold | 16px | 1.4 | `#2D2D3D` g700 |
-| Card Title | 700 Bold | 14px | 1.4 | `#4A4A5A` g600 |
-| Logo Wordmark | 800 ExtraBold | 20–28px | 1 | White on Navy |
+| Display / H1 | 600 SemiBold | 40px | 1.15 | `#002D91` Navy |
+| Heading / H2 | 500 Medium | 28px | 1.2 | `#002D91` Navy |
+| Subheading / H3 | 500 Medium | 20px | 1.3 | `#002D91` Navy |
+| H4 | 500 Medium | 16px | 1.4 | `#2D2D3D` g700 |
+| Card Title | 500 Medium | 14px | 1.4 | `#4A4A5A` g600 |
+| Logo Wordmark | 600 SemiBold | 20–28px | 1 | White on Navy |
 
 ### 3.3 Poppins — Body & UI
 > Use for: body copy, form labels, table data, badges, captions, all running text.
@@ -252,7 +252,7 @@ Paste this block into any product stylesheet as the single source of truth.
   --color-info:    var(--blue);
 
   /* ── Typography ── */
-  --font-display: 'Baloo Tamma 2', sans-serif;
+  --font-display: 'Space Grotesk', sans-serif;
   --font-body:    'Poppins', sans-serif;
   --font-mono:    'Courier New', monospace;
 
@@ -485,7 +485,7 @@ Each component entry includes: purpose, anatomy, variants, states, and the exact
 #### Anatomy
 - Container: `padding: 14px 16px`, `border-radius: 10px`, `border-left: 4px solid`
 - Icon: 18px, left side, flex-shrink 0
-- Title: 14px / 700 / Baloo Tamma 2
+- Title: 14px / 500 / Space Grotesk
 - Body: 14px / 400 / Poppins, `line-height: 1.5`
 
 ---
@@ -559,7 +559,7 @@ Each component entry includes: purpose, anatomy, variants, states, and the exact
 #### Anatomy
 - Top accent bar: 3px height, color based on metric type
 - Label: 11px / 700 / Poppins / UPPERCASE / `#767676`
-- Value: 32px / 800 / Baloo Tamma 2 / `#002D91` — tight `letter-spacing: -1px`
+- Value: 32px / 600 / Space Grotesk / `#002D91` — tight `letter-spacing: -1px`
 - Change indicator: 12px / 600 / arrow + percentage + context — teal for positive, magenta for negative
 
 #### Accent Colors by Context
@@ -776,7 +776,7 @@ Cycle through brand palette for multi-user contexts:
 
 #### Anatomy
 - Container: `background: #1A1A2E` (g800), `border-radius: 10px`, `border-left: 4px solid [variant color]`
-- Title: 14px / 700 / Baloo Tamma 2 / White
+- Title: 14px / 500 / Space Grotesk / White
 - Body: 13px / 400 / Poppins / White
 - Entry animation: `translateY(8px) → translateY(0)` + fade, 0.3s ease
 - Auto-dismiss: 4–6 seconds (implementation dependent)
@@ -876,7 +876,7 @@ Cycle through brand palette for multi-user contexts:
 Height: 64px
 Background: var(--navy)
 Position: sticky top:0, z-index: 100
-Logo: left-aligned, Baloo Tamma 2 / 800 / 20px / white
+Logo: left-aligned, Space Grotesk / 600 / 20px / white
 Nav tabs: right side, 13px / 500 / Poppins
 Active tab: white text, rgba(0,132,198,0.25) background
 ```
@@ -926,7 +926,7 @@ Max-width: 1100px
 - Use `--teal` for success states
 - Use `--magenta` for errors and danger actions
 - Use `--yellow` for warnings
-- Use Baloo Tamma 2 for all display text and stat values
+- Use Space Grotesk for all display text and stat values
 - Use Poppins for all body, label, and UI text
 - Add navy-tinted shadows (`rgba(0,45,145,…)`)
 - Maintain clear space around the logo
@@ -961,7 +961,7 @@ COLORS
 [ ] No pure black (#000) — use #2D2D3D or #1A1A2E
 
 TYPOGRAPHY
-[ ] Display/headings use Baloo Tamma 2 (400–800 weight available)
+[ ] Display/headings use Space Grotesk (400–700 weight available; medium 500–600 preferred)
 [ ] Body/labels/tables use Poppins (400–700 weight)
 [ ] Micro labels are UPPERCASE with letter-spacing ≥ 1px
 [ ] No Arial, Roboto, Inter, or system-ui fonts used

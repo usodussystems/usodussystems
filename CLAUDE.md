@@ -131,6 +131,7 @@ workflow has been removed.
 - Brand colors are `@theme` tokens in `src/index.css` (`--color-reflex-blue`,
   `--color-process-blue`, etc.); Tailwind v4 generates the utilities
   (`text-reflex-blue`, `bg-process-blue/10`, `from-teal`, …) from the token names.
-  Fonts: Baloo Tamma 2 (headings, `.heading-font`), Poppins (body, `.body-font`);
-  system mono (`font-mono`) for the terminal motif.
+  Fonts: Space Grotesk (headings, `.heading-font`, medium weights 500/600), Poppins
+  (body, `.body-font`); system mono (`font-mono`) for the terminal motif. Lucide
+  icons are thinned globally (`svg.lucide { stroke-width: 1.5 }` in `index.css`).
 - `build/` is gitignored; do not commit build output.

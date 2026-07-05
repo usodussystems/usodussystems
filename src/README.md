@@ -20,7 +20,7 @@ Professional website for Usodus Systems, a digital transformation company focuse
 
 ### Typography
 
-- **Baloo Tamma 2**: Titles, highlights, short institutional messages
+- **Space Grotesk**: Titles, highlights, short institutional messages (medium weights)
 - **Poppins**: Body text, running text
 
 ### Brand Meaning

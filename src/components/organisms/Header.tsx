@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Logo } from '../atoms/Logo';
 import { Button } from '../atoms/Button';
 import { LanguageSelector } from '../molecules/LanguageSelector';
@@ -10,9 +10,40 @@ interface HeaderProps {
   currentPage: string;
 }
 
+const SECTION_IDS = ['about', 'services', 'solutions', 'contact'];
+
 export const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
   const { t } = useLanguage();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState<string | null>(null);
+
+  // Scroll-spy: highlight the nav item for the home section crossing the
+  // viewport middle. The narrow root band keeps at most one section active.
+  useEffect(() => {
+    if (currentPage !== 'home') {
+      setActiveSection(null);
+      return;
+    }
+    const sections = SECTION_IDS
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+    if (sections.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          } else {
+            setActiveSection((current) => (current === entry.target.id ? null : current));
+          }
+        });
+      },
+      { rootMargin: '-45% 0px -45% 0px' }
+    );
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, [currentPage]);
 
   const scrollToSection = (sectionId: string) => {
     if (currentPage !== 'home') {
@@ -28,13 +59,13 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
     setMobileMenuOpen(false);
   };
 
-  const navItems = [
+  const navItems: { label: string; action: () => void; section?: string }[] = [
     { label: t.nav.home, action: () => { onNavigate('home'); setMobileMenuOpen(false); } },
-    { label: t.nav.about, action: () => scrollToSection('about') },
-    { label: t.nav.services, action: () => scrollToSection('services') },
-    { label: t.nav.solutions, action: () => scrollToSection('solutions') },
+    { label: t.nav.about, section: 'about', action: () => scrollToSection('about') },
+    { label: t.nav.services, section: 'services', action: () => scrollToSection('services') },
+    { label: t.nav.solutions, section: 'solutions', action: () => scrollToSection('solutions') },
     { label: t.nav.news, action: () => { onNavigate('news'); setMobileMenuOpen(false); } },
-    { label: t.nav.contact, action: () => scrollToSection('contact') },
+    { label: t.nav.contact, section: 'contact', action: () => scrollToSection('contact') },
   ];
 
   return (
@@ -51,15 +82,22 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-8">
-            {navItems.map((item) => (
-              <button
-                key={item.label}
-                onClick={item.action}
-                className="body-font text-white/70 hover:text-white transition-colors"
-              >
-                {item.label}
-              </button>
-            ))}
+            {navItems.map((item) => {
+              const isActive = item.section != null && item.section === activeSection;
+              return (
+                <button
+                  key={item.label}
+                  onClick={item.action}
+                  className={`relative body-font transition-colors after:absolute after:-bottom-1 after:left-0 after:h-px after:w-full after:origin-left after:bg-process-blue-bright after:transition-transform after:duration-300 ${
+                    isActive
+                      ? 'text-process-blue-bright after:scale-x-100'
+                      : 'text-white/70 hover:text-white after:scale-x-0 hover:after:scale-x-100'
+                  }`}
+                >
+                  {item.label}
+                </button>
+              );
+            })}
           </nav>
 
           {/* Right Section */}
@@ -89,15 +127,20 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
         {mobileMenuOpen && (
           <nav className="lg:hidden py-4 border-t border-white/10">
             <div className="flex flex-col gap-4">
-              {navItems.map((item) => (
-                <button
-                  key={item.label}
-                  onClick={item.action}
-                  className="body-font text-white/80 hover:text-white transition-colors text-left px-4 py-2"
-                >
-                  {item.label}
-                </button>
-              ))}
+              {navItems.map((item) => {
+                const isActive = item.section != null && item.section === activeSection;
+                return (
+                  <button
+                    key={item.label}
+                    onClick={item.action}
+                    className={`body-font transition-colors text-left px-4 py-2 ${
+                      isActive ? 'text-process-blue-bright' : 'text-white/80 hover:text-white'
+                    }`}
+                  >
+                    {item.label}
+                  </button>
+                );
+              })}
               <div className="px-4 pt-2">
                 <Button
                   variant="primary"

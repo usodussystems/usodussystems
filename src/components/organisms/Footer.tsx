@@ -3,6 +3,9 @@ import { Logo } from '../atoms/Logo';
 import { useLanguage } from '../../lib/LanguageContext';
 import { Mail, MapPin } from 'lucide-react';
 
+const footerLink =
+  'relative inline-block text-white/70 hover:text-process-blue-bright transition-colors after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-process-blue-bright after:transition-transform after:duration-300 hover:after:scale-x-100';
+
 export const Footer: React.FC = () => {
   const { t } = useLanguage();
   const currentYear = new Date().getFullYear();
@@ -24,17 +27,17 @@ export const Footer: React.FC = () => {
             <h4 className="heading-font mb-4 text-white">{t.footer.company}</h4>
             <ul className="space-y-2 body-font text-sm">
               <li>
-                <a href="#about" className="text-white/70 hover:text-process-blue-bright transition-colors">
+                <a href="#about" className={footerLink}>
                   {t.nav.about}
                 </a>
               </li>
               <li>
-                <a href="#services" className="text-white/70 hover:text-process-blue-bright transition-colors">
+                <a href="#services" className={footerLink}>
                   {t.nav.services}
                 </a>
               </li>
               <li>
-                <a href="#solutions" className="text-white/70 hover:text-process-blue-bright transition-colors">
+                <a href="#solutions" className={footerLink}>
                   {t.nav.solutions}
                 </a>
               </li>
@@ -46,12 +49,12 @@ export const Footer: React.FC = () => {
             <h4 className="heading-font mb-4 text-white">{t.footer.legal}</h4>
             <ul className="space-y-2 body-font text-sm">
               <li>
-                <a href="#privacy" className="text-white/70 hover:text-process-blue-bright transition-colors">
+                <a href="#privacy" className={footerLink}>
                   {t.footer.privacy}
                 </a>
               </li>
               <li>
-                <a href="#terms" className="text-white/70 hover:text-process-blue-bright transition-colors">
+                <a href="#terms" className={footerLink}>
                   {t.footer.terms}
                 </a>
               </li>

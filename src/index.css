@@ -4,7 +4,7 @@
  * Brand tokens live in @theme; utilities like text-reflex-blue / bg-teal/10
  * are generated automatically from the --color-* names.
  */
-@import url('https://fonts.googleapis.com/css2?family=Baloo+Tamma+2:wght@400;500;600;700;800&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
 @import 'tailwindcss';
 
 /* The vendored shadcn kit is unimported and tsc-excluded; keep it out of class scanning. */
@@ -37,7 +37,7 @@
   --color-background: var(--color-navy-950);
   --color-foreground: #e8edf8;
 
-  --font-heading: 'Baloo Tamma 2', cursive;
+  --font-heading: 'Space Grotesk', sans-serif;
   --font-body: 'Poppins', sans-serif;
 
   /* Animation utilities: animate-float, animate-caret, animate-glow-pulse */
@@ -78,7 +78,12 @@
   html {
     font-size: 16px;
     -webkit-font-smoothing: antialiased;
-    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
   }
 
   body {
@@ -89,7 +94,8 @@
     line-height: 1.6;
   }
 
-  /* Heading scale — v4 preflight resets these, so re-declare the brand scale. */
+  /* Heading scale — v4 preflight resets these, so re-declare the brand scale.
+     Medium weights + tight tracking: Space Grotesk reads refined, not heavy. */
   h1,
   h2,
   h3,
@@ -97,12 +103,13 @@
   h5,
   h6 {
     font-family: var(--font-heading);
-    font-weight: 700;
+    font-weight: 500;
+    letter-spacing: -0.02em;
     line-height: 1.2;
   }
   h1 {
     font-size: 3.5rem;
-    font-weight: 800;
+    font-weight: 600;
     line-height: 1.1;
   }
   h2 {
@@ -114,16 +121,13 @@
   }
   h4 {
     font-size: 1.5rem;
-    font-weight: 600;
     line-height: 1.4;
   }
   h5 {
     font-size: 1.25rem;
-    font-weight: 600;
   }
   h6 {
     font-size: 1.125rem;
-    font-weight: 600;
   }
 
   p {
@@ -134,6 +138,12 @@
   pre,
   kbd {
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+
+  /* Thinner lucide icons site-wide — CSS wins over the svg stroke-width="2"
+     presentation attribute. Opt out per-icon with a style/utility if needed. */
+  svg.lucide {
+    stroke-width: 1.5;
   }
 
   ::selection {
