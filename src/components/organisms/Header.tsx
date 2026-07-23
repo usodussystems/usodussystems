@@ -3,14 +3,15 @@ import { Logo } from '../atoms/Logo';
 import { Button } from '../atoms/Button';
 import { LanguageSelector } from '../molecules/LanguageSelector';
 import { useLanguage } from '../../lib/LanguageContext';
+import { NavigateFn } from '../../lib/navigation';
 import { Menu, X } from 'lucide-react';
 
 interface HeaderProps {
-  onNavigate: (page: 'home' | 'news' | 'client-area') => void;
+  onNavigate: NavigateFn;
   currentPage: string;
 }
 
-const SECTION_IDS = ['about', 'services', 'solutions', 'contact'];
+const SECTION_IDS = ['about', 'services', 'solutions', 'products', 'contact'];
 
 export const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
   const { t } = useLanguage();
@@ -64,6 +65,7 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
     { label: t.nav.about, section: 'about', action: () => scrollToSection('about') },
     { label: t.nav.services, section: 'services', action: () => scrollToSection('services') },
     { label: t.nav.solutions, section: 'solutions', action: () => scrollToSection('solutions') },
+    { label: t.nav.products, section: 'products', action: () => scrollToSection('products') },
     { label: t.nav.news, action: () => { onNavigate('news'); setMobileMenuOpen(false); } },
     { label: t.nav.contact, section: 'contact', action: () => scrollToSection('contact') },
   ];

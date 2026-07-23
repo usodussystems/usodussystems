@@ -1,14 +1,32 @@
 import React from 'react';
 import { Logo } from '../atoms/Logo';
 import { useLanguage } from '../../lib/LanguageContext';
+import { NavigateFn } from '../../lib/navigation';
 import { Mail, MapPin } from 'lucide-react';
 
 const footerLink =
   'relative inline-block text-white/70 hover:text-process-blue-bright transition-colors after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-process-blue-bright after:transition-transform after:duration-300 hover:after:scale-x-100';
 
-export const Footer: React.FC = () => {
+interface FooterProps {
+  onNavigate: NavigateFn;
+}
+
+export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   const { t } = useLanguage();
   const currentYear = new Date().getFullYear();
+
+  // Scroll to a home-page section; if we're on another page, route home first
+  // then scroll once it has rendered (mirrors the Header nav behavior).
+  const goToSection = (sectionId: string) => {
+    const scroll = () =>
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+    if (document.getElementById(sectionId)) {
+      scroll();
+    } else {
+      onNavigate('home');
+      setTimeout(scroll, 100);
+    }
+  };
 
   return (
     <footer className="bg-navy-950 text-white border-t border-white/10">
@@ -27,19 +45,24 @@ export const Footer: React.FC = () => {
             <h4 className="heading-font mb-4 text-white">{t.footer.company}</h4>
             <ul className="space-y-2 body-font text-sm">
               <li>
-                <a href="#about" className={footerLink}>
+                <button onClick={() => goToSection('about')} className={footerLink}>
                   {t.nav.about}
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#services" className={footerLink}>
+                <button onClick={() => goToSection('services')} className={footerLink}>
                   {t.nav.services}
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#solutions" className={footerLink}>
+                <button onClick={() => goToSection('solutions')} className={footerLink}>
                   {t.nav.solutions}
-                </a>
+                </button>
+              </li>
+              <li>
+                <button onClick={() => goToSection('products')} className={footerLink}>
+                  {t.nav.products}
+                </button>
               </li>
             </ul>
           </div>

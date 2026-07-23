@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { NewsCard } from '../molecules/NewsCard';
 import { useLanguage } from '../../lib/LanguageContext';
+import { NavigateFn } from '../../lib/navigation';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '../atoms/Button';
 import { Reveal } from '../atoms/Reveal';
 
 interface NewsPageProps {
-  onNavigate: (page: 'home' | 'news' | 'client-area') => void;
+  onNavigate: NavigateFn;
   navigationVersion: number;
 }
 

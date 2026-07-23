@@ -3,10 +3,11 @@ import { Button } from '../atoms/Button';
 import { Logo } from '../atoms/Logo';
 import { NetworkCanvas } from '../atoms/NetworkCanvas';
 import { useLanguage } from '../../lib/LanguageContext';
+import { NavigateFn } from '../../lib/navigation';
 import { ArrowLeft, Lock, Mail } from 'lucide-react';
 
 interface ClientAreaPageProps {
-  onNavigate: (page: 'home' | 'news' | 'client-area') => void;
+  onNavigate: NavigateFn;
 }
 
 export const ClientAreaPage: React.FC<ClientAreaPageProps> = ({ onNavigate }) => {
