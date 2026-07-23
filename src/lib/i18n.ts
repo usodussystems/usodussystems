@@ -194,7 +194,6 @@ export interface Translations {
     name: string;
     tagline: string;
     intro: string;
-    url: string;
     ctaPrimary: string;
     ctaSecondary: string;
     freeBadge: string;
@@ -661,7 +660,6 @@ export const translations: Record<Language, Translations> = {
       name: 'Vidafire',
       tagline: 'Your everyday wellness companion',
       intro: 'Vidafire helps you build healthier routines by keeping everything about your well-being in one calm, private place. Log how you feel, follow your trends, and stay gently on track — for free.',
-      url: 'vidafire.usodus.com',
       ctaPrimary: 'Open Vidafire',
       ctaSecondary: 'Back to home',
       freeBadge: '100% free · No cost, no subscription',
@@ -1160,7 +1158,6 @@ export const translations: Record<Language, Translations> = {
       name: 'Vidafire',
       tagline: 'Tu compañero de bienestar diario',
       intro: 'Vidafire te ayuda a construir rutinas más saludables reuniendo todo lo relacionado con tu bienestar en un solo lugar tranquilo y privado. Registra cómo te sientes, sigue tus tendencias y mantente en el buen camino — de forma gratuita.',
-      url: 'vidafire.usodus.com',
       ctaPrimary: 'Abrir Vidafire',
       ctaSecondary: 'Volver al inicio',
       freeBadge: '100% gratis · Sin costo, sin suscripción',
@@ -1659,7 +1656,6 @@ export const translations: Record<Language, Translations> = {
       name: 'Vidafire',
       tagline: 'Seu companheiro de bem-estar do dia a dia',
       intro: 'O Vidafire ajuda você a construir rotinas mais saudáveis, reunindo tudo sobre o seu bem-estar em um único lugar tranquilo e privado. Registre como você se sente, acompanhe suas tendências e mantenha-se no caminho certo — de graça.',
-      url: 'vidafire.usodus.com',
       ctaPrimary: 'Abrir o Vidafire',
       ctaSecondary: 'Voltar ao início',
       freeBadge: '100% gratuito · Sem custo, sem assinatura',

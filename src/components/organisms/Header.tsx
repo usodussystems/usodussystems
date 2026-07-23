@@ -3,10 +3,11 @@ import { Logo } from '../atoms/Logo';
 import { Button } from '../atoms/Button';
 import { LanguageSelector } from '../molecules/LanguageSelector';
 import { useLanguage } from '../../lib/LanguageContext';
+import { NavigateFn } from '../../lib/navigation';
 import { Menu, X } from 'lucide-react';
 
 interface HeaderProps {
-  onNavigate: (page: 'home' | 'news' | 'client-area') => void;
+  onNavigate: NavigateFn;
   currentPage: string;
 }
 

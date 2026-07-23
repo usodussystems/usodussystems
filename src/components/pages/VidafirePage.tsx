@@ -1,7 +1,8 @@
 import React from 'react';
 import { useLanguage } from '../../lib/LanguageContext';
+import { NavigateFn } from '../../lib/navigation';
 import { Reveal } from '../atoms/Reveal';
-import { Button } from '../atoms/Button';
+import { Button, buttonClasses } from '../atoms/Button';
 import {
   ArrowLeft,
   ExternalLink,
@@ -17,10 +18,12 @@ import {
 } from 'lucide-react';
 
 interface VidafirePageProps {
-  onNavigate: (page: 'home' | 'news' | 'client-area' | 'vidafire') => void;
+  onNavigate: NavigateFn;
 }
 
 const VIDAFIRE_URL = 'https://vidafire.usodus.com';
+// Single source of truth for the displayed domain (strip the protocol).
+const VIDAFIRE_HOST = VIDAFIRE_URL.replace(/^https?:\/\//, '');
 
 // One icon per feature, in the same order as the translated `features` array.
 const FEATURE_ICONS = [
@@ -65,13 +68,16 @@ export const VidafirePage: React.FC<VidafirePageProps> = ({ onNavigate }) => {
             <p className="body-font text-xl text-white/90 mb-8">{v.intro}</p>
 
             <div className="flex flex-wrap items-center gap-4">
-              <a href={VIDAFIRE_URL} target="_blank" rel="noopener noreferrer">
-                <Button variant="primary" size="lg">
-                  {v.ctaPrimary}
-                  <ExternalLink className="w-4 h-4 ml-2" />
-                </Button>
+              <a
+                href={VIDAFIRE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={buttonClasses('primary', 'lg')}
+              >
+                {v.ctaPrimary}
+                <ExternalLink className="w-4 h-4 ml-2" />
               </a>
-              <span className="body-font text-sm text-white/80 font-mono">{v.url}</span>
+              <span className="body-font text-sm text-white/80 font-mono">{VIDAFIRE_HOST}</span>
             </div>
 
             <p className="body-font text-sm text-teal-bright mt-6">{v.freeBadge}</p>
@@ -127,12 +133,14 @@ export const VidafirePage: React.FC<VidafirePageProps> = ({ onNavigate }) => {
 
             <ul className="space-y-4">
               {v.useCases.map((useCase, index) => (
-                <Reveal key={useCase} delay={(index % 4) * 0.05}>
-                  <li className="glass-card p-5 body-font text-white/80 flex gap-4">
-                    <Check className="w-5 h-5 mt-0.5 text-teal-bright flex-shrink-0" />
-                    <span>{useCase}</span>
-                  </li>
-                </Reveal>
+                <li key={useCase}>
+                  <Reveal delay={(index % 4) * 0.05}>
+                    <div className="glass-card p-5 body-font text-white/80 flex gap-4">
+                      <Check className="w-5 h-5 mt-0.5 text-teal-bright flex-shrink-0" />
+                      <span>{useCase}</span>
+                    </div>
+                  </Reveal>
+                </li>
               ))}
             </ul>
           </div>
@@ -169,11 +177,14 @@ export const VidafirePage: React.FC<VidafirePageProps> = ({ onNavigate }) => {
             <h2 className="heading-font text-white mb-4">{v.ctaTitle}</h2>
             <p className="body-font text-xl text-white/70 mb-8">{v.ctaBody}</p>
             <div className="flex flex-wrap items-center justify-center gap-4">
-              <a href={VIDAFIRE_URL} target="_blank" rel="noopener noreferrer">
-                <Button variant="primary" size="lg">
-                  {v.ctaPrimary}
-                  <ExternalLink className="w-4 h-4 ml-2" />
-                </Button>
+              <a
+                href={VIDAFIRE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={buttonClasses('primary', 'lg')}
+              >
+                {v.ctaPrimary}
+                <ExternalLink className="w-4 h-4 ml-2" />
               </a>
               <Button variant="outline" size="lg" onClick={() => onNavigate('home')}>
                 {v.ctaSecondary}

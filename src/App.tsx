@@ -9,8 +9,7 @@ import { ClientAreaPage } from './components/pages/ClientAreaPage';
 import { VidafirePage } from './components/pages/VidafirePage';
 import { useSEO, generateOrganizationSchema } from './lib/seo';
 import { useLanguage } from './lib/LanguageContext';
-
-type Page = 'home' | 'news' | 'client-area' | 'vidafire';
+import { Page } from './lib/navigation';
 
 const AppContent: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<Page>('home');
@@ -77,7 +76,7 @@ const AppContent: React.FC = () => {
         {renderPage()}
       </div>
       
-      {currentPage !== 'client-area' && <Footer />}
+      {currentPage !== 'client-area' && <Footer onNavigate={handleNavigate} />}
       {currentPage !== 'client-area' && <BackToTop />}
     </div>
   );

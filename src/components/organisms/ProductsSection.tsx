@@ -1,11 +1,12 @@
 import React from 'react';
 import { useLanguage } from '../../lib/LanguageContext';
+import { NavigateFn } from '../../lib/navigation';
 import { Reveal } from '../atoms/Reveal';
 import { Button } from '../atoms/Button';
 import { HeartPulse, ArrowRight, Check } from 'lucide-react';
 
 interface ProductsSectionProps {
-  onNavigate: (page: 'home' | 'news' | 'client-area' | 'vidafire') => void;
+  onNavigate: NavigateFn;
 }
 
 export const ProductsSection: React.FC<ProductsSectionProps> = ({ onNavigate }) => {
