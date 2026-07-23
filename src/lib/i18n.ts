@@ -6,6 +6,7 @@ export interface Translations {
     about: string;
     services: string;
     solutions: string;
+    products: string;
     news: string;
     contact: string;
     clientArea: string;
@@ -176,6 +177,42 @@ export interface Translations {
       references: string[];
     }[];
   };
+  products: {
+    title: string;
+    subtitle: string;
+    learnMore: string;
+    vidafire: {
+      badge: string;
+      name: string;
+      tagline: string;
+      description: string;
+      highlights: string[];
+    };
+  };
+  vidafire: {
+    badge: string;
+    name: string;
+    tagline: string;
+    intro: string;
+    url: string;
+    ctaPrimary: string;
+    ctaSecondary: string;
+    freeBadge: string;
+    featuresTitle: string;
+    featuresSubtitle: string;
+    features: {
+      title: string;
+      description: string;
+    }[];
+    useTitle: string;
+    useSubtitle: string;
+    useCases: string[];
+    disclaimerTitle: string;
+    disclaimerBadge: string;
+    disclaimerBody: string[];
+    ctaTitle: string;
+    ctaBody: string;
+  };
   clientArea: {
     title: string;
     unavailableTitle: string;
@@ -194,6 +231,7 @@ export const translations: Record<Language, Translations> = {
       about: 'About',
       services: 'Services',
       solutions: 'Solutions',
+      products: 'Products',
       news: 'News',
       contact: 'Contact',
       clientArea: 'Client Area',
@@ -602,6 +640,80 @@ export const translations: Record<Language, Translations> = {
         },
       ],
     },
+    products: {
+      title: 'Products',
+      subtitle: 'Applications we build and share — free tools that put our technology directly in people’s hands.',
+      learnMore: 'Explore Vidafire',
+      vidafire: {
+        badge: 'Free app',
+        name: 'Vidafire',
+        tagline: 'Your everyday wellness companion',
+        description: 'A free health & wellness companion that helps you track your habits, keep a wellness journal, and understand your trends over time — available in English, Spanish and Portuguese.',
+        highlights: [
+          'Track sleep, hydration, activity and mood',
+          'Keep a private wellness and symptom journal',
+          'See clear trends and export a summary',
+        ],
+      },
+    },
+    vidafire: {
+      badge: 'A free product by Usodus Systems',
+      name: 'Vidafire',
+      tagline: 'Your everyday wellness companion',
+      intro: 'Vidafire helps you build healthier routines by keeping everything about your well-being in one calm, private place. Log how you feel, follow your trends, and stay gently on track — for free.',
+      url: 'vidafire.usodus.com',
+      ctaPrimary: 'Open Vidafire',
+      ctaSecondary: 'Back to home',
+      freeBadge: '100% free · No cost, no subscription',
+      featuresTitle: 'Features',
+      featuresSubtitle: 'Everything Vidafire gives you to look after your well-being.',
+      features: [
+        {
+          title: 'Wellness dashboard',
+          description: 'See your sleep, hydration, activity, weight and mood together in one clear daily overview.',
+        },
+        {
+          title: 'Health & symptom journal',
+          description: 'Write down how you feel each day and keep a searchable history of symptoms and personal notes.',
+        },
+        {
+          title: 'Habit & routine tracking',
+          description: 'Build streaks for the habits that matter to you and check them off as part of your daily routine.',
+        },
+        {
+          title: 'Smart reminders',
+          description: 'Set gentle reminders for water, movement, rest and personal routines so nothing slips your mind.',
+        },
+        {
+          title: 'AI wellness insights',
+          description: 'Get general, easy-to-read educational insights that highlight patterns in the data you log.',
+        },
+        {
+          title: 'Trends & shareable reports',
+          description: 'Visualise your progress over weeks and export a summary you can review with a professional.',
+        },
+      ],
+      useTitle: 'What you can do in the app',
+      useSubtitle: 'From your first day, Vidafire lets you:',
+      useCases: [
+        'Create a free account and set your personal wellness goals.',
+        'Log daily habits like sleep, water, activity, weight and mood.',
+        'Keep a private wellness and symptom journal with full history.',
+        'Receive gentle reminders for routines, hydration and self-care.',
+        'Explore AI-generated educational insights about your own trends.',
+        'Export a shareable summary to discuss with a licensed professional.',
+        'Use everything in English, Spanish or Portuguese, on any device.',
+      ],
+      disclaimerTitle: 'Important disclaimer',
+      disclaimerBadge: 'Please read',
+      disclaimerBody: [
+        'Vidafire is a free service provided by Usodus Systems for general informational and educational purposes only. It is not a medical device and does not provide medical, diagnostic, or treatment advice.',
+        'No information, insight, or recommendation shown in Vidafire should be acted upon without first seeking the guidance of a qualified professional. Always consult your physician or another licensed professional regarding any health question or condition before making decisions.',
+        'Usodus Systems accepts no responsibility or liability for any decision made or action taken based on the content of this application. If you think you may have a medical emergency, contact your local emergency services immediately.',
+      ],
+      ctaTitle: 'Start looking after your well-being today',
+      ctaBody: 'Vidafire is free to use — create your account and begin tracking in minutes.',
+    },
     clientArea: {
       title: 'Client Area',
       unavailableTitle: 'Access is currently unavailable',
@@ -618,6 +730,7 @@ export const translations: Record<Language, Translations> = {
       about: 'Nosotros',
       services: 'Servicios',
       solutions: 'Soluciones',
+      products: 'Productos',
       news: 'Noticias',
       contact: 'Contacto',
       clientArea: 'Área de Clientes',
@@ -1026,6 +1139,80 @@ export const translations: Record<Language, Translations> = {
         },
       ],
     },
+    products: {
+      title: 'Productos',
+      subtitle: 'Aplicaciones que creamos y compartimos: herramientas gratuitas que ponen nuestra tecnología directamente en manos de las personas.',
+      learnMore: 'Explorar Vidafire',
+      vidafire: {
+        badge: 'App gratuita',
+        name: 'Vidafire',
+        tagline: 'Tu compañero de bienestar diario',
+        description: 'Un compañero de salud y bienestar gratuito que te ayuda a registrar tus hábitos, llevar un diario de bienestar y entender tus tendencias con el tiempo — disponible en inglés, español y portugués.',
+        highlights: [
+          'Registra sueño, hidratación, actividad y ánimo',
+          'Lleva un diario privado de bienestar y síntomas',
+          'Observa tendencias claras y exporta un resumen',
+        ],
+      },
+    },
+    vidafire: {
+      badge: 'Un producto gratuito de Usodus Systems',
+      name: 'Vidafire',
+      tagline: 'Tu compañero de bienestar diario',
+      intro: 'Vidafire te ayuda a construir rutinas más saludables reuniendo todo lo relacionado con tu bienestar en un solo lugar tranquilo y privado. Registra cómo te sientes, sigue tus tendencias y mantente en el buen camino — de forma gratuita.',
+      url: 'vidafire.usodus.com',
+      ctaPrimary: 'Abrir Vidafire',
+      ctaSecondary: 'Volver al inicio',
+      freeBadge: '100% gratis · Sin costo, sin suscripción',
+      featuresTitle: 'Funcionalidades',
+      featuresSubtitle: 'Todo lo que Vidafire te ofrece para cuidar tu bienestar.',
+      features: [
+        {
+          title: 'Panel de bienestar',
+          description: 'Consulta tu sueño, hidratación, actividad, peso y ánimo juntos en un resumen diario claro.',
+        },
+        {
+          title: 'Diario de salud y síntomas',
+          description: 'Anota cómo te sientes cada día y mantén un historial de síntomas y notas personales que puedes buscar.',
+        },
+        {
+          title: 'Seguimiento de hábitos y rutinas',
+          description: 'Crea rachas para los hábitos que te importan y márcalos como parte de tu rutina diaria.',
+        },
+        {
+          title: 'Recordatorios inteligentes',
+          description: 'Configura recordatorios suaves de agua, movimiento, descanso y rutinas personales para no olvidar nada.',
+        },
+        {
+          title: 'Perspectivas de IA',
+          description: 'Obtén perspectivas educativas generales y fáciles de leer que resaltan patrones en los datos que registras.',
+        },
+        {
+          title: 'Tendencias e informes',
+          description: 'Visualiza tu progreso a lo largo de las semanas y exporta un resumen para revisar con un profesional.',
+        },
+      ],
+      useTitle: 'Qué puedes hacer en la app',
+      useSubtitle: 'Desde el primer día, Vidafire te permite:',
+      useCases: [
+        'Crear una cuenta gratuita y definir tus metas personales de bienestar.',
+        'Registrar hábitos diarios como sueño, agua, actividad, peso y ánimo.',
+        'Llevar un diario privado de bienestar y síntomas con historial completo.',
+        'Recibir recordatorios suaves de rutinas, hidratación y autocuidado.',
+        'Explorar perspectivas educativas generadas por IA sobre tus tendencias.',
+        'Exportar un resumen para compartir y comentar con un profesional licenciado.',
+        'Usar todo en inglés, español o portugués, en cualquier dispositivo.',
+      ],
+      disclaimerTitle: 'Aviso importante',
+      disclaimerBadge: 'Por favor, léelo',
+      disclaimerBody: [
+        'Vidafire es un servicio gratuito ofrecido por Usodus Systems con fines únicamente informativos y educativos generales. No es un dispositivo médico y no proporciona consejos médicos, de diagnóstico ni de tratamiento.',
+        'Ninguna información, perspectiva o recomendación mostrada en Vidafire debe seguirse sin antes buscar la orientación de un profesional cualificado. Consulta siempre a tu médico u otro profesional licenciado sobre cualquier duda o condición de salud antes de tomar decisiones.',
+        'Usodus Systems no asume ninguna responsabilidad por las decisiones tomadas o acciones realizadas con base en el contenido de esta aplicación. Si crees que puedes tener una emergencia médica, contacta de inmediato a los servicios de emergencia locales.',
+      ],
+      ctaTitle: 'Empieza a cuidar tu bienestar hoy',
+      ctaBody: 'Vidafire es de uso gratuito — crea tu cuenta y comienza a registrar en minutos.',
+    },
     clientArea: {
       title: 'Área de Clientes',
       unavailableTitle: 'El acceso no está disponible actualmente',
@@ -1042,6 +1229,7 @@ export const translations: Record<Language, Translations> = {
       about: 'Sobre',
       services: 'Serviços',
       solutions: 'Soluções',
+      products: 'Produtos',
       news: 'Notícias',
       contact: 'Contato',
       clientArea: 'Área do Cliente',
@@ -1449,6 +1637,80 @@ export const translations: Record<Language, Translations> = {
           ],
         },
       ],
+    },
+    products: {
+      title: 'Produtos',
+      subtitle: 'Aplicações que criamos e compartilhamos: ferramentas gratuitas que colocam nossa tecnologia diretamente nas mãos das pessoas.',
+      learnMore: 'Explorar o Vidafire',
+      vidafire: {
+        badge: 'App gratuito',
+        name: 'Vidafire',
+        tagline: 'Seu companheiro de bem-estar do dia a dia',
+        description: 'Um companheiro de saúde e bem-estar gratuito que ajuda você a registrar seus hábitos, manter um diário de bem-estar e entender suas tendências ao longo do tempo — disponível em inglês, espanhol e português.',
+        highlights: [
+          'Acompanhe sono, hidratação, atividade e humor',
+          'Mantenha um diário privado de bem-estar e sintomas',
+          'Veja tendências claras e exporte um resumo',
+        ],
+      },
+    },
+    vidafire: {
+      badge: 'Um produto gratuito da Usodus Systems',
+      name: 'Vidafire',
+      tagline: 'Seu companheiro de bem-estar do dia a dia',
+      intro: 'O Vidafire ajuda você a construir rotinas mais saudáveis, reunindo tudo sobre o seu bem-estar em um único lugar tranquilo e privado. Registre como você se sente, acompanhe suas tendências e mantenha-se no caminho certo — de graça.',
+      url: 'vidafire.usodus.com',
+      ctaPrimary: 'Abrir o Vidafire',
+      ctaSecondary: 'Voltar ao início',
+      freeBadge: '100% gratuito · Sem custo, sem assinatura',
+      featuresTitle: 'Funcionalidades',
+      featuresSubtitle: 'Tudo o que o Vidafire oferece para você cuidar do seu bem-estar.',
+      features: [
+        {
+          title: 'Painel de bem-estar',
+          description: 'Veja seu sono, hidratação, atividade, peso e humor juntos em um resumo diário claro.',
+        },
+        {
+          title: 'Diário de saúde e sintomas',
+          description: 'Anote como você se sente a cada dia e mantenha um histórico pesquisável de sintomas e notas pessoais.',
+        },
+        {
+          title: 'Acompanhamento de hábitos e rotinas',
+          description: 'Crie sequências para os hábitos que importam para você e marque-os como parte da sua rotina diária.',
+        },
+        {
+          title: 'Lembretes inteligentes',
+          description: 'Configure lembretes gentis de água, movimento, descanso e rotinas pessoais para não esquecer de nada.',
+        },
+        {
+          title: 'Insights de IA',
+          description: 'Receba insights educativos gerais e fáceis de ler que destacam padrões nos dados que você registra.',
+        },
+        {
+          title: 'Tendências e relatórios',
+          description: 'Visualize seu progresso ao longo das semanas e exporte um resumo para revisar com um profissional.',
+        },
+      ],
+      useTitle: 'O que você pode fazer no app',
+      useSubtitle: 'Desde o primeiro dia, o Vidafire permite que você:',
+      useCases: [
+        'Crie uma conta gratuita e defina suas metas pessoais de bem-estar.',
+        'Registre hábitos diários como sono, água, atividade, peso e humor.',
+        'Mantenha um diário privado de bem-estar e sintomas com histórico completo.',
+        'Receba lembretes gentis de rotinas, hidratação e autocuidado.',
+        'Explore insights educativos gerados por IA sobre as suas tendências.',
+        'Exporte um resumo para compartilhar e conversar com um profissional licenciado.',
+        'Use tudo em inglês, espanhol ou português, em qualquer dispositivo.',
+      ],
+      disclaimerTitle: 'Aviso importante',
+      disclaimerBadge: 'Por favor, leia',
+      disclaimerBody: [
+        'O Vidafire é um serviço gratuito fornecido pela Usodus Systems apenas para fins informativos e educativos gerais. Não é um dispositivo médico e não fornece orientação médica, de diagnóstico ou de tratamento.',
+        'Nenhuma informação, insight ou recomendação exibida no Vidafire deve ser seguida sem antes buscar a orientação de um profissional qualificado. Sempre consulte seu médico ou outro profissional licenciado sobre qualquer dúvida ou condição de saúde antes de tomar decisões.',
+        'A Usodus Systems não assume qualquer responsabilidade por decisões tomadas ou ações realizadas com base no conteúdo deste aplicativo. Se você acredita estar diante de uma emergência médica, entre em contato imediatamente com os serviços de emergência locais.',
+      ],
+      ctaTitle: 'Comece a cuidar do seu bem-estar hoje',
+      ctaBody: 'O Vidafire é gratuito — crie sua conta e comece a registrar em minutos.',
     },
     clientArea: {
       title: 'Área do Cliente',

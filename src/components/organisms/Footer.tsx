@@ -41,6 +41,11 @@ export const Footer: React.FC = () => {
                   {t.nav.solutions}
                 </a>
               </li>
+              <li>
+                <a href="#products" className={footerLink}>
+                  {t.nav.products}
+                </a>
+              </li>
             </ul>
           </div>
 

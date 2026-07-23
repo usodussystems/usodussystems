@@ -6,10 +6,11 @@ import { BackToTop } from './components/atoms/BackToTop';
 import { HomePage } from './components/pages/HomePage';
 import { NewsPage } from './components/pages/NewsPage';
 import { ClientAreaPage } from './components/pages/ClientAreaPage';
+import { VidafirePage } from './components/pages/VidafirePage';
 import { useSEO, generateOrganizationSchema } from './lib/seo';
 import { useLanguage } from './lib/LanguageContext';
 
-type Page = 'home' | 'news' | 'client-area';
+type Page = 'home' | 'news' | 'client-area' | 'vidafire';
 
 const AppContent: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<Page>('home');
@@ -18,13 +19,16 @@ const AppContent: React.FC = () => {
 
   // SEO for current page
   useSEO({
-    title: currentPage === 'home' ? t.nav.home : 
-           currentPage === 'news' ? t.nav.news : 
+    title: currentPage === 'home' ? t.nav.home :
+           currentPage === 'news' ? t.nav.news :
+           currentPage === 'vidafire' ? t.vidafire.name :
            t.clientArea.title,
-    description: currentPage === 'home' 
-      ? t.about.description 
+    description: currentPage === 'home'
+      ? t.about.description
       : currentPage === 'news'
       ? t.news.latest
+      : currentPage === 'vidafire'
+      ? t.vidafire.intro
       : t.clientArea.unavailableTitle,
     keywords: t.seo.keywords,
     language: language,
@@ -51,13 +55,15 @@ const AppContent: React.FC = () => {
   const renderPage = () => {
     switch (currentPage) {
       case 'home':
-        return <HomePage />;
+        return <HomePage onNavigate={handleNavigate} />;
       case 'news':
         return <NewsPage onNavigate={handleNavigate} navigationVersion={navigationVersion} />;
       case 'client-area':
         return <ClientAreaPage onNavigate={handleNavigate} />;
+      case 'vidafire':
+        return <VidafirePage onNavigate={handleNavigate} />;
       default:
-        return <HomePage />;
+        return <HomePage onNavigate={handleNavigate} />;
     }
   };
 

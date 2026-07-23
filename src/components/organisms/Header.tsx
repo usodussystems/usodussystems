@@ -10,7 +10,7 @@ interface HeaderProps {
   currentPage: string;
 }
 
-const SECTION_IDS = ['about', 'services', 'solutions', 'contact'];
+const SECTION_IDS = ['about', 'services', 'solutions', 'products', 'contact'];
 
 export const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
   const { t } = useLanguage();
@@ -64,6 +64,7 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
     { label: t.nav.about, section: 'about', action: () => scrollToSection('about') },
     { label: t.nav.services, section: 'services', action: () => scrollToSection('services') },
     { label: t.nav.solutions, section: 'solutions', action: () => scrollToSection('solutions') },
+    { label: t.nav.products, section: 'products', action: () => scrollToSection('products') },
     { label: t.nav.news, action: () => { onNavigate('news'); setMobileMenuOpen(false); } },
     { label: t.nav.contact, section: 'contact', action: () => scrollToSection('contact') },
   ];
