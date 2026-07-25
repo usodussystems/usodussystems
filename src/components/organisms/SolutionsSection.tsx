@@ -1,9 +1,14 @@
 import React from 'react';
 import { useLanguage } from '../../lib/LanguageContext';
+import { NavigateFn } from '../../lib/navigation';
 import { Reveal } from '../atoms/Reveal';
-import { Cloud, Lock, Zap, Database, BarChart, Users } from 'lucide-react';
+import { Cloud, Lock, Zap, Database, BarChart, Users, ArrowRight } from 'lucide-react';
 
-export const SolutionsSection: React.FC = () => {
+interface SolutionsSectionProps {
+  onNavigate: NavigateFn;
+}
+
+export const SolutionsSection: React.FC<SolutionsSectionProps> = ({ onNavigate }) => {
   const { t } = useLanguage();
 
   const solutions = [
@@ -44,6 +49,19 @@ export const SolutionsSection: React.FC = () => {
             </Reveal>
           ))}
         </div>
+
+        <Reveal>
+          <div className="mt-12 text-center">
+            <button
+              type="button"
+              onClick={() => onNavigate('vidafire')}
+              className="inline-flex items-center gap-2 body-font text-teal-bright hover:text-white transition-colors group focus:outline-none focus:ring-2 focus:ring-teal rounded-lg px-2 py-1"
+            >
+              {t.solutions.cta}
+              <ArrowRight className="w-4 h-4 motion-safe:group-hover:translate-x-1 transition-transform" />
+            </button>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

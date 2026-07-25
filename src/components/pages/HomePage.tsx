@@ -18,7 +18,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       <HeroSection />
       <AboutSection />
       <ServicesSection />
-      <SolutionsSection />
+      <SolutionsSection onNavigate={onNavigate} />
       <ProductsSection onNavigate={onNavigate} />
       <EngagementTiersSection />
       <ContactSection />
