@@ -3,7 +3,7 @@ import { useLanguage } from '../../lib/LanguageContext';
 import { NavigateFn } from '../../lib/navigation';
 import { Reveal } from '../atoms/Reveal';
 import { Button } from '../atoms/Button';
-import { HeartPulse, ArrowRight, Check } from 'lucide-react';
+import { ArrowRight, Check, Flame } from 'lucide-react';
 
 interface ProductsSectionProps {
   onNavigate: NavigateFn;
@@ -30,7 +30,7 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({ onNavigate }) 
           <div className="glass-card p-8 md:p-10 lg:p-12 max-w-4xl mx-auto">
             <div className="grid md:grid-cols-[auto_1fr] gap-8 items-start">
               <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl border border-teal/25 bg-teal/10 shrink-0">
-                <HeartPulse className="w-10 h-10 text-teal-bright" />
+                <Flame className="w-10 h-10 text-teal-bright" />
               </div>
 
               <div>

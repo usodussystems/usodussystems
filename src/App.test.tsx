@@ -23,6 +23,22 @@ describe('<App /> (live stack render smoke test)', () => {
     expect(screen.getAllByText('Client Area').length).toBeGreaterThan(0);
   });
 
+  it('presents VidaFire as a Usodus Systems financial independence product', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    expect(screen.getByText('Financial planning platform')).toBeInTheDocument();
+    expect(screen.getByText(/connects your assets, debts, cash flow, monthly budget, and goals/i)).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Explore VidaFire' }));
+
+    expect(screen.getByRole('heading', { name: 'VidaFire' })).toBeInTheDocument();
+    expect(screen.getByText(/Monte Carlo outcomes/i)).toBeInTheDocument();
+    expect(screen.getAllByRole('link', { name: /Open VidaFire/i })[0]).toHaveAttribute(
+      'href',
+      'https://vidafire.usodus.com',
+    );
+  });
+
   it('does not collect credentials on the unauthenticated Client Area page', async () => {
     const user = userEvent.setup();
     render(<App />);

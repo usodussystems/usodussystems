@@ -6,15 +6,16 @@ import { Button, buttonClasses } from '../atoms/Button';
 import {
   ArrowLeft,
   ExternalLink,
-  HeartPulse,
-  LayoutDashboard,
-  NotebookPen,
-  ListChecks,
-  BellRing,
-  Sparkles,
-  LineChart,
+  ChartNoAxesCombined,
   Check,
+  Flame,
+  Landmark,
+  LayoutDashboard,
+  ShieldCheck,
   ShieldAlert,
+  SlidersHorizontal,
+  Target,
+  WalletCards,
 } from 'lucide-react';
 
 interface VidafirePageProps {
@@ -28,11 +29,11 @@ const VIDAFIRE_HOST = VIDAFIRE_URL.replace(/^https?:\/\//, '');
 // One icon per feature, in the same order as the translated `features` array.
 const FEATURE_ICONS = [
   LayoutDashboard,
-  NotebookPen,
-  ListChecks,
-  BellRing,
-  Sparkles,
-  LineChart,
+  WalletCards,
+  Landmark,
+  Target,
+  SlidersHorizontal,
+  ChartNoAxesCombined,
 ];
 
 export const VidafirePage: React.FC<VidafirePageProps> = ({ onNavigate }) => {
@@ -59,7 +60,7 @@ export const VidafirePage: React.FC<VidafirePageProps> = ({ onNavigate }) => {
 
           <div className="max-w-3xl">
             <span className="inline-flex items-center gap-2 body-font text-sm px-4 py-1.5 rounded-full border border-white/20 bg-white/10 mb-6">
-              <HeartPulse className="w-4 h-4 text-teal-bright" />
+              <Flame className="w-4 h-4 text-teal-bright" />
               {v.badge}
             </span>
 
@@ -101,7 +102,7 @@ export const VidafirePage: React.FC<VidafirePageProps> = ({ onNavigate }) => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {v.features.map((feature, index) => {
-              const Icon = FEATURE_ICONS[index] ?? Sparkles;
+              const Icon = FEATURE_ICONS[index] ?? ShieldCheck;
               return (
                 <Reveal key={feature.title} delay={(index % 3) * 0.08} className="h-full">
                   <div className="glass-card p-6 h-full hover:border-white/25 transition-all duration-300 group">
