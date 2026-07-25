@@ -75,6 +75,7 @@ export interface Translations {
   solutions: {
     title: string;
     subtitle: string;
+    cta: string;
     items: {
       agentArchitecture: {
         title: string;
@@ -299,6 +300,7 @@ export const translations: Record<Language, Translations> = {
     solutions: {
       title: 'Solutions',
       subtitle: 'Tailored solutions for modern challenges',
+      cta: 'See Vidafire, our clinical safety solution',
       items: {
         agentArchitecture: {
           title: 'Agent Architecture',
@@ -797,6 +799,7 @@ export const translations: Record<Language, Translations> = {
     solutions: {
       title: 'Soluciones',
       subtitle: 'Soluciones adaptadas para desafíos modernos',
+      cta: 'Conoce Vidafire, nuestra solución de seguridad clínica',
       items: {
         agentArchitecture: {
           title: 'Arquitectura de Agentes',
@@ -1295,6 +1298,7 @@ export const translations: Record<Language, Translations> = {
     solutions: {
       title: 'Soluções',
       subtitle: 'Soluções personalizadas para desafios modernos',
+      cta: 'Conheça o Vidafire, nossa solução de segurança clínica',
       items: {
         agentArchitecture: {
           title: 'Arquitetura de Agentes',
