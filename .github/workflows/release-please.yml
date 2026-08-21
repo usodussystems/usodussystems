@@ -1,0 +1,43 @@
+name: Release Please
+
+# Automated semantic-version tagging driven by Conventional Commits.
+#
+# On every push to `main`, googleapis/release-please-action (a verified,
+# Google-maintained action) inspects the commits since the last release and
+# maintains a rolling "release PR" that bumps the version in package.json /
+# package-lock.json and updates CHANGELOG.md. The next version is derived from
+# commit types — `fix:` -> patch, `feat:` -> minor, `feat!:` / `BREAKING
+# CHANGE:` -> major. Nothing is tagged until that release PR is merged; merging
+# it creates the `v<version>` git tag and the GitHub Release with notes built
+# from the changelog. Config lives in release-please-config.json and the last
+# released version is tracked in .release-please-manifest.json.
+#
+# Uses the built-in GITHUB_TOKEN — no extra secrets. Note: PRs opened with
+# GITHUB_TOKEN do not themselves trigger other workflows, so the CI workflow
+# does not run on the release PR (it already ran on the feature PRs that landed
+# the changes). Swap in a PAT via the `token` input if CI must run on the
+# release PR too.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write        # create the tag ref + GitHub Release, push the release PR branch
+  pull-requests: write   # open/update the release PR
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run release-please
+        uses: googleapis/release-please-action@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json

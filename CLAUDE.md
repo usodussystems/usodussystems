@@ -118,7 +118,22 @@ workflow has been removed.
   Cloudflare provider uses **API-token auth only**.
 
 - **CI/CD workflows** (all under `.github/workflows`):
-  - `ci.yml` — PR/`main` quality gate: `npm ci` → `typecheck` → `test:run` → `build`.
+  - `ci.yml` — PR/`main` quality gate: `npm ci` → `npm audit --audit-level=high` →
+    `typecheck` → `test:run` → `build`.
+  - `release-please.yml` — **automated semver releases** via
+    `googleapis/release-please-action@v4` (verified, Google-maintained). On push to
+    `main` it reads **Conventional Commit** messages since the last release and keeps a
+    rolling "release PR" that bumps `package.json`/`package-lock.json` and updates
+    `CHANGELOG.md`. Commit type drives the bump: `fix:` → patch, `feat:` → minor,
+    `feat!:`/`BREAKING CHANGE:` → major. **Nothing is tagged until the release PR is
+    merged**; merging it creates the `v<version>` tag + GitHub Release. Config is
+    `release-please-config.json`; the last released version lives in
+    `.release-please-manifest.json` (currently `0.2.0`). Uses the built-in
+    `GITHUB_TOKEN`, so `ci.yml` does not re-run on the release PR. This replaced the old
+    `release.yml` + `.github/scripts/release.js` tagger, which required a manual
+    `package.json` version bump — **write Conventional Commit messages so the bump is
+    inferred correctly** (a `feat:`/`fix:` commit, or an override footer like
+    `Release-As: 1.0.0`, is what makes a new release PR appear).
   - `terraform.yml` — the deploy. On push to `main` (and via `workflow_dispatch`) it
     builds the site, then `terraform apply` uploads `build/` to S3 and invalidates
     CloudFront. Auth is **AWS OIDC** (`role-to-assume`); `TF_VAR_*` and `backend.hcl`
